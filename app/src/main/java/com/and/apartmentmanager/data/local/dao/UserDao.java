@@ -22,6 +22,10 @@ public interface UserDao {
     @Query("SELECT * FROM users WHERE id = :id")
     LiveData<UserEntity> getById(int id);
 
+    // Blocking — dùng cho luồng Auth/Profile (Người 1).
+    @Query("SELECT * FROM users WHERE id = :id LIMIT 1")
+    UserEntity getByIdBlocking(int id);
+
     @Query("SELECT * FROM users WHERE email = :email LIMIT 1")
     UserEntity getByEmail(String email);
 

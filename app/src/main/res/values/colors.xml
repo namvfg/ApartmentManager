@@ -2,4 +2,23 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- Palette theo ui_complete.html (Người 1) -->
+    <color name="p">#FF2E6F40</color>
+    <color name="pl">#FF68BA7F</color>
+    <color name="pp">#FFCFFFDC</color>
+    <color name="pd">#FF253D2C</color>
+    <color name="pm">#FF3D8B52</color>
+
+    <color name="t1">#FF253D2C</color>
+    <color name="t2">#FF4A6956</color>
+    <color name="th">#FF8BAF95</color>
+
+    <color name="bg">#FFDCEEE2</color>
+
+    <color name="inp">#FFEEF8F1</color>
+    <color name="div">#FFE0F2E6</color>
+
+    <color name="err">#FFEF4444</color>
+    <color name="warn">#FFF59E0B</color>
 </resources>
