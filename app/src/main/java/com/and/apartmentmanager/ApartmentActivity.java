@@ -57,7 +57,6 @@ public class ApartmentActivity extends AppCompatActivity {
             originalList.addAll(list);
             adapter.setData(list);
         });
-
         adapter.setOnItemClickListener(apartment -> {
             if (!apartment.isActive()) {
                 Toast.makeText(this, "Chung cư chưa active", Toast.LENGTH_SHORT).show();
