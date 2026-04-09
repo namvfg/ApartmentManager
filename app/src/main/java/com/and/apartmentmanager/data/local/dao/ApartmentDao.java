@@ -28,6 +28,8 @@ public interface ApartmentDao {
 
     @Update
     void update(ApartmentEntity apartment);
+    @Delete
+    void delete(ApartmentEntity apartment);
 
     @Query("UPDATE apartments SET is_active = 0 WHERE id = :id")
     void deactivate(int id);

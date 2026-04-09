@@ -1,0 +1,137 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#EAF5ED"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/btnBack"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/icon_back"
+            android:padding="10dp"
+            app:tint="#1B3C2E" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:text="Tạo mã mời"
+            android:textColor="#1B3C2E"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="Phòng được mời"
+        android:textColor="#1B3C2E"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tvUnit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/bg_dashed_code"
+        android:backgroundTint="#FFFFFF"
+        android:drawableStart="@drawable/outline_apartment_24"
+        android:drawablePadding="10dp"
+        android:padding="15dp"
+        android:text="Block A · Phòng 101"
+        android:textColor="#386B4B"
+        android:textSize="18sp" />
+
+    <android.widget.Button
+        android:id="@+id/btnGenerate"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginTop="25dp"
+        android:background="@drawable/bg_button"
+        android:text="Tạo mã mời mới"
+        android:textAllCaps="false"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/bg_card_result"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:letterSpacing="0.1"
+            android:text="MÃ MỜI MỚI NHẤT"
+            android:textColor="#88A094"
+            android:textSize="13sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvCode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/bg_dashed_code"
+            android:gravity="center"
+            android:letterSpacing="0.2"
+            android:padding="15dp"
+            android:text="CC49X7"
+            android:textColor="#1B3C2E"
+            android:textSize="32sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvExpire"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="Hết hạn sau 6 ngày 23 giờ"
+            android:textColor="#4A4A4A" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
+
+            <android.widget.Button
+                android:id="@+id/btnCopy"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_back_button"
+                android:backgroundTint="#FFFFFF"
+                android:text="Sao chép"
+                android:textAllCaps="false"
+                android:textColor="#386B4B" />
+
+            <android.widget.Button
+                android:id="@+id/btnShare"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_button"
+                android:text="Chia sẻ"
+                android:textAllCaps="false"
+                android:textColor="#FFFFFF" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

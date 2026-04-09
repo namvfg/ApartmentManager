@@ -12,7 +12,22 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ApartmentManager">
         <activity
+            android:name=".JoinActivity"
+            android:exported="true" />
+        <activity
+            android:name=".InviteActivity"
+            android:exported="false" />
+        <activity
+            android:name=".UserActivity"
+            android:exported="false" />
+        <activity
+            android:name=".BlockUnitActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ApartmentActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -29,10 +29,7 @@ public class MainActivity extends AppCompatActivity {
             Log.d("DB_TEST", "count = " + count);
         }).start();
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+
+
     }
 }
