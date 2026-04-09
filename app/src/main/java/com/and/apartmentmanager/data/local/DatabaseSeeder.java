@@ -376,32 +376,32 @@ public class DatabaseSeeder {
         db.notificationDao().insert(new NotificationEntity(0, 1,
                 "Thông báo bảo trì thang máy",
                 "Thang máy Block A sẽ bảo trì vào ngày 20/03/2026 từ 8h-12h. Cư dân vui lòng sử dụng cầu thang bộ trong thời gian này.",
-                "manual", "all", null, 1, now));
+                "manual", "all", null, 1, now, false, null));
 
         db.notificationDao().insert(new NotificationEntity(0, 1,
                 "Hóa đơn tháng " + DateTimeUtil.monthString(-1) + " đã sẵn sàng",
                 "Hóa đơn tháng " + DateTimeUtil.monthString(-1) + " đã được tạo. Vui lòng kiểm tra và thanh toán trước ngày 15 tháng này.",
-                "auto", "all", null, 1, now));
+                "auto", "all", null, 1, now, false, null));
 
         db.notificationDao().insert(new NotificationEntity(0, 1,
                 "Nhắc nhở thanh toán căn hộ A102",
                 "Hóa đơn tháng " + DateTimeUtil.monthString(-1) + " của căn hộ A102 sắp đến hạn. Vui lòng thanh toán sớm để tránh phát sinh phí trễ hạn.",
-                "auto", "user", 4, 1, now)); // gửi riêng cho Dung (user_id=4)
+                "auto", "user", 4, 1, now, false, null));
 
         // ── Green Park (apartment_id=2, createdBy=2) ──────────────
         db.notificationDao().insert(new NotificationEntity(0, 2,
                 "Lịch vệ sinh hồ bơi tháng 3",
                 "Hồ bơi tòa nhà sẽ ngừng hoạt động để vệ sinh định kỳ từ ngày 18-19/03/2026. Xin lỗi vì sự bất tiện này.",
-                "manual", "all", null, 2, now));
+                "manual", "all", null, 2, now, false, null));
 
         db.notificationDao().insert(new NotificationEntity(0, 2,
                 "Hóa đơn tháng " + DateTimeUtil.monthString(-1) + " đã sẵn sàng",
                 "Hóa đơn tháng " + DateTimeUtil.monthString(-1) + " đã được tạo. Vui lòng kiểm tra và thanh toán trước ngày 15 tháng này.",
-                "auto", "all", null, 2, now));
+                "auto", "all", null, 2, now, false, null));
 
         db.notificationDao().insert(new NotificationEntity(0, 2,
                 "Hóa đơn quá hạn căn hộ C102",
                 "Hóa đơn tháng " + DateTimeUtil.monthString(-1) + " của căn hộ C102 đã quá hạn thanh toán. Vui lòng liên hệ ban quản lý để được hỗ trợ.",
-                "auto", "user", 8, 2, now)); // gửi riêng cho Hoa (user_id=8)
+                "auto", "user", 8, 2, now, false, null));
     }
 }

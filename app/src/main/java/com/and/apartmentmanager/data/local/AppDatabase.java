@@ -59,6 +59,9 @@ import java.util.concurrent.Executors;
 )
 public abstract class AppDatabase extends RoomDatabase {
 
+    public static final java.util.concurrent.ExecutorService DB_EXECUTOR =
+            java.util.concurrent.Executors.newFixedThreadPool(4);
+
     private static volatile AppDatabase INSTANCE;
 
     public abstract UserDao userDao();

@@ -1,5 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+
+    <!-- ── Primary green ── -->
+    <color name="primary">#2E6F40</color>           <!-- nút chính, accent -->
+    <color name="primary_light">#68BA7F</color>      <!-- icon nhạt, badge -->
+    <color name="primary_pale">#CFFFDC</color>       <!-- chip, tag nền nhạt -->
+    <color name="primary_dark">#253D2C</color>       <!-- text đậm, header -->
+    <color name="primary_medium">#3D8B52</color>     <!-- hover state -->
+    <color name="primary_deep">#1A2E1F</color>       <!-- gradient đậm nhất -->
+    <color name="primary_surface">#F0FFF4</color>    <!-- nền card xanh nhạt -->
+    <color name="background">#F4FAF6</color>         <!-- nền app -->
+
+    <!-- ── Text ── -->
+    <color name="text_primary">#253D2C</color>       <!-- text chính -->
+    <color name="text_secondary">#4A6956</color>     <!-- text phụ -->
+    <color name="text_hint">#8BAF95</color>          <!-- placeholder, hint -->
+
+    <!-- ── UI elements ── -->
+    <color name="white">#FFFFFF</color>
+    <color name="border">#C8E8D0</color>             <!-- viền card, divider -->
+    <color name="divider">#E0F2E6</color>            <!-- đường kẻ nhạt -->
+    <color name="input_bg">#EEF8F1</color>           <!-- nền input field -->
+
+    <!-- ── Semantic ── -->
+    <color name="error">#EF4444</color>              <!-- lỗi, xóa, hủy -->
+    <color name="warning">#F59E0B</color>            <!-- cảnh báo, draft -->
+    <color name="purple">#7C3AED</color>             <!-- badge đặc biệt -->
+
+    <!-- ── Text trên nền tối (header gradient) ── -->
+    <color name="text_on_dark">#FFFFFF</color>
+    <color name="text_on_dark_sub">#8CFFFFFF</color> <!-- 55% opacity -->
+
+
 </resources>

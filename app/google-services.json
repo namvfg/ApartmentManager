@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "240346868396",
+    "firebase_url": "https://apartment-project-87fb0-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "apartment-project-87fb0",
+    "storage_bucket": "apartment-project-87fb0.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:240346868396:android:3da4641fe34360501c0d09",
+        "android_client_info": {
+          "package_name": "com.and.apartmentmanager"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC0qKsxaPhxGJcDLmgD7ZAf5ubpjNDD-d0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
