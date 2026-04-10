@@ -106,6 +106,7 @@ public abstract class AppDatabase extends RoomDatabase {
                             AppDatabase database = getInstance(context);
                             DatabaseSeeder.seed(database);
                         });
+
                     }
                 })
                     .build();

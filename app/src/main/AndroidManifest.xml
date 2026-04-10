@@ -11,8 +11,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ApartmentManager">
+        <activity android:name=".UpdatePriceElectricActivity"/>
+        <activity android:name=".UpdatePriceWaterActivity" />
+<!--        <activity android:name=".ContractDetailActivity" />-->
         <activity
-            android:name=".MainActivity"
+            android:name=".ServiceActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ContractDetailActivity"
+
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,6 +27,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
     </application>
 
 </manifest>
