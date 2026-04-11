@@ -1,6 +1,18 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
 }
+
+val localProps = Properties().apply {
+    val f = rootProject.file("local.properties")
+    if (f.exists()) f.inputStream().use { load(it) }
+}
+fun String.escapeForBuildConfig(): String =
+    "\"" + replace("\\", "\\\\").replace("\"", "\\\"") + "\""
+
+val smtpOtpUser: String = localProps.getProperty("smtp.otp.user", "")
+val smtpOtpPassword: String = localProps.getProperty("smtp.otp.password", "")
 
 android {
     namespace = "com.and.apartmentmanager"
@@ -16,6 +28,12 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField("String", "SMTP_OTP_USER", smtpOtpUser.escapeForBuildConfig())
+        buildConfigField("String", "SMTP_OTP_PASSWORD", smtpOtpPassword.escapeForBuildConfig())
+    }
+    buildFeatures {
+        buildConfig = true
     }
 
     buildTypes {
@@ -30,6 +48,13 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
+    }
+
+    packaging {
+        resources {
+            pickFirsts += "META-INF/NOTICE.md"
+            pickFirsts += "META-INF/LICENSE.md"
+        }
     }
 }
 
@@ -53,4 +78,7 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+
+    implementation(libs.android.mail)
+    implementation(libs.android.activation)
 }

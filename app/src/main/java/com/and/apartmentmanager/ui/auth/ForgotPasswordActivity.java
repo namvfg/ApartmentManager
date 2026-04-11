@@ -13,6 +13,7 @@ import com.and.apartmentmanager.R;
 import com.and.apartmentmanager.data.local.entity.UserEntity;
 import com.and.apartmentmanager.data.repository.UserRepository;
 import com.and.apartmentmanager.helper.AuthOtpManager;
+import com.and.apartmentmanager.helper.OtpEmailSender;
 
 public class ForgotPasswordActivity extends AppCompatActivity {
     private EditText etEmail;
@@ -50,13 +51,35 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         new Thread(() -> {
             UserEntity user = userRepository.getByEmail(email);
             boolean ok = user != null && user.isActive() && !user.isDeleted();
+            if (!ok) {
+                runOnUiThread(() -> {
+                    btnSendOtp.setEnabled(true);
+                    Toast.makeText(this, "Email không hợp lệ hoặc tài khoản bị khóa", Toast.LENGTH_LONG).show();
+                });
+                return;
+            }
+
+            AuthOtpManager.SendResult sentOtp = otpManager.sendOtp(email);
+            boolean mailed = OtpEmailSender.sendOtpEmail(
+                    sentOtp.email,
+                    sentOtp.otp,
+                    OtpEmailSender.OtpEmailKind.PASSWORD_RESET);
+
             runOnUiThread(() -> {
                 btnSendOtp.setEnabled(true);
-                if (!ok) {
-                    Toast.makeText(this, "Email không hợp lệ hoặc tài khoản bị khóa", Toast.LENGTH_LONG).show();
+                if (!mailed) {
+                    if (!OtpEmailSender.isConfigured()) {
+                        Toast.makeText(this,
+                                "Chưa cấu hình SMTP: thêm smtp.otp.user và smtp.otp.password vào local.properties (Gmail App Password).",
+                                Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(this,
+                                "Không gửi được email. Kiểm tra mạng và App Password Gmail.",
+                                Toast.LENGTH_LONG).show();
+                    }
                     return;
                 }
-                otpManager.sendOtp(email);
+                Toast.makeText(this, "Đã gửi OTP tới email của bạn.", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(this, OtpResetPasswordActivity.class));
                 finish();
             });

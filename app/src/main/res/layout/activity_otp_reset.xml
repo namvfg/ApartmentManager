@@ -111,7 +111,7 @@
                             android:layout_height="52dp"
                             android:background="@drawable/bg_auth_otp_cell"
                             android:gravity="center"
-                            android:inputType="numberPassword"
+                            android:inputType="number"
                             android:maxLength="1" />
                         <EditText
                             android:id="@+id/otp_2"
@@ -120,7 +120,7 @@
                             android:layout_marginStart="8dp"
                             android:background="@drawable/bg_auth_otp_cell"
                             android:gravity="center"
-                            android:inputType="numberPassword"
+                            android:inputType="number"
                             android:maxLength="1" />
                         <EditText
                             android:id="@+id/otp_3"
@@ -129,7 +129,7 @@
                             android:layout_marginStart="8dp"
                             android:background="@drawable/bg_auth_otp_cell"
                             android:gravity="center"
-                            android:inputType="numberPassword"
+                            android:inputType="number"
                             android:maxLength="1" />
                         <EditText
                             android:id="@+id/otp_4"
@@ -138,7 +138,7 @@
                             android:layout_marginStart="8dp"
                             android:background="@drawable/bg_auth_otp_cell"
                             android:gravity="center"
-                            android:inputType="numberPassword"
+                            android:inputType="number"
                             android:maxLength="1" />
                         <EditText
                             android:id="@+id/otp_5"
@@ -147,7 +147,7 @@
                             android:layout_marginStart="8dp"
                             android:background="@drawable/bg_auth_otp_cell"
                             android:gravity="center"
-                            android:inputType="numberPassword"
+                            android:inputType="number"
                             android:maxLength="1" />
                         <EditText
                             android:id="@+id/otp_6"
@@ -156,7 +156,7 @@
                             android:layout_marginStart="8dp"
                             android:background="@drawable/bg_auth_otp_cell"
                             android:gravity="center"
-                            android:inputType="numberPassword"
+                            android:inputType="number"
                             android:maxLength="1" />
                     </LinearLayout>
 

@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.and.apartmentmanager.R;
 import com.and.apartmentmanager.helper.AuthOtpManager;
+import com.and.apartmentmanager.helper.OtpEmailSender;
 
 public class OtpVerifyActivity extends AppCompatActivity {
     private TextView tvPendingEmail;
@@ -109,10 +110,30 @@ public class OtpVerifyActivity extends AppCompatActivity {
 
         tvResend.setOnClickListener(v -> {
             String pending = otpManager.getPendingEmail();
-            otpManager.sendOtp(pending);
-            for (EditText e : otpEdits) e.setText("");
-            otpEdits[0].requestFocus();
-            Toast.makeText(this, "Đã gửi lại OTP (xem Logcat)", Toast.LENGTH_SHORT).show();
+            if (TextUtils.isEmpty(pending)) {
+                Toast.makeText(this, "Không có email chờ xác thực", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            tvResend.setEnabled(false);
+            new Thread(() -> {
+                AuthOtpManager.SendResult r = otpManager.sendOtp(pending);
+                boolean ok = OtpEmailSender.sendOtpEmail(
+                        r.email, r.otp, OtpEmailSender.OtpEmailKind.REGISTRATION);
+                runOnUiThread(() -> {
+                    tvResend.setEnabled(true);
+                    for (EditText e : otpEdits) e.setText("");
+                    otpEdits[0].requestFocus();
+                    if (ok) {
+                        Toast.makeText(this, "Đã gửi lại OTP tới email.", Toast.LENGTH_SHORT).show();
+                    } else if (!OtpEmailSender.isConfigured()) {
+                        Toast.makeText(this,
+                                "Chưa cấu hình SMTP trong local.properties. Xem Logcat để lấy mã.",
+                                Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(this, "Gửi lại email thất bại. Xem Logcat để lấy mã.", Toast.LENGTH_LONG).show();
+                    }
+                });
+            }).start();
         });
     }
 

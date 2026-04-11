@@ -10,6 +10,7 @@ material = "1.13.0"
 activity = "1.13.0"
 constraintlayout = "2.2.1"
 roomRuntime = "2.6.1"
+javamailAndroid = "1.6.7"
 
 [libraries]
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -23,6 +24,8 @@ activity = { group = "androidx.activity", name = "activity", version.ref = "acti
 constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomRuntime" }
 room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomRuntime" }
+android-mail = { module = "com.sun.mail:android-mail", version.ref = "javamailAndroid" }
+android-activation = { module = "com.sun.mail:android-activation", version.ref = "javamailAndroid" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
