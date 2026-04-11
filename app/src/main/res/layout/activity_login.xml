@@ -183,6 +183,9 @@
                             android:id="@+id/iv_eye"
                             android:layout_width="18dp"
                             android:layout_height="18dp"
+                            android:clickable="true"
+                            android:contentDescription="Hiện hoặc ẩn mật khẩu"
+                            android:focusable="true"
                             android:src="@drawable/ic_auth_eye_outline"
                             app:tint="@color/th" />
                     </LinearLayout>

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -12,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.and.apartmentmanager.R;
 import com.and.apartmentmanager.data.repository.UserRepository;
+import com.and.apartmentmanager.helper.PasswordVisibilityHelper;
 import com.and.apartmentmanager.helper.SessionManager;
 import com.and.apartmentmanager.ui.admin.AdminMainActivity;
 import com.and.apartmentmanager.ui.user.UserMainActivity;
@@ -45,6 +47,9 @@ public class LoginActivity extends AppCompatActivity {
         }
         tvForgot.setOnClickListener(v -> startActivity(new Intent(this, ForgotPasswordActivity.class)));
         tvRegister.setOnClickListener(v -> startActivity(new Intent(this, RegisterActivity.class)));
+
+        ImageView ivEye = findViewById(R.id.iv_eye);
+        PasswordVisibilityHelper.bind(ivEye, etPassword);
 
         btnLogin.setOnClickListener(v -> doLogin());
     }

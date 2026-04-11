@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment;
 
 import com.and.apartmentmanager.R;
 import com.and.apartmentmanager.data.repository.UserRepository;
+import com.and.apartmentmanager.helper.PasswordVisibilityHelper;
 import com.and.apartmentmanager.helper.SessionManager;
 
 public class ChangePasswordFragment extends Fragment {
@@ -57,6 +58,10 @@ public class ChangePasswordFragment extends Fragment {
         etNewPassword = view.findViewById(R.id.et_new_password);
         etNewPasswordConfirm = view.findViewById(R.id.et_new_password_confirm);
         btnSavePassword = view.findViewById(R.id.btn_save_password);
+
+        PasswordVisibilityHelper.bind(view.findViewById(R.id.iv_eye_change_old), etOldPassword);
+        PasswordVisibilityHelper.bind(view.findViewById(R.id.iv_eye_change_new), etNewPassword);
+        PasswordVisibilityHelper.bind(view.findViewById(R.id.iv_eye_change_confirm), etNewPasswordConfirm);
 
         btnSavePassword.setOnClickListener(v -> onSavePassword());
     }

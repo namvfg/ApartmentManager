@@ -14,6 +14,7 @@ import com.and.apartmentmanager.R;
 import com.and.apartmentmanager.data.local.entity.UserEntity;
 import com.and.apartmentmanager.data.repository.UserRepository;
 import com.and.apartmentmanager.helper.AuthOtpManager;
+import com.and.apartmentmanager.helper.PasswordVisibilityHelper;
 
 public class RegisterActivity extends AppCompatActivity {
     private EditText etName;
@@ -49,6 +50,8 @@ public class RegisterActivity extends AppCompatActivity {
             btnBack.setOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
         }
         tvGotoLogin.setOnClickListener(v -> startActivity(new Intent(this, LoginActivity.class)));
+        PasswordVisibilityHelper.bind(findViewById(R.id.iv_eye_register_1), etPassword);
+        PasswordVisibilityHelper.bind(findViewById(R.id.iv_eye_register_2), etPasswordConfirm);
         btnRegister.setOnClickListener(v -> doRegister());
     }
 

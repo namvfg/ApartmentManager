@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.and.apartmentmanager.R;
 import com.and.apartmentmanager.data.repository.UserRepository;
 import com.and.apartmentmanager.helper.AuthOtpManager;
+import com.and.apartmentmanager.helper.PasswordVisibilityHelper;
 
 import java.util.regex.Pattern;
 
@@ -49,6 +50,9 @@ public class NewPasswordActivity extends AppCompatActivity {
         if (btnBack != null) {
             btnBack.setOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
         }
+
+        PasswordVisibilityHelper.bind(findViewById(R.id.iv_eye_new_password), etNewPassword);
+        PasswordVisibilityHelper.bind(findViewById(R.id.iv_eye_new_password_confirm), etNewPasswordConfirm);
 
         etNewPassword.addTextChangedListener(new TextWatcher() {
             @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
