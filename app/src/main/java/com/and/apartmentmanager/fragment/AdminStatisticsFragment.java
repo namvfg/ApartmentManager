@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -16,14 +17,10 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.and.apartmentmanager.R;
+import com.and.apartmentmanager.data.local.entity.ApartmentEntity;
 import com.and.apartmentmanager.data.local.entity.InvoiceEntity;
+import com.and.apartmentmanager.data.repository.ApartmentRepository;
 import com.and.apartmentmanager.viewmodel.InvoiceViewModel;
-import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.data.BarData;
-import com.github.mikephil.charting.data.BarDataSet;
-import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -35,17 +32,16 @@ import java.util.Map;
 public class AdminStatisticsFragment extends Fragment {
 
     private ImageView btnBack;
-    private BarChart barChart;
-    private TextView btnFilterMonth, btnFilterQuarter, btnFilterYear, tvChartTitle;
+    private LinearLayout layoutRevenueByApartment; // Layout danh sách mới
+    private TextView btnFilterMonth, btnFilterQuarter, btnFilterYear;
     private TextView tvTotalRevenue, tvPaidRate, tvTotalUnits, tvPendingCount;
+
     private InvoiceViewModel invoiceViewModel;
+    private ApartmentRepository apartmentRepository; // Kho lấy thông tin Chung cư
 
     private List<InvoiceEntity> allInvoices = new ArrayList<>();
+    private Map<Integer, String> apartmentMap = new HashMap<>(); // ID Chung cư -> Tên
 
-    // Bản đồ lưu trữ Mã Phòng -> Tên Tòa (Lấy từ Database)
-    private Map<Integer, String> unitToBlockMap = new HashMap<>();
-
-    // Trạng thái bộ lọc thời gian
     private String currentMode = "month";
     private int selectedMonth = 3;
     private int selectedQuarter = 1;
@@ -58,23 +54,22 @@ public class AdminStatisticsFragment extends Fragment {
 
         initViews(view);
         setupListeners();
-        setupBarChartBase();
 
         invoiceViewModel = new ViewModelProvider(this).get(InvoiceViewModel.class);
+        apartmentRepository = new ApartmentRepository(requireActivity().getApplication());
 
-        // 1. Lắng nghe dữ liệu truy vấn JOIN (Lấy Tên Tòa từ Mã Phòng)
-        invoiceViewModel.getUnitBlockMappings().observe(getViewLifecycleOwner(), mappings -> {
-            if (mappings != null) {
-                unitToBlockMap.clear();
-                // Đổ dữ liệu vào Map để dùng nhanh
-                for (com.and.apartmentmanager.data.local.entity.UnitBlockDTO dto : mappings) {
-                    unitToBlockMap.put(dto.unitId, dto.blockName);
+        // 1. Lấy tất cả tên Chung Cư bỏ vào Map
+        apartmentRepository.getAll().observe(getViewLifecycleOwner(), apartments -> {
+            if (apartments != null) {
+                apartmentMap.clear();
+                for (ApartmentEntity apt : apartments) {
+                    apartmentMap.put(apt.getId(), apt.getName());
                 }
                 if (!allInvoices.isEmpty()) calculateAndDraw();
             }
         });
 
-        // 2. Lắng nghe dữ liệu Hóa đơn
+        // 2. Lấy dữ liệu Hóa đơn
         invoiceViewModel.getAllInvoices().observe(getViewLifecycleOwner(), invoices -> {
             if (invoices != null) {
                 allInvoices = invoices;
@@ -87,11 +82,10 @@ public class AdminStatisticsFragment extends Fragment {
 
     private void initViews(View view) {
         btnBack = view.findViewById(R.id.btnBack);
-        barChart = view.findViewById(R.id.barChartStatistics);
+        layoutRevenueByApartment = view.findViewById(R.id.layoutRevenueByApartment);
         btnFilterMonth = view.findViewById(R.id.btnFilterMonth);
         btnFilterQuarter = view.findViewById(R.id.btnFilterQuarter);
         btnFilterYear = view.findViewById(R.id.btnFilterYear);
-        tvChartTitle = view.findViewById(R.id.tvChartTitle);
 
         tvTotalRevenue = view.findViewById(R.id.tvTotalRevenue);
         tvPaidRate = view.findViewById(R.id.tvPaidRate);
@@ -172,8 +166,8 @@ public class AdminStatisticsFragment extends Fragment {
         int overdueCount = 0;
         int pendingCount = 0;
 
-        // Cốt lõi: Gom doanh thu theo tên Tòa (từ Database)
-        Map<String, Double> revenueByBlock = new HashMap<>();
+        // Lưu doanh thu theo ID Chung Cư
+        Map<Integer, Double> revenueByApt = new HashMap<>();
 
         for (InvoiceEntity inv : allInvoices) {
             try {
@@ -181,7 +175,6 @@ public class AdminStatisticsFragment extends Fragment {
                 int invYear = Integer.parseInt(parts[0]);
                 int invMonth = Integer.parseInt(parts[1]);
 
-                // Kiểm tra xem hóa đơn này có khớp với thời gian đang lọc không
                 boolean isMatch = false;
                 if (currentMode.equals("month") && invYear == selectedYear && invMonth == selectedMonth) isMatch = true;
                 if (currentMode.equals("quarter") && invYear == selectedYear && ((invMonth - 1) / 3 + 1) == selectedQuarter) isMatch = true;
@@ -189,15 +182,13 @@ public class AdminStatisticsFragment extends Fragment {
 
                 if (isMatch) {
                     String status = inv.getStatus();
-
-                    // Lấy tên Tòa từ Map (Database). Nếu trống, xếp vào "Chưa phân bổ"
-                    String blockName = unitToBlockMap.getOrDefault(inv.getUnitId(), "Khác");
-
                     if ("paid".equals(status)) {
                         totalRevenue += inv.getTotalAmount();
                         paidCount++;
-                        // Cộng tiền vào Tòa tương ứng
-                        revenueByBlock.put(blockName, revenueByBlock.getOrDefault(blockName, 0.0) + inv.getTotalAmount());
+
+                        // Cộng dồn doanh thu vào ID chung cư tương ứng
+                        int aptId = inv.getApartmentId();
+                        revenueByApt.put(aptId, revenueByApt.getOrDefault(aptId, 0.0) + inv.getTotalAmount());
                     } else if ("overdue".equals(status)) {
                         overdueCount++;
                         pendingCount++;
@@ -208,9 +199,11 @@ public class AdminStatisticsFragment extends Fragment {
             } catch (Exception e) {}
         }
 
-        // Đổ dữ liệu lên 4 thẻ chỉ số
+        // Cập nhật 4 thẻ thông tin tổng quan
         NumberFormat format = NumberFormat.getInstance(new Locale("vi", "VN"));
-        if (totalRevenue >= 1000000) {
+        if (totalRevenue >= 1000000000) {
+            tvTotalRevenue.setText(String.format(Locale.US, "%.2f Tỷ", totalRevenue / 1000000000.0));
+        } else if (totalRevenue >= 1000000) {
             tvTotalRevenue.setText(String.format(Locale.US, "%.2f Tr", totalRevenue / 1000000.0));
         } else {
             tvTotalRevenue.setText(format.format(totalRevenue) + " đ");
@@ -223,45 +216,55 @@ public class AdminStatisticsFragment extends Fragment {
         tvTotalUnits.setText(String.valueOf(paidCount + pendingCount));
         tvPendingCount.setText(String.valueOf(pendingCount));
 
-        // Gọi hàm vẽ biểu đồ
-        drawChart(revenueByBlock);
+        // Vẽ danh sách mới
+        drawRevenueList(revenueByApt);
     }
 
-    private void drawChart(Map<String, Double> revenueByBlock) {
-        ArrayList<BarEntry> entries = new ArrayList<>();
-        ArrayList<String> labels = new ArrayList<>();
+    // Hàm tạo giao diện Danh sách tự động y hệt thiết kế
+    private void drawRevenueList(Map<Integer, Double> revenueByApt) {
+        layoutRevenueByApartment.removeAllViews();
+        NumberFormat format = NumberFormat.getInstance(new Locale("vi", "VN"));
 
-        int index = 0;
-        for (Map.Entry<String, Double> entry : revenueByBlock.entrySet()) {
-            entries.add(new BarEntry(index, (float) (entry.getValue() / 1000000.0))); // Vẽ bằng đơn vị Triệu VNĐ
-            labels.add(entry.getKey());
-            index++;
+        for (Map.Entry<Integer, Double> entry : revenueByApt.entrySet()) {
+            String aptName = apartmentMap.getOrDefault(entry.getKey(), "Khác");
+            double amount = entry.getValue();
+
+            // 1. Tạo container cho 1 dòng (Row)
+            LinearLayout row = new LinearLayout(getContext());
+            row.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            row.setOrientation(LinearLayout.HORIZONTAL);
+            row.setPadding(0, 32, 0, 32); // Khoảng cách trên dưới cho thoáng
+
+            // 2. Tạo Text Tên Chung cư (Căn trái, chữ xám)
+            TextView tvName = new TextView(getContext());
+            tvName.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1.0f));
+            tvName.setText(aptName);
+            tvName.setTextColor(Color.parseColor("#6C757D"));
+            tvName.setTextSize(14f);
+
+            // 3. Tạo Text Số tiền (Căn phải, chữ màu xanh đậm như ảnh, in đậm)
+            TextView tvAmount = new TextView(getContext());
+            tvAmount.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            if (amount >= 1000000) {
+                tvAmount.setText(String.format(Locale.US, "%.2ftr", amount / 1000000.0));
+            } else {
+                tvAmount.setText(format.format(amount) + " đ");
+            }
+            tvAmount.setTextColor(Color.parseColor("#164E3B")); // Xanh rêu đậm
+            tvAmount.setTextSize(14f);
+            tvAmount.setTypeface(null, Typeface.BOLD);
+
+            // Gắn vào dòng
+            row.addView(tvName);
+            row.addView(tvAmount);
+            layoutRevenueByApartment.addView(row);
+
+            // 4. Tạo đường kẻ ngang (Divider) mảnh màu xám nhạt
+            View divider = new View(getContext());
+            divider.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 2));
+            divider.setBackgroundColor(Color.parseColor("#F3F4F6"));
+            layoutRevenueByApartment.addView(divider);
         }
-
-        barChart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(labels));
-        barChart.getXAxis().setLabelCount(labels.size());
-
-        BarDataSet dataSet = new BarDataSet(entries, "Doanh thu (Triệu VNĐ)");
-        dataSet.setColor(Color.parseColor("#2E6F40"));
-        dataSet.setValueTextColor(Color.parseColor("#1F3325"));
-        dataSet.setValueTextSize(11f);
-
-        BarData barData = new BarData(dataSet);
-        barData.setBarWidth(0.4f);
-        barChart.setData(barData);
-        barChart.animateY(800);
-        barChart.invalidate();
-    }
-
-    private void setupBarChartBase() {
-        barChart.getDescription().setEnabled(false);
-        barChart.setDrawGridBackground(false);
-        barChart.getAxisRight().setEnabled(false);
-        barChart.getLegend().setEnabled(false);
-        barChart.getAxisLeft().setAxisMinimum(0f);
-        barChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
-        barChart.getXAxis().setDrawGridLines(false);
-        barChart.getXAxis().setGranularity(1f);
     }
 
     private void updateTabUI() {

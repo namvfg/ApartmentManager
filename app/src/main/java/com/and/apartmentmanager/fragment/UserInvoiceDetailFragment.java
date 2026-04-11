@@ -79,20 +79,24 @@ public class UserInvoiceDetailFragment extends Fragment {
 
                     // Set màu trạng thái (Bao gồm cả Overdue)
                     String status = invoice.getStatus();
+
+                    // Ép kiểu Parent về đúng MaterialCardView để giữ được góc bo tròn
+                    com.google.android.material.card.MaterialCardView badgeCard = (com.google.android.material.card.MaterialCardView) tvUserStatus.getParent();
+
                     if ("confirmed".equals(status)) {
                         tvUserStatus.setText("Chờ TT");
                         tvUserStatus.setTextColor(Color.parseColor("#B45309")); // Cam
-                        ((View)tvUserStatus.getParent()).setBackgroundColor(Color.parseColor("#FEF3C7"));
+                        badgeCard.setCardBackgroundColor(Color.parseColor("#FEF3C7")); // DÙNG HÀM NÀY
                         btnPayNow.setVisibility(View.VISIBLE); // Hiện nút thanh toán
                     } else if ("overdue".equals(status)) {
                         tvUserStatus.setText("Quá hạn");
                         tvUserStatus.setTextColor(Color.parseColor("#DC2626")); // Đỏ
-                        ((View)tvUserStatus.getParent()).setBackgroundColor(Color.parseColor("#FEE2E2"));
+                        badgeCard.setCardBackgroundColor(Color.parseColor("#FEE2E2"));
                         btnPayNow.setVisibility(View.VISIBLE); // Quá hạn vẫn phải cho thanh toán
                     } else if ("paid".equals(status)) {
                         tvUserStatus.setText("Đã TT");
                         tvUserStatus.setTextColor(Color.parseColor("#15803D")); // Xanh lá
-                        ((View)tvUserStatus.getParent()).setBackgroundColor(Color.parseColor("#DCFCE7"));
+                        badgeCard.setCardBackgroundColor(Color.parseColor("#DCFCE7"));
                         btnPayNow.setVisibility(View.GONE); // Ẩn nút thanh toán
                     }
                     break;
@@ -145,7 +149,7 @@ public class UserInvoiceDetailFragment extends Fragment {
                         "&partnerCode=" + PARTNER_CODE +
                         "&redirectUrl=" + returnUrl +
                         "&requestId=" + requestId +
-                        "&requestType=payWithATM";
+                        "&requestType=captureWallet";
 
                 // 2. Ký tên (Gọi hàm ở file mới tạo)
                 String signature = com.and.apartmentmanager.helper.MoMoSecurity.signHmacSHA256(rawSignature, SECRET_KEY);
@@ -166,7 +170,7 @@ public class UserInvoiceDetailFragment extends Fragment {
                 jsonRequest.put("ipnUrl", notifyUrl);
                 jsonRequest.put("lang", "vi");
                 jsonRequest.put("extraData", "");
-                jsonRequest.put("requestType", "payWithATM");
+                jsonRequest.put("requestType", "captureWallet");
                 jsonRequest.put("signature", signature);
 
                 // 4. Bắn HTTP POST lên MoMo
@@ -249,7 +253,7 @@ public class UserInvoiceDetailFragment extends Fragment {
                         // 4B. Đổi trạng thái trên Giao diện (UI) ngay lập tức
                         tvUserStatus.setText("Đã TT");
                         tvUserStatus.setTextColor(android.graphics.Color.parseColor("#15803D"));
-                        ((android.view.View)tvUserStatus.getParent()).setBackgroundColor(android.graphics.Color.parseColor("#DCFCE7"));
+                        ((com.google.android.material.card.MaterialCardView)tvUserStatus.getParent()).setCardBackgroundColor(android.graphics.Color.parseColor("#DCFCE7"));
                         btnPayNow.setVisibility(android.view.View.GONE); // Giấu luôn nút thanh toán
                     }
                 } else {
