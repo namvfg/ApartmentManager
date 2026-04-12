@@ -1,5 +1,7 @@
 package com.and.apartmentmanager.data.local;
 
+import android.util.Log;
+
 import com.and.apartmentmanager.data.local.entity.*;
 import com.and.apartmentmanager.util.DateTimeUtil;
 
@@ -210,6 +212,7 @@ public class DatabaseSeeder {
     // Green  : id=5(Điện), 6(Nước), 7(Rác), 8(Bảo vệ)
     // ─────────────────────────────────────────────────────────────
     private static void seedServices(AppDatabase db) {
+        Log.d("DB_SEED", "seedServices CALLED");
         // Sunrise City (apartment_id=1)
         db.serviceDao().insert(new ServiceEntity(0, 1, "Điện",   "variable", "Điện tiêu thụ theo chỉ số công tơ"));
         db.serviceDao().insert(new ServiceEntity(0, 1, "Nước",   "variable", "Nước tiêu thụ theo chỉ số đồng hồ"));

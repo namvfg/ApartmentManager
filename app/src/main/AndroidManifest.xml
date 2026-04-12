@@ -13,12 +13,12 @@
         android:theme="@style/Theme.ApartmentManager">
         <activity android:name=".UpdatePriceElectricActivity"/>
         <activity android:name=".UpdatePriceWaterActivity" />
-<!--        <activity android:name=".ContractDetailActivity" />-->
+       <activity android:name=".ContractDetailActivity" />
         <activity
             android:name=".ServiceActivity"
             android:exported="false" />
         <activity
-            android:name=".ContractDetailActivity"
+            android:name=".MainActivity"
 
             android:exported="true">
             <intent-filter>

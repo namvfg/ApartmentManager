@@ -18,7 +18,8 @@ public interface ServiceDao {
     @Update
     void update(ServiceEntity service);
 
-
+    @Query("SELECT * FROM services")
+    List<ServiceEntity> getAll();
     @Query("SELECT * FROM services WHERE apartment_id = :apartmentId")
     List<ServiceEntity> getServicesByApartment(int apartmentId);
 }

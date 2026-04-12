@@ -28,8 +28,11 @@ public class ServiceActivity extends AppCompatActivity {
         AppDatabase db = AppDatabase.getInstance(this);
 
         new Thread(() -> {
+            List<ServiceEntity> all = db.serviceDao().getAll();
+            Log.d("CHECK_DB", "all size = " + all.size());
             List<ServiceEntity> services = db.serviceDao().getServicesByApartment(1);
 
+            Log.d("SERVICEEE", "size = " + services.size());
             runOnUiThread(() -> {
                 for (ServiceEntity s : services) {
 

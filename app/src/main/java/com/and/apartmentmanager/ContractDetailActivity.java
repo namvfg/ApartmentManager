@@ -1,104 +1,126 @@
 package com.and.apartmentmanager;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.and.apartmentmanager.data.local.AppDatabase;
+import com.and.apartmentmanager.data.local.entity.BlockEntity;
 import com.and.apartmentmanager.data.local.entity.ContractEntity;
-import com.and.apartmentmanager.data.local.entity.UserApartmentEntity;
+import com.and.apartmentmanager.data.local.entity.UnitEntity;
 import com.and.apartmentmanager.data.local.entity.UserEntity;
 
-import java.util.List;
-import java.util.concurrent.Executors;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 public class ContractDetailActivity extends AppCompatActivity {
 
+    TextView tvOwner, tvRentPrice, tvRoom, tvOwnerwith;
     TextView tvStartDate, tvEndDate, tvRemainDays;
-    TextView tvRoom, tvRentPrice, tvFeeDay, tvOwner;
-    TextView tvStatus;
+    TextView btnViewContract;
 
-    LinearLayout layoutRoommates;
-
-    AppDatabase db;
-
-    int userId = 3; //  test cư dân Lê Văn Cường
+    String contractUrl = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contract_detail);
 
-        db = AppDatabase.getInstance(this);
-
-        initView();
-        loadData();
-    }
-
-    private void initView() {
-        tvStatus = findViewById(R.id.tvStatus);
+        tvOwner = findViewById(R.id.tvOwner);
         tvStartDate = findViewById(R.id.tvStartDate);
         tvEndDate = findViewById(R.id.tvEndDate);
         tvRemainDays = findViewById(R.id.tvRemainDays);
-
-        tvRoom = findViewById(R.id.tvRoom);
         tvRentPrice = findViewById(R.id.tvRentPrice);
-        tvFeeDay = findViewById(R.id.tvFeeDay);
-        tvOwner = findViewById(R.id.tvOwner);
+        tvRoom = findViewById(R.id.tvRoom);
+        btnViewContract = findViewById(R.id.btnViewContract);
 
-        layoutRoommates = findViewById(R.id.layoutRoommates);
-    }
+        AppDatabase db = AppDatabase.getInstance(this);
 
-    private void loadData() {
+        new Thread(() -> {
 
-        Executors.newSingleThreadExecutor().execute(() -> {
+            UserEntity user = db.userDao().getByIdSync(3);
+            ContractEntity contract = db.contractDao().getContract(3, 1, 1);
 
-            ContractEntity contract =
-                    db.contractDao().getByUserId(userId);
+            if (contract == null) return;
 
-            UserApartmentEntity ua =
-                    db.userApartmentDao().getActiveByUserId(userId);
+            //  LẤY URL PDF
+            contractUrl = contract.getContractUrl();
 
-            List<UserApartmentEntity> list =
-                    db.userApartmentDao().getByApartmentId(ua.getApartmentId());
+            // Unit
+            UnitEntity unit = db.unitDao().getById(contract.getUnitId());
+
+            // Block
+            BlockEntity block = null;
+            if (unit != null) {
+                block = db.blockDao().getById(unit.getBlockId());
+            }
+
+            BlockEntity finalBlock = block;
+            UnitEntity finalUnit = unit;
 
             runOnUiThread(() -> {
 
-                // STATUS
-                tvStatus.setText(contract.getStatus());
-                tvStartDate.setText(String.valueOf(contract.getStartDate()));
-                tvEndDate.setText(String.valueOf(contract.getEndDate()));
-                tvRemainDays.setText("...");
+                // ===== OWNER =====
+                if (user != null) {
+                    tvOwner.setText("Chủ hợp đồng    " + user.getName());
 
-                // RENT INFO
-                tvRoom.setText("Unit: " + ua.getUnitId());
-                tvRentPrice.setText(contract.getRentPrice() + " đ/tháng");
-                tvFeeDay.setText("Ngày thu: " + contract.getBillingDay());
-                tvOwner.setText("User ID: " + userId);
-
-                // ROOMMATES
-                layoutRoommates.removeAllViews();
-
-                for (UserApartmentEntity item : list) {
-
-                    UserEntity user = db.userDao().getByIdSync(item.getUserId());
-
-                    View v = LayoutInflater.from(this)
-                            .inflate(android.R.layout.simple_list_item_2, layoutRoommates, false);
-
-                    TextView t1 = v.findViewById(android.R.id.text1);
-                    TextView t2 = v.findViewById(android.R.id.text2);
-
-                    t1.setText(user.getName());
-                    t2.setText(item.getUserId() == userId ? "Chủ hợp đồng" : "Cư dân");
-
-                    layoutRoommates.addView(v);
+                } else {
+                    tvOwner.setText("Chủ hợp đồng    Không có dữ liệu");
                 }
+
+                // ===== DATE =====
+                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+
+                String start = sdf.format(new Date(contract.getStartDate()));
+                String end = sdf.format(new Date(contract.getEndDate()));
+
+                tvStartDate.setText(start);
+                tvEndDate.setText(end);
+
+                // ===== REMAIN DAYS =====
+                long diff = contract.getEndDate() - System.currentTimeMillis();
+                long days = TimeUnit.MILLISECONDS.toDays(diff);
+
+                tvRemainDays.setText(days + " ngày");
+
+                // ===== PRICE =====
+                tvRentPrice.setText("Tiền thuê:       " +
+                        String.format(Locale.getDefault(), "%,.0fđ/tháng", contract.getRentPrice()));
+
+                // ===== ROOM =====
+                if (finalBlock != null && finalUnit != null) {
+                    tvRoom.setText("Phòng        " +
+                            finalBlock.getName() + " - " + finalUnit.getName());
+                } else {
+                    tvRoom.setText("Phòng        Không có dữ liệu");
+                }
+
+                // ===== CLICK PDF =====
+                btnViewContract.setOnClickListener(v -> {
+
+                    if (contractUrl == null || contractUrl.isEmpty()) {
+                        Toast.makeText(this, "Không có file hợp đồng", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    try {
+                        Intent intent = new Intent(Intent.ACTION_VIEW);
+                        intent.setDataAndType(Uri.parse(contractUrl), "application/pdf");
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                        startActivity(intent);
+                    } catch (Exception e) {
+                        Toast.makeText(this, "Không mở được PDF", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
             });
-        });
+
+        }).start();
     }
 }

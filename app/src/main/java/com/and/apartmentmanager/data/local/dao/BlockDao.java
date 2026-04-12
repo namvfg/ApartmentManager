@@ -31,4 +31,7 @@ public interface BlockDao {
     /** Validate: còn unit nào trong block không */
     @Query("SELECT COUNT(*) FROM units WHERE block_id = :blockId")
     int countUnits(long blockId);
+
+    @Query("SELECT * FROM blocks WHERE id = :id LIMIT 1")
+    BlockEntity getById(int id);
 }

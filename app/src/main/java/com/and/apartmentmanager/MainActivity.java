@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
 //            Intent intent = new Intent(MainActivity.this, CreateContractActivity.class);
 //            startActivity(intent);
             // // Lệnh chuyển sang màn hình ServiceActivity
-            Intent intent = new Intent(MainActivity.this, ServiceActivity.class);
+            Intent intent = new Intent(MainActivity.this, ContractDetailActivity.class);
             startActivity(intent);
         });
 

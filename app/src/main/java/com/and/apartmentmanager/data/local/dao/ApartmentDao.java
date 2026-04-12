@@ -34,4 +34,5 @@ public interface ApartmentDao {
 
     @Query("SELECT COUNT(*) FROM blocks WHERE apartment_id = :apartmentId")
     int countBlocks(long apartmentId);
+
 }
