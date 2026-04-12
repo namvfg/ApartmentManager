@@ -1,4 +1,4 @@
-package com.and.apartmentmanager.Adapter;
+package com.and.apartmentmanager.presentation.adapter;
 
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -10,9 +10,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.and.apartmentmanager.InviteActivity;
+import com.and.apartmentmanager.presentation.ui.admin.apartment.InviteActivity;
 import com.and.apartmentmanager.R;
-import com.and.apartmentmanager.UserActivity;
+import com.and.apartmentmanager.presentation.ui.user.UserActivity;
 import com.and.apartmentmanager.data.local.entity.UnitEntity;
 
 import java.util.ArrayList;

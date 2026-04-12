@@ -1,4 +1,4 @@
-package com.and.apartmentmanager;
+package com.and.apartmentmanager.presentation.ui.user;
 
 import android.os.Bundle;
 import android.text.Editable;
@@ -12,7 +12,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.and.apartmentmanager.Adapter.UserAdapter;
+import com.and.apartmentmanager.R;
+import com.and.apartmentmanager.presentation.adapter.UserAdapter;
 import com.and.apartmentmanager.data.local.AppDatabase;
 import com.and.apartmentmanager.data.local.entity.UnitEntity;
 import com.and.apartmentmanager.data.local.entity.UserEntity;

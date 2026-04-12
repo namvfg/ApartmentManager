@@ -1,4 +1,4 @@
-package com.and.apartmentmanager;
+package com.and.apartmentmanager.presentation.ui.admin.apartment;
 
 import android.os.Bundle;
 import android.view.View;
@@ -9,13 +9,11 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.and.apartmentmanager.Adapter.BlockAdapter;
+import com.and.apartmentmanager.R;
+import com.and.apartmentmanager.presentation.adapter.BlockAdapter;
 import com.and.apartmentmanager.data.local.AppDatabase;
 import com.and.apartmentmanager.data.local.entity.BlockEntity;
 import com.and.apartmentmanager.data.local.entity.UnitEntity;

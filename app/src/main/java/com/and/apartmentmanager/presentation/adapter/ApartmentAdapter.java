@@ -1,4 +1,4 @@
-package com.and.apartmentmanager.Adapter;
+package com.and.apartmentmanager.presentation.adapter;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -11,11 +11,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
-import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.and.apartmentmanager.R;
-import com.and.apartmentmanager.UserActivity;
+import com.and.apartmentmanager.presentation.ui.user.UserActivity;
 import com.and.apartmentmanager.data.local.AppDatabase;
 import com.and.apartmentmanager.data.local.entity.ApartmentEntity;
 import com.and.apartmentmanager.data.local.entity.UserEntity;

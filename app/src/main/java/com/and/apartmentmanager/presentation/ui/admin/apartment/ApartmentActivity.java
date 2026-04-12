@@ -1,4 +1,4 @@
-package com.and.apartmentmanager;
+package com.and.apartmentmanager.presentation.ui.admin.apartment;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,7 +14,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.and.apartmentmanager.Adapter.ApartmentAdapter;
+import com.and.apartmentmanager.R;
+import com.and.apartmentmanager.presentation.adapter.ApartmentAdapter;
 import com.and.apartmentmanager.data.local.AppDatabase;
 import com.and.apartmentmanager.data.local.entity.ApartmentEntity;
 import com.and.apartmentmanager.helper.SessionManager;

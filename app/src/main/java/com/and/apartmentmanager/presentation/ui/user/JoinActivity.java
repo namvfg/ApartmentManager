@@ -1,4 +1,4 @@
-package com.and.apartmentmanager;
+package com.and.apartmentmanager.presentation.ui.user;
 
 import static android.app.ProgressDialog.show;
 
@@ -9,10 +9,8 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
+import com.and.apartmentmanager.R;
 import com.and.apartmentmanager.data.local.AppDatabase;
 import com.and.apartmentmanager.data.local.entity.InviteCodeEntity;
 import com.and.apartmentmanager.data.local.entity.UserApartmentEntity;

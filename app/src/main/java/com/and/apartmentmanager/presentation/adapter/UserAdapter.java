@@ -1,4 +1,4 @@
-package com.and.apartmentmanager.Adapter;
+package com.and.apartmentmanager.presentation.adapter;
 
 import android.graphics.Color;
 import android.view.LayoutInflater;
