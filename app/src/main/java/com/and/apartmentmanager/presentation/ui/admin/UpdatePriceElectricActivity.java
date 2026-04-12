@@ -1,4 +1,4 @@
-package com.and.apartmentmanager;
+package com.and.apartmentmanager.presentation.ui.admin;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
@@ -11,12 +11,13 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.and.apartmentmanager.R;
 import com.and.apartmentmanager.data.local.AppDatabase;
 import com.and.apartmentmanager.data.local.entity.ServicePriceHistoryEntity;
 
 import java.util.Calendar;
 
-public class UpdatePriceWaterActivity extends AppCompatActivity {
+public class UpdatePriceElectricActivity extends AppCompatActivity {
 
     EditText edtPrice, edtDate;
     CheckBox cbNextCycle;
@@ -26,12 +27,10 @@ public class UpdatePriceWaterActivity extends AppCompatActivity {
 
     AppDatabase db;
 
-    private static final int SERVICE_WATER_ID = 2; // 👈 NƯỚC
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_update_price_water);
+        setContentView(R.layout.activity_update_price_electric);
 
         // ánh xạ
         edtPrice = findViewById(R.id.edtPrice);
@@ -43,7 +42,7 @@ public class UpdatePriceWaterActivity extends AppCompatActivity {
 
         db = AppDatabase.getInstance(this);
 
-        // back
+        // back button
         btnBack.setOnClickListener(v -> finish());
 
         // load giá hiện tại
@@ -67,7 +66,7 @@ public class UpdatePriceWaterActivity extends AppCompatActivity {
             dialog.show();
         });
 
-        // update
+        // click cập nhật
         btnUpdate.setOnClickListener(v -> updatePrice());
     }
 
@@ -76,20 +75,16 @@ public class UpdatePriceWaterActivity extends AppCompatActivity {
     // =========================
     private void loadCurrentPrice() {
         new Thread(() -> {
-
             ServicePriceHistoryEntity current =
-                    db.servicePriceHistoryDao().getCurrentPrice(SERVICE_WATER_ID);
+                    db.servicePriceHistoryDao().getCurrentPrice(1);
 
             runOnUiThread(() -> {
                 if (current != null) {
-                    tvCurrentPrice.setText(
-                            "Giá hiện tại: " + current.getPrice() + "đ/m³"
-                    );
+                    tvCurrentPrice.setText("Giá hiện tại: " + current.getPrice() + "đ/kWh");
                 } else {
                     tvCurrentPrice.setText("Chưa có giá");
                 }
             });
-
         }).start();
     }
 
@@ -118,50 +113,45 @@ public class UpdatePriceWaterActivity extends AppCompatActivity {
 
             // 1. tắt giá cũ
             ServicePriceHistoryEntity current =
-                    db.servicePriceHistoryDao().getCurrentPrice(SERVICE_WATER_ID);
+                    db.servicePriceHistoryDao().getCurrentPrice(1);
 
             if (current != null) {
                 current.setActive(false);
                 db.servicePriceHistoryDao().update(current);
             }
 
-            // 2. thời gian hiệu lực
-            long effectiveTime = System.currentTimeMillis();
+            // 2. tính thời gian áp dụng
+            long now = System.currentTimeMillis();
 
             if (nextCycle) {
                 Calendar cal = Calendar.getInstance();
                 cal.add(Calendar.MONTH, 1);
-                effectiveTime = cal.getTimeInMillis();
+                now = cal.getTimeInMillis();
             }
 
-            // 3. insert giá mới
-            ServicePriceHistoryEntity newEntity =
+            // 3. thêm giá mới
+            ServicePriceHistoryEntity newPriceEntity =
                     ServicePriceHistoryEntity.builder()
-                            .serviceId(SERVICE_WATER_ID)
+                            .serviceId(1)
                             .price(newPrice)
-                            .effectiveFrom(effectiveTime)
+                            .effectiveFrom(now)
                             .applyFromNextCycle(nextCycle)
                             .isActive(true)
                             .changedBy(1)
-                            .changedAt(System.currentTimeMillis())
+                            .changedAt(now)
                             .build();
 
-            db.servicePriceHistoryDao().insert(newEntity);
+            db.servicePriceHistoryDao().insert(newPriceEntity);
 
             // 4. update UI
             runOnUiThread(() -> {
-                tvCurrentPrice.setText(
-                        "Giá hiện tại: " + newPrice + "đ/m³"
-                );
-
+                tvCurrentPrice.setText("Giá hiện tại: " + newPrice + "đ/kWh");
                 edtPrice.setText("");
                 edtDate.setText("");
 
-                Toast.makeText(
-                        UpdatePriceWaterActivity.this,
-                        "Cập nhật giá nước thành công",
-                        Toast.LENGTH_SHORT
-                ).show();
+                Toast.makeText(UpdatePriceElectricActivity.this,
+                        "Cập nhật giá thành công",
+                        Toast.LENGTH_SHORT).show();
             });
 
         }).start();

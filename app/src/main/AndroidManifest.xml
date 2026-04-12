@@ -11,11 +11,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ApartmentManager">
-        <activity android:name=".UpdatePriceElectricActivity"/>
-        <activity android:name=".UpdatePriceWaterActivity" />
-       <activity android:name=".ContractDetailActivity" />
+        <activity android:name=".presentation.ui.admin.UpdatePriceElectricActivity"/>
+        <activity android:name=".presentation.ui.admin.UpdatePriceWaterActivity" />
+       <activity android:name=".presentation.ui.admin.ContractDetailActivity" />
         <activity
-            android:name=".ServiceActivity"
+            android:name=".presentation.ui.admin.ServiceActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

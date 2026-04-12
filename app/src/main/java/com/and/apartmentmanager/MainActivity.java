@@ -11,6 +11,8 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.and.apartmentmanager.data.local.AppDatabase;
+import com.and.apartmentmanager.presentation.ui.admin.ContractDetailActivity;
+
 import android.content.Intent;
 
 public class MainActivity extends AppCompatActivity {
