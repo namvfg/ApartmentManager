@@ -1,4 +1,4 @@
-package com.and.apartmentmanager.adapter;
+package com.and.apartmentmanager.presentation.adapter;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.and.apartmentmanager.R;
 import com.and.apartmentmanager.data.local.entity.InvoiceEntity;
-import com.google.android.material.card.MaterialCardView;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;

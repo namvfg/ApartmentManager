@@ -1,4 +1,4 @@
-package com.and.apartmentmanager.fragment;
+package com.and.apartmentmanager.presentation.ui.user.statistic;
 
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -17,7 +17,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.and.apartmentmanager.R;
 import com.and.apartmentmanager.data.local.entity.InvoiceEntity;
-import com.and.apartmentmanager.viewmodel.InvoiceViewModel;
+import com.and.apartmentmanager.presentation.ui.user.invoice.InvoiceViewModel;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarData;

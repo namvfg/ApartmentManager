@@ -1,4 +1,4 @@
-package com.and.apartmentmanager.fragment;
+package com.and.apartmentmanager.presentation.ui.user.invoice;
 
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -16,9 +16,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.and.apartmentmanager.R;
-import com.and.apartmentmanager.adapter.UserInvoiceAdapter;
+import com.and.apartmentmanager.presentation.adapter.UserInvoiceAdapter;
 import com.and.apartmentmanager.data.local.entity.InvoiceEntity;
-import com.and.apartmentmanager.viewmodel.InvoiceViewModel;
 import com.google.android.material.card.MaterialCardView;
 
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package com.and.apartmentmanager.fragment;
+package com.and.apartmentmanager.presentation.ui.admin.invoice;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -15,8 +15,8 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.and.apartmentmanager.R;
 import com.and.apartmentmanager.data.local.entity.InvoiceEntity;
-import com.and.apartmentmanager.viewmodel.InvoiceViewModel;
 import com.and.apartmentmanager.helper.NotificationHelper; // THÊM IMPORT CỦA P5
+import com.and.apartmentmanager.presentation.ui.user.invoice.InvoiceViewModel;
 
 import java.text.NumberFormat;
 import java.util.Locale;

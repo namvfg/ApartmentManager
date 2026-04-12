@@ -1,4 +1,4 @@
-package com.and.apartmentmanager.adapter;
+package com.and.apartmentmanager.presentation.adapter;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.and.apartmentmanager.R;
 import com.and.apartmentmanager.data.local.entity.InvoiceEntity;
+import com.and.apartmentmanager.presentation.ui.admin.invoice.AdminInvoiceEditFragment;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -98,7 +99,7 @@ public class AdminInvoiceAdapter extends RecyclerView.Adapter<AdminInvoiceAdapte
                 android.os.Bundle bundle = new android.os.Bundle();
                 bundle.putInt("invoiceId", invoice.getId());
 
-                com.and.apartmentmanager.fragment.AdminInvoiceEditFragment editFragment = new com.and.apartmentmanager.fragment.AdminInvoiceEditFragment();
+                AdminInvoiceEditFragment editFragment = new AdminInvoiceEditFragment();
                 editFragment.setArguments(bundle);
 
                 activity.getSupportFragmentManager().beginTransaction()

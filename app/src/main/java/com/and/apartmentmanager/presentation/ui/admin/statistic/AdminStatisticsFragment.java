@@ -1,4 +1,4 @@
-package com.and.apartmentmanager.fragment;
+package com.and.apartmentmanager.presentation.ui.admin.statistic;
 
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -20,7 +20,7 @@ import com.and.apartmentmanager.R;
 import com.and.apartmentmanager.data.local.entity.ApartmentEntity;
 import com.and.apartmentmanager.data.local.entity.InvoiceEntity;
 import com.and.apartmentmanager.data.repository.ApartmentRepository;
-import com.and.apartmentmanager.viewmodel.InvoiceViewModel;
+import com.and.apartmentmanager.presentation.ui.user.invoice.InvoiceViewModel;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;

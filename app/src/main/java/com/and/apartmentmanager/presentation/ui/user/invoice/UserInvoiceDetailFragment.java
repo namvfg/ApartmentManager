@@ -1,4 +1,4 @@
-package com.and.apartmentmanager.fragment;
+package com.and.apartmentmanager.presentation.ui.user.invoice;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -16,7 +16,6 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.and.apartmentmanager.R;
 import com.and.apartmentmanager.data.local.entity.InvoiceEntity;
-import com.and.apartmentmanager.viewmodel.InvoiceViewModel;
 
 import java.text.NumberFormat;
 import java.util.Locale;

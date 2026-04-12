@@ -1,4 +1,4 @@
-package com.and.apartmentmanager.viewmodel;
+package com.and.apartmentmanager.presentation.ui.user.invoice;
 
 import android.app.Application;
 import androidx.annotation.NonNull;

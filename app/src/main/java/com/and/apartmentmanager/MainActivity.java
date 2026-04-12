@@ -10,10 +10,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.and.apartmentmanager.data.local.AppDatabase;
-import com.and.apartmentmanager.fragment.AdminInvoiceListFragment;
-import com.and.apartmentmanager.fragment.AdminStatisticsFragment;
-import com.and.apartmentmanager.fragment.UserStatisticsFragment;
-import com.and.apartmentmanager.fragment.UserInvoiceListFragment;
+import com.and.apartmentmanager.presentation.ui.user.invoice.UserInvoiceListFragment;
 
 public class MainActivity extends AppCompatActivity {
 
