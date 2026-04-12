@@ -1,7 +1,5 @@
 package com.and.apartmentmanager;
 
-import static android.app.ProgressDialog.show;
-
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -9,21 +7,19 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
-import com.and.apartmentmanager.data.local.AppDatabase;
 import com.and.apartmentmanager.data.local.entity.InviteCodeEntity;
 import com.and.apartmentmanager.data.local.entity.UserApartmentEntity;
+import com.and.apartmentmanager.data.repository.InviteCodeRepository;
+import com.and.apartmentmanager.data.repository.UserApartmentRepository;
 
 import java.util.concurrent.Executors;
 
 public class JoinActivity extends AppCompatActivity {
-
     EditText edtCode;
     Button btnJoin;
-    AppDatabase db;
+    InviteCodeRepository inviteCodeRepository;
+    UserApartmentRepository userApartmentRepository;
     int userId;
 
     @Override
@@ -32,19 +28,18 @@ public class JoinActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_join);
 
-        db = AppDatabase.getInstance(this);
+        inviteCodeRepository = new InviteCodeRepository(getApplication());
+        userApartmentRepository = new UserApartmentRepository(getApplication());
 
         edtCode = findViewById(R.id.edtCode);
         btnJoin = findViewById(R.id.btnJoin);
 
-        // test user
         userId = 3;
 
         btnJoin.setOnClickListener(v -> joinByCode());
-
     }
-    private void joinByCode() {
 
+    private void joinByCode() {
         String inputCode = edtCode.getText().toString().trim();
 
         if (inputCode.isEmpty()) {
@@ -52,8 +47,7 @@ public class JoinActivity extends AppCompatActivity {
             return;
         }
         Executors.newSingleThreadExecutor().execute(() -> {
-
-            InviteCodeEntity code = db.inviteCodeDao().findByCode(inputCode);
+            InviteCodeEntity code = inviteCodeRepository.findByCode(inputCode);
 
             if (code == null) {
                 show("Mã không tồn tại");
@@ -70,37 +64,32 @@ public class JoinActivity extends AppCompatActivity {
                 return;
             }
 
-            UserApartmentEntity existing =
-                    db.userApartmentDao().findByUserId(userId);
-
+            UserApartmentEntity existing = userApartmentRepository.findByUserId(userId);
             if (existing != null) {
                 show("Bạn đã tham gia rồi");
                 return;
             }
 
-            // 👉 INSERT
             UserApartmentEntity ua = new UserApartmentEntity();
             ua.setUserId(userId);
             ua.setApartmentId(code.getApartmentId());
             ua.setUnitId(code.getUnitId());
             ua.setStatus("active");
+            ua.setInviteCodeUsed(inputCode);
+            ua.setJoinedAt(System.currentTimeMillis());
 
-            db.userApartmentDao().insert(ua);
+            userApartmentRepository.insertBlocking(ua);
 
-            // 👉 UPDATE CODE
             code.setUsed(true);
             code.setUsedBy(userId);
-            db.inviteCodeDao().update(code);
+            inviteCodeRepository.updateBlocking(code);
 
             show("Tham gia thành công");
-
             runOnUiThread(() -> finish());
         });
     }
 
     private void show(String msg) {
-        runOnUiThread(() ->
-                Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
-        );
+        runOnUiThread(() -> Toast.makeText(this, msg, Toast.LENGTH_SHORT).show());
     }
 }

@@ -1,6 +1,8 @@
 package com.and.apartmentmanager.Adapter;
 
+import android.app.Application;
 import android.content.Intent;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,19 +15,33 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.and.apartmentmanager.InviteActivity;
 import com.and.apartmentmanager.R;
 import com.and.apartmentmanager.UserActivity;
+import com.and.apartmentmanager.data.local.entity.ContractEntity;
 import com.and.apartmentmanager.data.local.entity.UnitEntity;
+import com.and.apartmentmanager.data.repository.ContractRepository;
+import com.and.apartmentmanager.data.repository.UserApartmentRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class UnitAdapter extends RecyclerView.Adapter<UnitAdapter.ViewHolder> {
 
-     List<UnitEntity> list = new ArrayList<>();
+    private static final ExecutorService UNIT_STYLE_EXECUTOR = Executors.newFixedThreadPool(4);
 
+
+
+    List<UnitEntity> list = new ArrayList<>();
     int apartmentId;
+    private final ContractRepository contractRepository;
+    private final UserApartmentRepository userApartmentRepository;
+    int adminId;
 
-    public UnitAdapter(int apartmentId) {
+    public UnitAdapter(Application application, int apartmentId, int adminId) {
+        this.contractRepository = new ContractRepository(application);
+        this.userApartmentRepository = new UserApartmentRepository(application);
         this.apartmentId = apartmentId;
+        this.adminId = adminId;
     }
 
     public void setData(List<UnitEntity> data) {
@@ -45,31 +61,61 @@ public class UnitAdapter extends RecyclerView.Adapter<UnitAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull ViewHolder h, int position) {
         UnitEntity unit = list.get(position);
         h.tvUnit.setText(unit.getName());
+
         h.itemView.setOnClickListener(v -> {
-
             String[] options = {"Xem cư dân", " Mã mời"};
-
             new AlertDialog.Builder(v.getContext())
                     .setTitle("Phòng " + unit.getName())
                     .setItems(options, (dialog, which) -> {
-
                         if (which == 0) {
-                            // xem cư dân của unit
                             Intent intent = new Intent(v.getContext(), UserActivity.class);
                             intent.putExtra("unitId", unit.getId());
                             v.getContext().startActivity(intent);
-
                         } else {
-                            // mã mời
                             Intent intent = new Intent(v.getContext(), InviteActivity.class);
                             intent.putExtra("unitId", unit.getId());
                             intent.putExtra("apartmentId", apartmentId);
                             intent.putExtra("adminId", 1); // fix sau
                             v.getContext().startActivity(intent);
                         }
-
                     })
                     .show();
+        });
+
+        int unitId = unit.getId();
+        UNIT_STYLE_EXECUTOR.execute(() -> {
+            int residents = userApartmentRepository.countActiveResidentsByUnit(unitId);
+            List<ContractEntity> contracts = contractRepository.getByUnitSync(unitId);
+            boolean expiring = false;
+            long now = System.currentTimeMillis();
+            if (residents > 0) {
+                for (ContractEntity c : contracts) {
+                    if (!"active".equals(c.getStatus())) continue;
+                    if (userApartmentRepository.countActiveUserInUnit(unitId, c.getUserId()) == 0) {
+                        continue;
+                    }
+                    long days = (c.getEndDate() - now) / (1000L * 60 * 60 * 24);
+                    if (days >= 0 && days < 30) {
+                        expiring = true;
+                        break;
+                    }
+                }
+            }
+
+            final int r = residents;
+            final boolean ex = expiring;
+            h.itemView.post(() -> {
+                if (r == 0) {
+                    h.tvUnit.setBackgroundColor(Color.parseColor("#F0F0F0"));
+                    h.tvUnit.setTextColor(Color.parseColor("#757575"));
+                } else if (ex) {
+                    h.tvUnit.setBackgroundColor(Color.parseColor("#FFF3CD"));
+                    h.tvUnit.setTextColor(Color.parseColor("#856404"));
+                } else {
+                    h.tvUnit.setBackgroundColor(Color.parseColor("#D1E7DD"));
+                    h.tvUnit.setTextColor(Color.parseColor("#0F5132"));
+                }
+            });
         });
     }
 

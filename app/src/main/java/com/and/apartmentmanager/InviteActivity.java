@@ -11,22 +11,20 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
-import com.and.apartmentmanager.data.local.AppDatabase;
 import com.and.apartmentmanager.data.local.entity.InviteCodeEntity;
+import com.and.apartmentmanager.data.repository.InviteCodeRepository;
+import com.and.apartmentmanager.data.repository.UnitRepository;
 
 import java.util.concurrent.Executors;
 
 public class InviteActivity extends AppCompatActivity {
 
-
     TextView tvUnit, tvCode, tvExpire;
     Button btnGenerate, btnCopy, btnShare;
     ImageView btnBack;
-    AppDatabase db;
+    InviteCodeRepository inviteCodeRepository;
+    UnitRepository unitRepository;
 
     int unitId, apartmentId, adminId;
     String currentCode = "";
@@ -37,10 +35,8 @@ public class InviteActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_invite);
 
-        db = AppDatabase.getInstance(this);
-        unitId = getIntent().getIntExtra("unitId", -1);
-        apartmentId = getIntent().getIntExtra("apartmentId", -1);
-        adminId = getIntent().getIntExtra("adminId", -1);
+        inviteCodeRepository = new InviteCodeRepository(getApplication());
+        unitRepository = new UnitRepository(getApplication());
 
         unitId = getIntent().getIntExtra("unitId", -1);
         apartmentId = getIntent().getIntExtra("apartmentId", -1);
@@ -60,40 +56,31 @@ public class InviteActivity extends AppCompatActivity {
         btnGenerate.setOnClickListener(v -> generateInviteCode());
         btnCopy.setOnClickListener(v -> copyCode());
         btnShare.setOnClickListener(v -> shareCode());
-
+        loadUnitInfo();
         loadLatestCode();
     }
+
     private void generateInviteCode() {
-
         Executors.newSingleThreadExecutor().execute(() -> {
-
             String codeStr = generateCode();
-
             InviteCodeEntity code = new InviteCodeEntity();
             code.setCode(codeStr);
             code.setUnitId(unitId);
             code.setApartmentId(apartmentId);
             code.setAdminId(adminId);
-
             long now = System.currentTimeMillis();
             code.setExpiresAt(now + 7L * 24 * 60 * 60 * 1000);
             code.setUsed(false);
-
-            db.inviteCodeDao().insert(code);
-
-            runOnUiThread(() -> {
-                loadLatestCode();
-            });
-
+            inviteCodeRepository.insertBlocking(code);
+            runOnUiThread(this::loadLatestCode);
         });
     }
 
     private String generateCode() {
         String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
         StringBuilder sb = new StringBuilder();
-
         for (int i = 0; i < 6; i++) {
-            int index = (int)(Math.random() * chars.length());
+            int index = (int) (Math.random() * chars.length());
             sb.append(chars.charAt(index));
         }
         return sb.toString();
@@ -101,34 +88,25 @@ public class InviteActivity extends AppCompatActivity {
 
     private void copyCode() {
         if (currentCode.isEmpty()) return;
-
-        ClipboardManager clipboard =
-                (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-
+        ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
         ClipData clip = ClipData.newPlainText("code", currentCode);
         clipboard.setPrimaryClip(clip);
-
         Toast.makeText(this, "Đã copy", Toast.LENGTH_SHORT).show();
     }
+
     private void shareCode() {
         if (currentCode.isEmpty()) return;
-
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain");
         intent.putExtra(Intent.EXTRA_TEXT, "Mã mời: " + currentCode);
-
         startActivity(Intent.createChooser(intent, "Chia sẻ"));
     }
 
     private void loadLatestCode() {
-
         Executors.newSingleThreadExecutor().execute(() -> {
-
-            InviteCodeEntity code = db.inviteCodeDao()
+            InviteCodeEntity code = inviteCodeRepository
                     .getLatestValidCode(unitId, System.currentTimeMillis());
-
             runOnUiThread(() -> {
-
                 if (code != null) {
                     currentCode = code.getCode();
                     tvCode.setText(currentCode);
@@ -137,9 +115,20 @@ public class InviteActivity extends AppCompatActivity {
                     tvCode.setText("------");
                     tvExpire.setText("Chưa có mã");
                 }
-
             });
+        });
+    }
 
+    private void loadUnitInfo() {
+        Executors.newSingleThreadExecutor().execute(() -> {
+            String name = unitRepository.getFullUnitName(unitId);
+            runOnUiThread(() -> {
+                if (name != null) {
+                    tvUnit.setText(name);
+                } else {
+                    tvUnit.setText("Không xác định");
+                }
+            });
         });
     }
 }

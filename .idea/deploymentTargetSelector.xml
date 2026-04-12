@@ -5,7 +5,7 @@
       <SelectionState runConfigName="ApartmentActivity">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="JoinActivity">
+      <SelectionState runConfigName="DeleteUserActivity">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>

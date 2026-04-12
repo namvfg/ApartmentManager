@@ -20,6 +20,9 @@ public interface ApartmentDao {
     @Query("SELECT * FROM apartments WHERE id = :id")
     LiveData<ApartmentEntity> getById(int id);
 
+    @Query("SELECT * FROM apartments WHERE id = :id LIMIT 1")
+    ApartmentEntity getByIdSync(int id);
+
     @Query("SELECT * FROM apartments WHERE admin_id = :adminId")
     LiveData<List<ApartmentEntity>> getByAdmin(int adminId);
 

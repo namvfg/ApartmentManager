@@ -13,9 +13,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.and.apartmentmanager.Adapter.UserAdapter;
-import com.and.apartmentmanager.data.local.AppDatabase;
 import com.and.apartmentmanager.data.local.entity.UnitEntity;
 import com.and.apartmentmanager.data.local.entity.UserEntity;
+import com.and.apartmentmanager.data.repository.ApartmentRepository;
+import com.and.apartmentmanager.data.repository.UnitRepository;
+import com.and.apartmentmanager.data.repository.UserRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +29,9 @@ public class UserActivity extends AppCompatActivity {
     RecyclerView rvUser;
     TextView tvCount;
     UserAdapter adapter;
-    AppDatabase db;
+    UserRepository userRepository;
+    UnitRepository unitRepository;
+    ApartmentRepository apartmentRepository;
     int apartmentId, unitId;
 
     List<UserEntity> originalList = new ArrayList<>();
@@ -45,36 +49,34 @@ public class UserActivity extends AppCompatActivity {
 
         btnBack.setOnClickListener(v -> finish());
 
-        db = AppDatabase.getInstance(this);
+        userRepository = new UserRepository(getApplication());
+        unitRepository = new UnitRepository(getApplication());
+        apartmentRepository = new ApartmentRepository(getApplication());
 
         apartmentId = getIntent().getIntExtra("apartmentId", -1);
         unitId = getIntent().getIntExtra("unitId", -1);
 
         rvUser.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new UserAdapter(db, this,unitId,apartmentId);
+        adapter = new UserAdapter(getApplication(), unitId, apartmentId);
         rvUser.setAdapter(adapter);
 
         if (unitId != -1) {
             Executors.newSingleThreadExecutor().execute(() -> {
-                UnitEntity unit = db.unitDao().getById(unitId);
-
+                UnitEntity unit = unitRepository.getById(unitId);
                 runOnUiThread(() -> {
-                    db.userDao().getByUnit(unitId).observe(this, list -> {
-
+                    userRepository.getByUnit(unitId).observe(this, list -> {
                         originalList.clear();
                         originalList.addAll(list);
-
                         adapter.setData(list);
-
                         String unitName = (unit != null) ? unit.getName() : "";
                         tvCount.setText(list.size() + " người - Phòng " + unitName);
                     });
                 });
             });
         } else {
-            db.apartmentDao().getById(apartmentId).observe(this, ap -> {
+            apartmentRepository.getById(apartmentId).observe(this, ap -> {
                 String apName = (ap != null) ? ap.getName() : "";
-                db.userDao().getByApartment(apartmentId).observe(this, list -> {
+                userRepository.getByApartment(apartmentId).observe(this, list -> {
                     originalList.clear();
                     originalList.addAll(list);
                     adapter.setData(list);
@@ -99,6 +101,4 @@ public class UserActivity extends AppCompatActivity {
             @Override public void onTextChanged(CharSequence s, int start, int before, int count) {}
         });
     }
-
-
 }
