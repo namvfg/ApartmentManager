@@ -17,17 +17,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.and.apartmentmanager.R;
 import com.and.apartmentmanager.presentation.adapter.ApartmentAdapter;
 import com.and.apartmentmanager.data.local.AppDatabase;
+import com.and.apartmentmanager.Adapter.ApartmentAdapter;
 import com.and.apartmentmanager.data.local.entity.ApartmentEntity;
+import com.and.apartmentmanager.data.repository.ApartmentRepository;
 import com.and.apartmentmanager.helper.SessionManager;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Executors;
 
 public class ApartmentActivity extends AppCompatActivity {
      RecyclerView recyclerView;
      ApartmentAdapter adapter;
-     AppDatabase db;
+     ApartmentRepository apartmentRepository;
     Button btnAdd;
     EditText edtSearch;
     List<ApartmentEntity> originalList = new ArrayList<>();
@@ -40,12 +41,12 @@ public class ApartmentActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        adapter = new ApartmentAdapter();
+        apartmentRepository = new ApartmentRepository(getApplication());
+        adapter = new ApartmentAdapter(getApplication());
         recyclerView.setAdapter(adapter);
 
         edtSearch= findViewById(R.id.edtSearch);
         btnAdd = findViewById(R.id.btnAdd);
-        db = AppDatabase.getInstance(this);
 
         btnAdd.setOnClickListener(v -> showAddDialog());
         SessionManager sm = SessionManager.getInstance(this);
@@ -53,7 +54,7 @@ public class ApartmentActivity extends AppCompatActivity {
         SessionManager.getInstance(this)
                 .saveSession(1, "admin", 1);
 
-        db.apartmentDao().getByAdmin(adminId).observe(this, list -> {
+        apartmentRepository.getByAdmin(adminId).observe(this, list -> {
             originalList.clear();
             originalList.addAll(list);
             adapter.setData(list);
@@ -95,7 +96,7 @@ public class ApartmentActivity extends AppCompatActivity {
         SessionManager sm = SessionManager.getInstance(this);
         int adminId = (int) sm.getUserId();
 
-        db.apartmentDao().getByAdmin(adminId).observe(this, list -> {
+        apartmentRepository.getByAdmin(adminId).observe(this, list -> {
             originalList.clear();
             originalList.addAll(list);
             adapter.setData(list);
@@ -125,9 +126,7 @@ public class ApartmentActivity extends AppCompatActivity {
                             true,
                             (int) sm.getUserId()
                     );
-                    Executors.newSingleThreadExecutor().execute(() -> {
-                        db.apartmentDao().insert(apartment);
-                    });
+                    apartmentRepository.insert(apartment);
 
                 })
                 .setNegativeButton("Hủy", null)

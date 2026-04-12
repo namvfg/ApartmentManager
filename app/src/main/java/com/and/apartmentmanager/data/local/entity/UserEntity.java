@@ -31,4 +31,7 @@ public class UserEntity {
 
     @ColumnInfo(name = "deleted_at")
     private Long deletedAt;
+
+    @ColumnInfo(name = "user_delete")
+    private boolean isUserDelete;
 }

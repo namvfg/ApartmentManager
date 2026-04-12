@@ -1,5 +1,6 @@
 package com.and.apartmentmanager.presentation.adapter;
 
+import android.app.Application;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,22 +15,26 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.and.apartmentmanager.R;
-import com.and.apartmentmanager.data.local.AppDatabase;
 import com.and.apartmentmanager.data.local.entity.BlockEntity;
+import com.and.apartmentmanager.data.repository.BlockRepository;
+import com.and.apartmentmanager.data.repository.UnitRepository;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Executors;
 
 public class BlockAdapter extends RecyclerView.Adapter<BlockAdapter.ViewHolder> {
 
     private List<BlockEntity> list = new ArrayList<>();
-    private AppDatabase db;
-    private LifecycleOwner lifecycleOwner;
+    private final BlockRepository blockRepository;
+    private final UnitRepository unitRepository;
+    private final LifecycleOwner lifecycleOwner;
+    int adminId;
 
-    public BlockAdapter(AppDatabase db, LifecycleOwner lifecycleOwner) {
-        this.db = db;
+    public BlockAdapter(Application application, LifecycleOwner lifecycleOwner, int adminId) {
+        this.blockRepository = new BlockRepository(application);
+        this.unitRepository = new UnitRepository(application);
         this.lifecycleOwner = lifecycleOwner;
+        this.adminId = adminId;
     }
 
     public void setData(List<BlockEntity> data) {
@@ -52,14 +57,15 @@ public class BlockAdapter extends RecyclerView.Adapter<BlockAdapter.ViewHolder> 
         h.tvBlockName.setText(block.getName());
         h.rvUnit.setNestedScrollingEnabled(false);
 
-        UnitAdapter unitAdapter = new UnitAdapter(block.getApartmentId());
+        UnitAdapter unitAdapter = new UnitAdapter(
+                (Application) h.itemView.getContext().getApplicationContext(),
+                block.getApartmentId(),
+                adminId);
         h.rvUnit.setLayoutManager(new GridLayoutManager(h.itemView.getContext(), 4));
         h.rvUnit.setAdapter(unitAdapter);
 
-        db.unitDao().getByBlock(block.getId())
-                .observe(lifecycleOwner, units -> {
-                    unitAdapter.setData(units);
-                });
+        unitRepository.getByBlock(block.getId())
+                .observe(lifecycleOwner, units -> unitAdapter.setData(units));
 
         h.btnAddUnit.setOnClickListener(v -> {
             if (listener != null) {
@@ -70,31 +76,22 @@ public class BlockAdapter extends RecyclerView.Adapter<BlockAdapter.ViewHolder> 
         h.btnEditBlock.setOnClickListener(v -> {
             EditText edt = new EditText(v.getContext());
             edt.setText(block.getName());
-
             new AlertDialog.Builder(v.getContext())
                     .setTitle("Sửa Block")
                     .setView(edt)
                     .setPositiveButton("Lưu", (d, w) -> {
                         block.setName(edt.getText().toString());
-
-                        Executors.newSingleThreadExecutor().execute(() -> {
-                            db.blockDao().update(block);
-                        });
+                        blockRepository.update(block);
                     })
                     .setNegativeButton("Hủy", null)
                     .show();
         });
 
-
         h.btnDeleteBlock.setOnClickListener(v -> {
             new AlertDialog.Builder(v.getContext())
                     .setTitle("Xóa Block")
                     .setMessage("Bạn chắc chắn?")
-                    .setPositiveButton("Xóa", (d, w) -> {
-                        Executors.newSingleThreadExecutor().execute(() -> {
-                            db.blockDao().delete(block);
-                        });
-                    })
+                    .setPositiveButton("Xóa", (d, w) -> blockRepository.delete(block))
                     .setNegativeButton("Hủy", null)
                     .show();
         });

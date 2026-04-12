@@ -56,4 +56,7 @@ public interface UserDao {
             "WHERE ua.unit_id = :unitId " +
             "AND ua.status = 'active'")
     LiveData<List<UserEntity>> getByUnit(int unitId);
+
+    @Query("SELECT * FROM users WHERE user_delete = 1")
+    LiveData<List<UserEntity>> getUserRequestDelete();
 }

@@ -39,7 +39,8 @@
         android:layout_height="50dp"
         android:layout_marginTop="12dp"
         android:background="@drawable/bg_rounded"
-        android:hint="🔍 Tìm chung cư..."
+        android:drawableStart="@android:drawable/ic_menu_search"
+        android:hint=" Tìm chung cư..."
         android:padding="12dp"
         android:textColor="#000"
         android:textColorHint="#888"/>

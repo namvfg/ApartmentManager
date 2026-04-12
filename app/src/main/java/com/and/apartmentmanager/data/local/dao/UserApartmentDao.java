@@ -1,15 +1,11 @@
 package com.and.apartmentmanager.data.local.dao;
 
-import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
 import com.and.apartmentmanager.data.local.entity.UserApartmentEntity;
-import com.and.apartmentmanager.data.local.entity.UserEntity;
-
-import java.util.List;
 
 @Dao
 public interface UserApartmentDao {
@@ -38,4 +34,17 @@ public interface UserApartmentDao {
 
     @Query("DELETE FROM user_apartments WHERE user_id = :userId AND apartment_id = :apartmentId")
     void deleteUserFromApartment(int userId, int apartmentId);
+
+    @Query("SELECT unit_id FROM user_apartments WHERE user_id = :userId LIMIT 1")
+    int getUnitIdByUser(int userId);
+
+    @Query("SELECT COUNT(*) FROM user_apartments ua " +
+            "INNER JOIN users u ON u.id = ua.user_id " +
+            "WHERE ua.unit_id = :unitId AND ua.status = 'active' AND u.is_deleted = 0")
+    int countActiveResidentsByUnit(int unitId);
+
+    @Query("SELECT COUNT(*) FROM user_apartments ua " +
+            "INNER JOIN users u ON u.id = ua.user_id " +
+            "WHERE ua.unit_id = :unitId AND ua.user_id = :userId AND ua.status = 'active' AND u.is_deleted = 0")
+    int countActiveUserInUnit(int unitId, int userId);
 }

@@ -1,5 +1,6 @@
 package com.and.apartmentmanager.presentation.adapter;
 
+import android.app.Application;
 import android.content.Intent;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -16,8 +17,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.and.apartmentmanager.R;
 import com.and.apartmentmanager.presentation.ui.user.UserActivity;
 import com.and.apartmentmanager.data.local.AppDatabase;
+import com.and.apartmentmanager.UserActivity;
 import com.and.apartmentmanager.data.local.entity.ApartmentEntity;
 import com.and.apartmentmanager.data.local.entity.UserEntity;
+import com.and.apartmentmanager.data.repository.ApartmentRepository;
+import com.and.apartmentmanager.data.repository.UnitRepository;
+import com.and.apartmentmanager.data.repository.UserApartmentRepository;
+import com.and.apartmentmanager.data.repository.UserRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,8 +33,19 @@ import lombok.NonNull;
 
 public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.ViewHolder> {
 
-    AppDatabase db;
+    private final ApartmentRepository apartmentRepository;
+    private final UnitRepository unitRepository;
+    private final UserApartmentRepository userApartmentRepository;
+    private final UserRepository userRepository;
+
     private List<ApartmentEntity> list = new ArrayList<>();
+
+    public ApartmentAdapter(Application application) {
+        apartmentRepository = new ApartmentRepository(application);
+        unitRepository = new UnitRepository(application);
+        userApartmentRepository = new UserApartmentRepository(application);
+        userRepository = new UserRepository(application);
+    }
 
     public void setData(List<ApartmentEntity> data) {
         this.list = data;
@@ -38,8 +55,6 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        db = AppDatabase.getInstance(parent.getContext());
-
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_apartment, parent, false);
         return new ViewHolder(view);
@@ -89,17 +104,11 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
                     .setTitle("Sửa chung cư")
                     .setView(layout)
                     .setPositiveButton("Lưu", (d, w) -> {
-
                         String newName = edtName.getText().toString().trim();
                         String newAddress = edtAddress.getText().toString().trim();
-
                         item.setName(newName);
                         item.setAddress(newAddress);
-
-                        Executors.newSingleThreadExecutor().execute(() -> {
-                            db.apartmentDao().update(item);
-                        });
-
+                        apartmentRepository.update(item);
                     })
                     .setNegativeButton("Hủy", null)
                     .show();
@@ -109,39 +118,28 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
             new AlertDialog.Builder(v.getContext())
                     .setTitle("Xóa chung cư")
                     .setMessage("Bạn chắc chắn?")
-                    .setPositiveButton("Xóa", (d, w) -> {
-
-                        Executors.newSingleThreadExecutor().execute(() -> {
-                            db.apartmentDao().delete(item);
-                        });
-
-                    })
+                    .setPositiveButton("Xóa", (d, w) -> apartmentRepository.delete(item))
                     .setNegativeButton("Hủy", null)
                     .show();
         });
         Executors.newSingleThreadExecutor().execute(() -> {
-
-            int blockCount = db.apartmentDao().countBlocks(item.getId());
-            int unitCount = db.unitDao().countByApartment(item.getId());
-            int userCount = db.userApartmentDao().countActiveUsers(item.getId());
-            UserEntity  admin= db.userDao().getByIdSync(item.getAdminId());
+            int blockCount = apartmentRepository.countBlocks(item.getId());
+            int unitCount = unitRepository.countByApartment(item.getId());
+            int userCount = userApartmentRepository.countActiveUsers(item.getId());
+            UserEntity admin = userRepository.getByIdSync(item.getAdminId());
             h.itemView.post(() -> {
                 h.tvBlock.setText(String.valueOf(blockCount));
                 h.tvUnit.setText(String.valueOf(unitCount));
                 h.tvUser.setText(String.valueOf(userCount));
-
                 if (admin != null) {
                     h.tvAdmin.setText("👤 " + admin.getName());
                 } else {
                     h.tvAdmin.setText("Thiếu QL");
                     h.tvAdmin.setTextColor(Color.parseColor("#FF9800"));
                 }
-
             });
-
         });
     }
-
 
     @Override
     public int getItemCount() {
@@ -167,11 +165,10 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
         }
     }
 
-
     public interface OnItemClickListener {
         void onClick(ApartmentEntity apartment);
-
     }
+
     private OnItemClickListener listener;
 
     public void setOnItemClickListener(OnItemClickListener listener) {

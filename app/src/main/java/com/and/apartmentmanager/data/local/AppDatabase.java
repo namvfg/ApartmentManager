@@ -54,7 +54,7 @@ import java.util.concurrent.Executors;
                 InvoiceItemEntity.class,
                 NotificationEntity.class,
         },
-        version = 1,
+        version = 2,
         exportSchema = false
 )
 public abstract class AppDatabase extends RoomDatabase {
@@ -90,7 +90,8 @@ public abstract class AppDatabase extends RoomDatabase {
     public static synchronized AppDatabase getInstance(Context context) {
         if (INSTANCE == null) {
             INSTANCE = Room.databaseBuilder(context, AppDatabase.class, "apartment_db")
-                .addCallback(new Callback() {
+                    .fallbackToDestructiveMigration()
+                    .addCallback(new Callback() {
                     @Override
                     public void onOpen(@NonNull SupportSQLiteDatabase db) {
                         super.onOpen(db);

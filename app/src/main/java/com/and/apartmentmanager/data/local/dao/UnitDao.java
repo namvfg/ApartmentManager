@@ -21,6 +21,7 @@ public interface UnitDao {
 
     @Delete
     void delete(UnitEntity unit);
+
     @Query("SELECT COUNT(u.id) " +
             "FROM units u JOIN blocks b ON u.block_id = b.id " +
             "WHERE b.apartment_id = :apartmentId")
@@ -31,6 +32,11 @@ public interface UnitDao {
 
     @Query("SELECT * FROM units WHERE id = :id LIMIT 1")
     UnitEntity getById(int id);
+
+    @Query("SELECT b.name || ' · ' || u.name FROM units u " +
+            "JOIN blocks b ON u.block_id = b.id " +
+            "WHERE u.id = :unitId LIMIT 1")
+    String getFullUnitName(int unitId);
 
 
 }
