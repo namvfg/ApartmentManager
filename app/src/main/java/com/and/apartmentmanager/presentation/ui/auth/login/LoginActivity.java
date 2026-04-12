@@ -1,4 +1,4 @@
-package com.and.apartmentmanager.ui.auth;
+package com.and.apartmentmanager.presentation.ui.auth.login;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,8 +13,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.and.apartmentmanager.R;
 import com.and.apartmentmanager.data.repository.UserRepository;
 import com.and.apartmentmanager.helper.SessionManager;
-import com.and.apartmentmanager.ui.admin.AdminMainActivity;
-import com.and.apartmentmanager.ui.user.UserMainActivity;
+import com.and.apartmentmanager.presentation.ui.admin.AdminMainActivity;
+import com.and.apartmentmanager.presentation.ui.auth.register.RegisterActivity;
+import com.and.apartmentmanager.presentation.ui.user.UserMainActivity;
 
 public class LoginActivity extends AppCompatActivity {
     private EditText etEmail;

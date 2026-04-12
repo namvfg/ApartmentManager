@@ -32,7 +32,7 @@
                     android:layout_height="32dp"
                     android:elevation="10dp"
                     android:src="@drawable/ic_auth_back_chevron"
-                    app:tint="@color/t1" />
+                    app:tint="@color/text_primary" />
 
                 <TextView
                     android:layout_width="0dp"
@@ -41,7 +41,7 @@
                     android:text="Thông tin cá nhân"
                     android:textSize="20sp"
                     android:textStyle="bold"
-                    android:textColor="@color/t1"
+                    android:textColor="@color/text_primary"
                     android:gravity="center" />
 
                 <View
@@ -65,8 +65,8 @@
                     android:text="NA"
                     android:textSize="30sp"
                     android:textStyle="bold"
-                    android:textColor="@color/pd"
-                    android:background="@color/pp"
+                    android:textColor="@color/primary_dark"
+                    android:background="@color/primary_pale"
                     android:layout_marginBottom="10dp" />
 
                 <TextView
@@ -75,7 +75,7 @@
                     android:layout_height="wrap_content"
                     android:text="Chạm để đổi màu avatar"
                     android:textSize="12sp"
-                    android:textColor="@color/th" />
+                    android:textColor="@color/text_hint" />
             </LinearLayout>
 
             <com.google.android.material.card.MaterialCardView
@@ -83,7 +83,7 @@
                 android:layout_height="wrap_content"
                 app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="16dp"
-                app:strokeColor="@color/div"
+                app:strokeColor="@color/divider"
                 app:strokeWidth="1dp"
                 android:padding="18dp">
 
@@ -98,7 +98,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Họ và tên"
-                        android:textColor="@color/t1"
+                        android:textColor="@color/text_primary"
                         android:textSize="13sp"
                         android:textStyle="bold"
                         android:paddingLeft="20dp"
@@ -122,7 +122,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Số điện thoại"
-                        android:textColor="@color/t1"
+                        android:textColor="@color/text_primary"
                         android:textSize="13sp"
                         android:textStyle="bold"
                         android:paddingLeft="20dp"
@@ -162,7 +162,7 @@
                         android:id="@+id/tv_email_readonly"
                         android:layout_width="match_parent"
                         android:layout_height="46dp"
-                        android:textColor="@color/t2"
+                        android:textColor="@color/text_secondary"
                         android:background="@drawable/bg_auth_field"
                         android:paddingStart="10dp"
                         android:paddingEnd="10dp"
@@ -180,7 +180,7 @@
                         android:layout_marginStart="20dp"
                         android:layout_marginEnd="20dp"
                         android:textSize="15sp"
-                        android:backgroundTint="@color/p"
+                        android:backgroundTint="@color/primary"
                         android:textColor="@color/white" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>

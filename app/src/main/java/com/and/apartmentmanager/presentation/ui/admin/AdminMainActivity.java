@@ -1,4 +1,4 @@
-package com.and.apartmentmanager.ui.admin;
+package com.and.apartmentmanager.presentation.ui.admin;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,8 +9,8 @@ import androidx.fragment.app.Fragment;
 
 import com.and.apartmentmanager.R;
 import com.and.apartmentmanager.helper.SessionManager;
-import com.and.apartmentmanager.ui.auth.LoginActivity;
-import com.and.apartmentmanager.ui.user.ChangePasswordFragment;
+import com.and.apartmentmanager.presentation.ui.auth.login.LoginActivity;
+import com.and.apartmentmanager.presentation.ui.user.ChangePasswordFragment;
 
 /**
  * Host fragment cho flow Admin (P1: Admin profile).

@@ -1,4 +1,4 @@
-package com.and.apartmentmanager.ui.user;
+package com.and.apartmentmanager.presentation.ui.user;
 
 import android.os.Bundle;
 import android.text.TextUtils;

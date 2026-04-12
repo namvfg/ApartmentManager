@@ -18,7 +18,7 @@
         android:src="@drawable/ic_auth_back_chevron"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:tint="@color/p" />
+        app:tint="@color/primary" />
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/login_scroll"
@@ -41,7 +41,7 @@
                 android:id="@+id/login_header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/pd"
+                android:background="@color/primary_dark"
                 android:gravity="center_horizontal"
                 android:orientation="vertical"
                 android:padding="50dp">
@@ -51,7 +51,7 @@
                     android:layout_width="72dp"
                     android:layout_height="72dp"
                     android:background="@android:color/transparent"
-                    android:backgroundTint="@color/pl"
+                    android:backgroundTint="@color/primary_light"
                     android:src="@drawable/ic_auth_house"
                     app:tint="#CFFFDC" />
 
@@ -72,7 +72,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="Đăng nhập để tiếp tục"
-                    android:textColor="@color/th"
+                    android:textColor="@color/text_hint"
                     android:textSize="14sp" />
             </LinearLayout>
 
@@ -85,7 +85,7 @@
                 app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="20dp"
                 app:cardElevation="0dp"
-                app:strokeColor="@color/div"
+                app:strokeColor="@color/divider"
                 app:strokeWidth="1.5dp">
 
                 <LinearLayout
@@ -101,7 +101,7 @@
                         android:layout_marginBottom="6dp"
                         android:paddingLeft="20dp"
                         android:text="Email"
-                        android:textColor="@color/t1"
+                        android:textColor="@color/text_primary"
                         android:textSize="13sp"
                         android:textStyle="bold" />
 
@@ -121,7 +121,7 @@
                             android:layout_width="18dp"
                             android:layout_height="18dp"
                             android:src="@drawable/ic_auth_email_outline"
-                            app:tint="@color/pl" />
+                            app:tint="@color/primary_light" />
 
                         <EditText
                             android:id="@+id/et_email"
@@ -133,7 +133,7 @@
                             android:inputType="textEmailAddress"
                             android:paddingStart="10dp"
                             android:paddingEnd="10dp"
-                            android:textColor="@color/t1"
+                            android:textColor="@color/text_primary"
                             android:textSize="14sp" />
                     </LinearLayout>
 
@@ -144,7 +144,7 @@
                         android:layout_marginBottom="6dp"
                         android:paddingLeft="20dp"
                         android:text="Mật khẩu"
-                        android:textColor="@color/t1"
+                        android:textColor="@color/text_primary"
                         android:textSize="13sp"
                         android:textStyle="bold" />
 
@@ -164,7 +164,7 @@
                             android:layout_width="18dp"
                             android:layout_height="18dp"
                             android:src="@drawable/ic_auth_password_outline"
-                            app:tint="@color/pl" />
+                            app:tint="@color/primary_light" />
 
                         <EditText
                             android:id="@+id/et_password"
@@ -176,7 +176,7 @@
                             android:inputType="textPassword"
                             android:paddingStart="10dp"
                             android:paddingEnd="10dp"
-                            android:textColor="@color/t1"
+                            android:textColor="@color/text_primary"
                             android:textSize="14sp" />
 
                         <ImageView
@@ -184,7 +184,7 @@
                             android:layout_width="18dp"
                             android:layout_height="18dp"
                             android:src="@drawable/ic_auth_eye_outline"
-                            app:tint="@color/th" />
+                            app:tint="@color/text_hint" />
                     </LinearLayout>
 
                     <TextView
@@ -197,14 +197,14 @@
                         android:layout_marginRight="20dp"
                         android:padding="4dp"
                         android:text="Quên mật khẩu?"
-                        android:textColor="@color/p"
+                        android:textColor="@color/primary"
                         android:textStyle="bold" />
 
                     <Button
                         android:id="@+id/btn_login"
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
-                        android:backgroundTint="@color/p"
+                        android:backgroundTint="@color/primary"
                         android:drawableStart="@drawable/ic_auth_login_arrow"
                         android:drawablePadding="8dp"
                         android:gravity="center"
@@ -224,7 +224,7 @@
                         android:layout_marginTop="14dp"
                         android:padding="4dp"
                         android:text="Chưa có tài khoản? Đăng ký ngay"
-                        android:textColor="@color/t2"
+                        android:textColor="@color/text_secondary"
                         android:textStyle="bold" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>

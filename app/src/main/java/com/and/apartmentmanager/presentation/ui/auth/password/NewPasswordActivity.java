@@ -1,4 +1,4 @@
-package com.and.apartmentmanager.ui.auth;
+package com.and.apartmentmanager.presentation.ui.auth.password;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.and.apartmentmanager.R;
 import com.and.apartmentmanager.data.repository.UserRepository;
 import com.and.apartmentmanager.helper.AuthOtpManager;
+import com.and.apartmentmanager.presentation.ui.auth.login.LoginActivity;
 
 import java.util.regex.Pattern;
 

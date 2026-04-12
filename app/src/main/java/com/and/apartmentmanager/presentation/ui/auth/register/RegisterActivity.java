@@ -1,4 +1,4 @@
-package com.and.apartmentmanager.ui.auth;
+package com.and.apartmentmanager.presentation.ui.auth.register;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,6 +14,7 @@ import com.and.apartmentmanager.R;
 import com.and.apartmentmanager.data.local.entity.UserEntity;
 import com.and.apartmentmanager.data.repository.UserRepository;
 import com.and.apartmentmanager.helper.AuthOtpManager;
+import com.and.apartmentmanager.presentation.ui.auth.login.LoginActivity;
 
 public class RegisterActivity extends AppCompatActivity {
     private EditText etName;

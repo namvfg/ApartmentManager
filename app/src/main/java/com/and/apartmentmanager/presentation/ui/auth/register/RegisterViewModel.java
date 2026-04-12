@@ -1,4 +1,4 @@
-package com.and.apartmentmanager.ui.auth;
+package com.and.apartmentmanager.presentation.ui.auth.register;
 
 import android.app.Application;
 

@@ -1,4 +1,4 @@
-package com.and.apartmentmanager.ui.auth;
+package com.and.apartmentmanager.presentation.ui.auth.password;
 
 import android.content.Intent;
 import android.os.Bundle;

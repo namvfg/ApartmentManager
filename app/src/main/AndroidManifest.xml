@@ -16,7 +16,7 @@
             android:exported="false" />
 
         <activity
-            android:name=".ui.auth.SplashActivity"
+            android:name=".presentation.ui.auth.SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,15 +25,15 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.auth.LoginActivity" android:exported="false" />
-        <activity android:name=".ui.auth.RegisterActivity" android:exported="false" />
-        <activity android:name=".ui.auth.OtpVerifyActivity" android:exported="false" />
-        <activity android:name=".ui.auth.ForgotPasswordActivity" android:exported="false" />
-        <activity android:name=".ui.auth.OtpResetPasswordActivity" android:exported="false" />
-        <activity android:name=".ui.auth.NewPasswordActivity" android:exported="false" />
+        <activity android:name=".presentation.ui.auth.login.LoginActivity" android:exported="false" />
+        <activity android:name=".presentation.ui.auth.register.RegisterActivity" android:exported="false" />
+        <activity android:name=".presentation.ui.auth.register.OtpVerifyActivity" android:exported="false" />
+        <activity android:name=".presentation.ui.auth.login.ForgotPasswordActivity" android:exported="false" />
+        <activity android:name=".presentation.ui.auth.password.OtpResetPasswordActivity" android:exported="false" />
+        <activity android:name=".presentation.ui.auth.password.NewPasswordActivity" android:exported="false" />
 
-        <activity android:name=".ui.user.UserMainActivity" android:exported="false" />
-        <activity android:name=".ui.admin.AdminMainActivity" android:exported="false" />
+        <activity android:name=".presentation.ui.user.UserMainActivity" android:exported="false" />
+        <activity android:name=".presentation.ui.admin.AdminMainActivity" android:exported="false" />
     </application>
 
 </manifest>

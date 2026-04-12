@@ -32,14 +32,14 @@
                     android:layout_height="32dp"
                     android:elevation="10dp"
                     android:src="@drawable/ic_auth_back_chevron"
-                    app:tint="@color/t1" />
+                    app:tint="@color/text_primary" />
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Cài đặt"
-                    android:textColor="@color/t1"
+                    android:textColor="@color/text_primary"
                     android:textStyle="bold"
                     android:textSize="22sp"
                     android:gravity="center" />
@@ -62,7 +62,7 @@
                 android:layout_height="wrap_content"
                 app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="16dp"
-                app:strokeColor="@color/div"
+                app:strokeColor="@color/divider"
                 app:strokeWidth="1dp"
                 android:padding="12dp">
 
@@ -88,14 +88,14 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Hóa đơn mới"
-                                android:textColor="@color/t1"
+                                android:textColor="@color/text_primary"
                                 android:textStyle="bold"
                                 android:textSize="14sp" />
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Nhận TB khi hóa đơn được tạo"
-                                android:textColor="@color/th"
+                                android:textColor="@color/text_hint"
                                 android:textSize="11sp" />
                         </LinearLayout>
 
@@ -123,14 +123,14 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Nhắc thanh toán"
-                                android:textColor="@color/t1"
+                                android:textColor="@color/text_primary"
                                 android:textStyle="bold"
                                 android:textSize="14sp" />
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="3 ngày trước hạn"
-                                android:textColor="@color/th"
+                                android:textColor="@color/text_hint"
                                 android:textSize="11sp" />
                         </LinearLayout>
 
@@ -157,7 +157,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Thay đổi giá dịch vụ"
-                                android:textColor="@color/t1"
+                                android:textColor="@color/text_primary"
                                 android:textStyle="bold"
                                 android:textSize="14sp" />
                         </LinearLayout>
@@ -184,7 +184,7 @@
                 android:layout_height="wrap_content"
                 app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="12dp"
-                app:strokeColor="@color/div"
+                app:strokeColor="@color/divider"
                 app:strokeWidth="1dp"
                 android:padding="12dp">
 
@@ -206,7 +206,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="Ngôn ngữ"
-                            android:textColor="@color/t1"
+                            android:textColor="@color/text_primary"
                             android:textStyle="bold"
                             android:textSize="14sp" />
 
@@ -214,7 +214,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Tiếng Việt"
-                            android:textColor="@color/th"
+                            android:textColor="@color/text_hint"
                             android:textSize="11sp" />
 
                         <ImageView
@@ -222,7 +222,7 @@
                             android:layout_height="18dp"
                             android:src="@drawable/ic_auth_chevron_right"
                             android:layout_marginStart="10dp"
-                            app:tint="@color/th" />
+                            app:tint="@color/text_hint" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -241,7 +241,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="Chế độ tối"
                                 android:layout_weight="1"
-                                android:textColor="@color/t1"
+                                android:textColor="@color/text_primary"
                                 android:textStyle="bold"
                                 android:textSize="14sp" />
                         </LinearLayout>
@@ -266,7 +266,7 @@
                 android:layout_height="wrap_content"
                 app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="12dp"
-                app:strokeColor="@color/div"
+                app:strokeColor="@color/divider"
                 app:strokeWidth="1dp"
                 android:padding="12dp">
 
@@ -291,7 +291,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:text="Xác thực sinh trắc học"
-                                android:textColor="@color/t1"
+                                android:textColor="@color/text_primary"
                                 android:textStyle="bold"
                                 android:textSize="14sp" />
                             <Switch
@@ -319,7 +319,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="Đổi mật khẩu"
-                            android:textColor="@color/t1"
+                            android:textColor="@color/text_primary"
                             android:textStyle="bold"
                             android:textSize="14sp" />
 
@@ -328,7 +328,7 @@
                             android:layout_height="18dp"
                             android:src="@drawable/ic_auth_chevron_right"
                             android:layout_marginStart="10dp"
-                            app:tint="@color/th" />
+                            app:tint="@color/text_hint" />
                     </LinearLayout>
 
                 </LinearLayout>

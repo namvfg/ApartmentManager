@@ -1,4 +1,4 @@
-package com.and.apartmentmanager.ui.user;
+package com.and.apartmentmanager.presentation.ui.user;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment;
 
 import com.and.apartmentmanager.R;
 import com.and.apartmentmanager.helper.SessionManager;
-import com.and.apartmentmanager.ui.auth.LoginActivity;
+import com.and.apartmentmanager.presentation.ui.auth.login.LoginActivity;
 
 /**
  * Host fragment cho flow User (P1: Profile/Settings).

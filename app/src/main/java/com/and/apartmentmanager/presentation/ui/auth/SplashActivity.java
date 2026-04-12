@@ -1,4 +1,4 @@
-package com.and.apartmentmanager.ui.auth;
+package com.and.apartmentmanager.presentation.ui.auth;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,8 +9,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.and.apartmentmanager.R;
 import com.and.apartmentmanager.data.local.AppDatabase;
 import com.and.apartmentmanager.helper.SessionManager;
-import com.and.apartmentmanager.ui.admin.AdminMainActivity;
-import com.and.apartmentmanager.ui.user.UserMainActivity;
+import com.and.apartmentmanager.presentation.ui.admin.AdminMainActivity;
+import com.and.apartmentmanager.presentation.ui.auth.login.LoginActivity;
+import com.and.apartmentmanager.presentation.ui.user.UserMainActivity;
 
 public class SplashActivity extends AppCompatActivity {
     @Override

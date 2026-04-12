@@ -1,4 +1,4 @@
-package com.and.apartmentmanager.ui.admin;
+package com.and.apartmentmanager.presentation.ui.admin;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,8 +17,7 @@ import com.and.apartmentmanager.R;
 import com.and.apartmentmanager.data.local.entity.UserEntity;
 import com.and.apartmentmanager.data.repository.UserRepository;
 import com.and.apartmentmanager.helper.SessionManager;
-import com.and.apartmentmanager.ui.auth.LoginActivity;
-import com.and.apartmentmanager.ui.user.ChangePasswordFragment;
+import com.and.apartmentmanager.presentation.ui.auth.login.LoginActivity;
 
 public class AdminProfileFragment extends Fragment {
 

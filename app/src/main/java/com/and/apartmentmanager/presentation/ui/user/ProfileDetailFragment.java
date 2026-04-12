@@ -1,4 +1,4 @@
-package com.and.apartmentmanager.ui.user;
+package com.and.apartmentmanager.presentation.ui.user;
 
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -132,16 +132,16 @@ public class ProfileDetailFragment extends Fragment {
         int colorRes;
         switch (avatarColorIndex) {
             case 1:
-                colorRes = R.color.pl;
+                colorRes = R.color.primary_light;
                 break;
             case 2:
-                colorRes = R.color.pp;
+                colorRes = R.color.primary_pale;
                 break;
             case 3:
-                colorRes = R.color.warn;
+                colorRes = R.color.warning;
                 break;
             default:
-                colorRes = R.color.pp;
+                colorRes = R.color.primary_pale;
                 break;
         }
         tvAvatarBig.setBackgroundResource(colorRes);

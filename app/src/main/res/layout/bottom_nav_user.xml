@@ -12,7 +12,7 @@
         android:id="@+id/nav_divider"
         android:layout_width="0dp"
         android:layout_height="1dp"
-        android:background="@color/div"
+        android:background="@color/divider"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -137,13 +137,13 @@
                 android:layout_width="22dp"
                 android:layout_height="22dp"
                 android:src="@drawable/ic_auth_user_outline"
-                app:tint="@color/p" />
+                app:tint="@color/primary" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Profile"
-                android:textColor="@color/p"
+                android:textColor="@color/primary"
                 android:textStyle="bold"
                 android:textSize="10sp"
                 android:layout_marginTop="2dp" />
@@ -151,7 +151,7 @@
             <View
                 android:layout_width="6dp"
                 android:layout_height="6dp"
-                android:background="@color/p"
+                android:background="@color/primary"
                 android:layout_marginTop="4dp"
                 android:visibility="visible"
                 android:alpha="0.9" />

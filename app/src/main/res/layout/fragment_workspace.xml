@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/background">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Header gradient -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_header_gradient"
+                android:paddingTop="52dp"
+                android:paddingBottom="18dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:orientation="vertical">
+
+                <!-- Apartment name + notification bell -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="14dp">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/textApartmentName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/dm_sans"
+                            android:textSize="11sp"
+                            android:textColor="@color/text_on_dark_sub"
+                            android:text="Chung Cư Xanh ABC" />
+
+                        <TextView
+                            android:id="@+id/textUnitInfo"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/bricolage_grotesque"
+                            android:textSize="19sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/text_on_dark"
+                            android:text="Block A · P.302" />
+
+                    </LinearLayout>
+
+                    <!-- Notification bell -->
+                    <FrameLayout
+                        android:id="@+id/btnNotification"
+                        android:layout_width="34dp"
+                        android:layout_height="34dp">
+
+                        <ImageView
+                            android:layout_width="34dp"
+                            android:layout_height="34dp"
+                            android:src="@drawable/ic_notification"
+                            android:background="@drawable/bg_notif_bell"
+                            android:padding="8dp" />
+
+                        <!-- Unread dot -->
+                        <View
+                            android:id="@+id/notifDot"
+                            android:layout_width="8dp"
+                            android:layout_height="8dp"
+                            android:background="@drawable/bg_badge_red"
+                            android:layout_gravity="top|end"
+                            android:visibility="gone" />
+
+                    </FrameLayout>
+
+                </LinearLayout>
+
+                <!-- 2 stat cards -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <!-- Hóa đơn tháng này -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:background="@drawable/bg_stat_card"
+                        android:padding="10dp"
+                        android:layout_marginEnd="4dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/dm_sans"
+                            android:textSize="9sp"
+                            android:textColor="@color/text_on_dark_sub"
+                            android:text="Hóa đơn tháng này"
+                            android:layout_marginBottom="3dp" />
+
+                        <TextView
+                            android:id="@+id/textInvoiceAmount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/bricolage_grotesque"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/text_on_dark"
+                            android:text="0đ" />
+
+                        <TextView
+                            android:id="@+id/chipInvoiceStatus"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:paddingStart="7dp"
+                            android:paddingEnd="7dp"
+                            android:paddingTop="2dp"
+                            android:paddingBottom="2dp"
+                            android:fontFamily="@font/bricolage_grotesque"
+                            android:textSize="9sp"
+                            android:textStyle="bold"
+                            android:background="@drawable/bg_chip_yellow"
+                            android:textColor="#92400E"
+                            android:text="Chờ thanh toán" />
+
+                    </LinearLayout>
+
+                    <!-- Hợp đồng -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:background="@drawable/bg_stat_card"
+                        android:padding="10dp"
+                        android:layout_marginStart="4dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/dm_sans"
+                            android:textSize="9sp"
+                            android:textColor="@color/text_on_dark_sub"
+                            android:text="Hợp đồng"
+                            android:layout_marginBottom="3dp" />
+
+                        <TextView
+                            android:id="@+id/textContractDays"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/bricolage_grotesque"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/text_on_dark"
+                            android:text="Còn -- ngày" />
+
+                        <TextView
+                            android:id="@+id/chipContractStatus"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:paddingStart="7dp"
+                            android:paddingEnd="7dp"
+                            android:paddingTop="2dp"
+                            android:paddingBottom="2dp"
+                            android:fontFamily="@font/bricolage_grotesque"
+                            android:textSize="9sp"
+                            android:textStyle="bold"
+                            android:background="@drawable/bg_chip_green"
+                            android:textColor="#15803D"
+                            android:text="Active" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!-- Content -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="14dp">
+
+                <!-- Hóa đơn gần nhất -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/bricolage_grotesque"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/text_primary"
+                    android:text="Hóa đơn gần nhất"
+                    android:layout_marginBottom="8dp" />
+
+                <LinearLayout
+                    android:id="@+id/cardLatestInvoice"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:background="@drawable/bg_card_white"
+                    android:padding="12dp"
+                    android:layout_marginBottom="14dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginBottom="8dp">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/textInvoiceMonth"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/bricolage_grotesque"
+                                android:textSize="14sp"
+                                android:textStyle="bold"
+                                android:textColor="@color/text_primary"
+                                android:text="Tháng 3/2026" />
+
+                            <TextView
+                                android:id="@+id/textInvoiceDue"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/dm_sans"
+                                android:textSize="11sp"
+                                android:textColor="@color/text_hint"
+                                android:text="Hạn: 15/03/2026" />
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/chipLatestInvoiceStatus"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingStart="8dp"
+                            android:paddingEnd="8dp"
+                            android:paddingTop="3dp"
+                            android:paddingBottom="3dp"
+                            android:fontFamily="@font/bricolage_grotesque"
+                            android:textSize="10sp"
+                            android:textStyle="bold"
+                            android:background="@drawable/bg_chip_yellow"
+                            android:textColor="#92400E"
+                            android:text="Chờ TT" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/textInvoiceTotal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/bricolage_grotesque"
+                        android:textSize="22sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/text_primary"
+                        android:text="0đ" />
+
+                    <Button
+                        android:id="@+id/btnPayNow"
+                        android:layout_width="match_parent"
+                        android:layout_height="38dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/bg_header_gradient"
+                        android:fontFamily="@font/bricolage_grotesque"
+                        android:textSize="13sp"
+                        android:textColor="@color/white"
+                        android:text="Thanh toán ngay"
+                        android:stateListAnimator="@null" />
+
+                </LinearLayout>
+
+                <!-- Dịch vụ đang dùng -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/bricolage_grotesque"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/text_primary"
+                    android:text="Dịch vụ đang dùng"
+                    android:layout_marginBottom="8dp" />
+
+                <LinearLayout
+                    android:id="@+id/cardServices"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:background="@drawable/bg_card_white"
+                    android:padding="12dp">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerServices"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:nestedScrollingEnabled="false" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

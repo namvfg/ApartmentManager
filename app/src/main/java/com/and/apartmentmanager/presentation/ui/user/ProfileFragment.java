@@ -1,4 +1,4 @@
-package com.and.apartmentmanager.ui.user;
+package com.and.apartmentmanager.presentation.ui.user;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,8 +6,6 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Button;
@@ -21,7 +19,7 @@ import com.and.apartmentmanager.R;
 import com.and.apartmentmanager.data.local.entity.UserEntity;
 import com.and.apartmentmanager.data.repository.UserRepository;
 import com.and.apartmentmanager.helper.SessionManager;
-import com.and.apartmentmanager.ui.auth.LoginActivity;
+import com.and.apartmentmanager.presentation.ui.auth.login.LoginActivity;
 
 import androidx.lifecycle.Observer;
 

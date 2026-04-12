@@ -19,7 +19,7 @@
         android:src="@drawable/ic_auth_back_chevron"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btn_back"
-        app:tint="@color/p" />
+        app:tint="@color/primary" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="0dp"
@@ -50,7 +50,7 @@
                     android:padding="18dp"
                     android:src="@drawable/ic_auth_email_outline"
                     android:layout_marginBottom="16dp"
-                    app:tint="@color/pd" />
+                    app:tint="@color/primary_dark" />
 
                 <TextView
                     android:id="@+id/tv_otp_title"
@@ -80,7 +80,7 @@
                 app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="0dp"
-                app:strokeColor="@color/div"
+                app:strokeColor="@color/divider"
                 app:strokeWidth="1.5dp"
                 android:padding="18dp">
 
@@ -94,7 +94,7 @@
                         android:id="@+id/tv_pending_email"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/p"
+                        android:textColor="@color/primary"
                         android:textStyle="bold"
                         android:textSize="14sp"
                         android:layout_marginBottom="16dp" />
@@ -169,7 +169,7 @@
                         android:layout_marginRight="30dp"
                         android:text="Xác nhận"
                         android:textSize="16sp"
-                        android:backgroundTint="@color/p"
+                        android:backgroundTint="@color/primary"
                         android:textColor="@color/white" />
 
                     <TextView
@@ -177,7 +177,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Không nhận được mã? Gửi lại"
-                        android:textColor="@color/t2"
+                        android:textColor="@color/text_secondary"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginTop="14dp"
                         android:textStyle="bold" />

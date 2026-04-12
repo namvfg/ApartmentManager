@@ -19,7 +19,7 @@
         android:src="@drawable/ic_auth_back_chevron"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btn_back"
-        app:tint="@color/p" />
+        app:tint="@color/primary" />
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/register_scroll"
@@ -39,7 +39,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/pd"
+                android:background="@color/primary_dark"
                 android:padding="26dp"
                 android:orientation="vertical"
                 android:gravity="center_horizontal">
@@ -61,7 +61,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Điền thông tin để bắt đầu"
-                    android:textColor="@color/th"
+                    android:textColor="@color/text_hint"
                     android:textSize="14sp"
                     android:gravity="center" />
             </LinearLayout>
@@ -74,7 +74,7 @@
                 app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="0dp"
-                app:strokeColor="@color/div"
+                app:strokeColor="@color/divider"
                 app:strokeWidth="1.5dp"
                 android:padding="18dp">
 
@@ -91,7 +91,7 @@
                         android:layout_marginBottom="6dp"
                         android:paddingLeft="20dp"
                         android:text="Họ và tên"
-                        android:textColor="@color/t1"
+                        android:textColor="@color/text_primary"
                         android:textSize="13sp"
                         android:textStyle="bold" />
 
@@ -111,7 +111,7 @@
                             android:layout_width="18dp"
                             android:layout_height="18dp"
                             android:src="@drawable/ic_auth_user_outline"
-                            app:tint="@color/pl" />
+                            app:tint="@color/primary_light" />
 
                         <EditText
                             android:id="@+id/et_name"
@@ -123,7 +123,7 @@
                             android:inputType="textPersonName"
                             android:paddingStart="10dp"
                             android:paddingEnd="10dp"
-                            android:textColor="@color/t1"
+                            android:textColor="@color/text_primary"
                             android:textSize="14sp" />
                     </LinearLayout>
 
@@ -134,7 +134,7 @@
                         android:layout_marginBottom="6dp"
                         android:paddingLeft="20dp"
                         android:text="Email"
-                        android:textColor="@color/t1"
+                        android:textColor="@color/text_primary"
                         android:textSize="13sp"
                         android:textStyle="bold" />
 
@@ -154,7 +154,7 @@
                             android:layout_width="18dp"
                             android:layout_height="18dp"
                             android:src="@drawable/ic_auth_email_outline"
-                            app:tint="@color/pl" />
+                            app:tint="@color/primary_light" />
 
                         <EditText
                             android:id="@+id/et_email"
@@ -166,7 +166,7 @@
                             android:inputType="textEmailAddress"
                             android:paddingStart="10dp"
                             android:paddingEnd="10dp"
-                            android:textColor="@color/t1"
+                            android:textColor="@color/text_primary"
                             android:textSize="14sp" />
                     </LinearLayout>
 
@@ -178,7 +178,7 @@
                         android:layout_marginBottom="6dp"
                         android:paddingLeft="20dp"
                         android:text="Số điện thoại"
-                        android:textColor="@color/t1"
+                        android:textColor="@color/text_primary"
                         android:textSize="13sp"
                         android:textStyle="bold" />
 
@@ -198,7 +198,7 @@
                             android:layout_width="18dp"
                             android:layout_height="18dp"
                             android:src="@drawable/ic_auth_phone_outline"
-                            app:tint="@color/pl" />
+                            app:tint="@color/primary_light" />
 
                         <EditText
                             android:id="@+id/et_phone"
@@ -210,7 +210,7 @@
                             android:inputType="phone"
                             android:paddingStart="10dp"
                             android:paddingEnd="10dp"
-                            android:textColor="@color/t1"
+                            android:textColor="@color/text_primary"
                             android:textSize="14sp" />
                     </LinearLayout>
 
@@ -222,7 +222,7 @@
                         android:layout_marginBottom="6dp"
                         android:paddingLeft="20dp"
                         android:text="Mật khẩu"
-                        android:textColor="@color/t1"
+                        android:textColor="@color/text_primary"
                         android:textSize="13sp"
                         android:textStyle="bold" />
 
@@ -242,7 +242,7 @@
                             android:layout_width="18dp"
                             android:layout_height="18dp"
                             android:src="@drawable/ic_auth_password_outline"
-                            app:tint="@color/pl" />
+                            app:tint="@color/primary_light" />
 
                         <EditText
                             android:id="@+id/et_password"
@@ -254,7 +254,7 @@
                             android:inputType="textPassword"
                             android:paddingStart="10dp"
                             android:paddingEnd="10dp"
-                            android:textColor="@color/t1"
+                            android:textColor="@color/text_primary"
                             android:textSize="14sp" />
 
                         <ImageView
@@ -262,7 +262,7 @@
                             android:layout_width="18dp"
                             android:layout_height="18dp"
                             android:src="@drawable/ic_auth_eye_outline"
-                            app:tint="@color/th" />
+                            app:tint="@color/text_hint" />
                     </LinearLayout>
 
                     <TextView
@@ -273,7 +273,7 @@
 
                         android:paddingLeft="20dp"
                         android:text="Xác nhận mật khẩu"
-                        android:textColor="@color/t1"
+                        android:textColor="@color/text_primary"
                         android:textSize="13sp"
                         android:textStyle="bold" />
 
@@ -293,7 +293,7 @@
                             android:layout_width="18dp"
                             android:layout_height="18dp"
                             android:src="@drawable/ic_auth_password_outline"
-                            app:tint="@color/pl" />
+                            app:tint="@color/primary_light" />
 
                         <EditText
                             android:id="@+id/et_password_confirm"
@@ -305,7 +305,7 @@
                             android:inputType="textPassword"
                             android:paddingStart="10dp"
                             android:paddingEnd="10dp"
-                            android:textColor="@color/t1"
+                            android:textColor="@color/text_primary"
                             android:textSize="14sp" />
 
                         <ImageView
@@ -313,7 +313,7 @@
                             android:layout_width="18dp"
                             android:layout_height="18dp"
                             android:src="@drawable/ic_auth_eye_outline"
-                            app:tint="@color/th" />
+                            app:tint="@color/text_hint" />
                     </LinearLayout>
 
                     <TextView
@@ -324,7 +324,7 @@
                         android:layout_marginBottom="6dp"
                         android:paddingLeft="20dp"
                         android:text="Mã giới thiệu (không bắt buộc)"
-                        android:textColor="@color/th"
+                        android:textColor="@color/text_hint"
                         android:textSize="12sp" />
 
                     <LinearLayout
@@ -343,7 +343,7 @@
                             android:layout_width="18dp"
                             android:layout_height="18dp"
                             android:src="@drawable/ic_auth_referral_outline"
-                            app:tint="@color/pl" />
+                            app:tint="@color/primary_light" />
 
                         <EditText
                             android:id="@+id/et_referral"
@@ -355,7 +355,7 @@
                             android:inputType="text"
                             android:paddingStart="10dp"
                             android:paddingEnd="10dp"
-                            android:textColor="@color/t1"
+                            android:textColor="@color/text_primary"
                             android:textSize="14sp" />
                     </LinearLayout>
 
@@ -364,7 +364,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
                         android:layout_marginTop="14dp"
-                        android:backgroundTint="@color/p"
+                        android:backgroundTint="@color/primary"
                         android:text="Đăng ký"
                         android:textColor="@color/white"
                         android:layout_marginLeft="20dp"
@@ -380,7 +380,7 @@
                         android:gravity="center_horizontal"
                         android:padding="4dp"
                         android:text="Đã có tài khoản? Đăng nhập"
-                        android:textColor="@color/t2"
+                        android:textColor="@color/text_secondary"
                         android:textStyle="bold" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
