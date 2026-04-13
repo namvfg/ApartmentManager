@@ -13,7 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.and.apartmentmanager.R;
-import com.and.apartmentmanager.UserDetailActivity;
+import com.and.apartmentmanager.presentation.ui.user.UserDetailActivity;
 import com.and.apartmentmanager.data.local.entity.UserEntity;
 import com.and.apartmentmanager.data.repository.UserApartmentRepository;
 

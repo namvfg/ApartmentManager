@@ -12,13 +12,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ApartmentManager">
         <activity
-            android:name=".DeleteConfirmActivity"
+            android:name=".presentation.ui.user.DeleteConfirmActivity"
             android:exported="true" />
         <activity
-            android:name=".DeleteUserActivity"
+            android:name=".presentation.ui.user.DeleteUserActivity"
             android:exported="true" />
         <activity
-            android:name=".UserDetailActivity"
+            android:name=".presentation.ui.user.UserDetailActivity"
             android:exported="false" />
         <activity
             android:name=".JoinActivity"

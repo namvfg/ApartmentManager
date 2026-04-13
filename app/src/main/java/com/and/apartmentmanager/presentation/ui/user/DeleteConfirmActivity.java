@@ -1,4 +1,4 @@
-package com.and.apartmentmanager;
+package com.and.apartmentmanager.presentation.ui.user;
 
 import android.os.Bundle;
 import android.widget.Button;
@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.and.apartmentmanager.R;
 import com.and.apartmentmanager.data.local.entity.ApartmentEntity;
 import com.and.apartmentmanager.data.local.entity.BlockEntity;
 import com.and.apartmentmanager.data.local.entity.ContractEntity;
@@ -21,7 +22,6 @@ import com.and.apartmentmanager.data.repository.UnitRepository;
 import com.and.apartmentmanager.data.repository.UserApartmentRepository;
 import com.and.apartmentmanager.data.repository.UserRepository;
 
-import java.util.Locale;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 

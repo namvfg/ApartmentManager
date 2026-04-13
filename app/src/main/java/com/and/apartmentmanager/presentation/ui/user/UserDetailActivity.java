@@ -1,4 +1,4 @@
-package com.and.apartmentmanager;
+package com.and.apartmentmanager.presentation.ui.user;
 
 import android.os.Bundle;
 import android.widget.ImageView;
@@ -6,6 +6,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.and.apartmentmanager.R;
 import com.and.apartmentmanager.data.local.entity.BlockEntity;
 import com.and.apartmentmanager.data.local.entity.ContractEntity;
 import com.and.apartmentmanager.data.local.entity.UnitEntity;

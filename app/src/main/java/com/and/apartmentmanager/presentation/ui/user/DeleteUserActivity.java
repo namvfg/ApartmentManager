@@ -1,4 +1,4 @@
-package com.and.apartmentmanager;
+package com.and.apartmentmanager.presentation.ui.user;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.and.apartmentmanager.Adapter.UserAdapter;
+import com.and.apartmentmanager.R;
 import com.and.apartmentmanager.data.repository.UserRepository;
 
 public class DeleteUserActivity extends AppCompatActivity {
