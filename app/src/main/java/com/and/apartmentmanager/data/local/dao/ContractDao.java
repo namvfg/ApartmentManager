@@ -18,6 +18,10 @@ public interface ContractDao {
     @Update
     void update(ContractEntity contract);
 
+    // Kiểm tra user có hợp đồng active hay không (phục vụ UC07 - xin xóa tài khoản).
+    @Query("SELECT COUNT(*) FROM contracts WHERE user_id = :userId AND status = 'active'")
+    int countActiveContractsByUserId(int userId);
+
     @Query("SELECT * FROM contracts " +
             "WHERE user_id = :userId " +
             "AND status = 'active' " +

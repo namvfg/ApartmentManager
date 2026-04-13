@@ -47,4 +47,9 @@ public interface UserApartmentDao {
             "INNER JOIN users u ON u.id = ua.user_id " +
             "WHERE ua.unit_id = :unitId AND ua.user_id = :userId AND ua.status = 'active' AND u.is_deleted = 0")
     int countActiveUserInUnit(int unitId, int userId);
+
+    // Lấy apartmentId của user đang ở (status = 'active').
+    // Dùng cho SessionManager (Người 1) để các module khác biết workspace nào thuộc về user.
+    @Query("SELECT apartment_id FROM user_apartments WHERE user_id = :userId AND status = 'active' LIMIT 1")
+    Integer getActiveApartmentIdByUserId(int userId);
 }
