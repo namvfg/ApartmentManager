@@ -13,6 +13,10 @@
         android:theme="@style/Theme.ApartmentManager">
         <activity
             android:name=".MainActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".presentation.ui.auth.SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,6 +24,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".presentation.ui.auth.login.LoginActivity" android:exported="false" />
+        <activity android:name=".presentation.ui.auth.register.RegisterActivity" android:exported="false" />
+        <activity android:name=".presentation.ui.auth.register.OtpVerifyActivity" android:exported="false" />
+        <activity android:name=".presentation.ui.auth.login.ForgotPasswordActivity" android:exported="false" />
+        <activity android:name=".presentation.ui.auth.password.OtpResetPasswordActivity" android:exported="false" />
+        <activity android:name=".presentation.ui.auth.password.NewPasswordActivity" android:exported="false" />
+
+        <activity android:name=".presentation.ui.user.UserMainActivity" android:exported="false" />
+        <activity android:name=".presentation.ui.admin.AdminMainActivity" android:exported="false" />
     </application>
 
 </manifest>
