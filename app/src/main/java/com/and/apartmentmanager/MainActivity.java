@@ -6,14 +6,12 @@ import android.widget.Button;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.and.apartmentmanager.data.local.AppDatabase;
 import com.and.apartmentmanager.presentation.ui.admin.ContractDetailActivity;
 
 import android.content.Intent;
+import com.and.apartmentmanager.data.repository.UserRepository;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -23,12 +21,10 @@ public class MainActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
 
+        UserRepository userRepository = new UserRepository(getApplication());
         // Khởi tạo DB và chạy seed
         new Thread(() -> {
-            int count = AppDatabase
-                    .getInstance(getApplicationContext())
-                    .userDao()
-                    .count();
+            int count = userRepository.count();
             Log.d("DB_TEST", "count = " + count);
         }).start();
 
