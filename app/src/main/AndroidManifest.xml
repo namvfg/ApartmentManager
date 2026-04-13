@@ -11,6 +11,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ApartmentManager">
+        <activity android:name=".presentation.ui.admin.UpdatePriceElectricActivity"/>
+        <activity android:name=".presentation.ui.admin.UpdatePriceWaterActivity" />
+       <activity android:name=".presentation.ui.admin.ContractDetailActivity" />
+        <activity
+            android:name=".presentation.ui.admin.ServiceActivity"
+            android:exported="false" />
         <activity
             android:name=".presentation.ui.user.DeleteConfirmActivity"
             android:exported="true" />
@@ -35,6 +41,7 @@
             android:exported="false" />
         <activity
             android:name=".MainActivity"
+
             android:exported="false" />
 
         <activity
@@ -49,6 +56,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
 
         <activity android:name=".presentation.ui.auth.login.LoginActivity" android:exported="false" />
         <activity android:name=".presentation.ui.auth.register.RegisterActivity" android:exported="false" />

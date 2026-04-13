@@ -7,8 +7,11 @@ import androidx.room.Update;
 
 import com.and.apartmentmanager.data.local.entity.UserApartmentEntity;
 
+import java.util.List;
+
 @Dao
 public interface UserApartmentDao {
+
     @Insert
     long insert(UserApartmentEntity userApartment);
 
@@ -52,4 +55,15 @@ public interface UserApartmentDao {
     // Dùng cho SessionManager (Người 1) để các module khác biết workspace nào thuộc về user.
     @Query("SELECT apartment_id FROM user_apartments WHERE user_id = :userId AND status = 'active' LIMIT 1")
     Integer getActiveApartmentIdByUserId(int userId);
+}
+
+    @Query("SELECT * FROM user_apartments WHERE user_id = :userId")
+    List<UserApartmentEntity> getAllByUserId(int userId);
+
+    @Query("SELECT * FROM user_apartments " +
+            "WHERE user_id = :userId AND status = 'active' LIMIT 1")
+    UserApartmentEntity getActiveByUserId(int userId);
+
+    @Query("SELECT * FROM user_apartments WHERE apartment_id = :apartmentId")
+    List<UserApartmentEntity> getByApartmentId(int apartmentId);
 }

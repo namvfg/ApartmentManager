@@ -29,5 +29,9 @@ public interface BlockDao {
     BlockEntity getByIdSync(int id);
 
     @Query("SELECT COUNT(*) FROM units WHERE block_id = :blockId")
+    int countUnits(long blockId);
+
+    @Query("SELECT * FROM blocks WHERE id = :id LIMIT 1")
+    BlockEntity getById(int id);
     int countUnits(int blockId);
 }

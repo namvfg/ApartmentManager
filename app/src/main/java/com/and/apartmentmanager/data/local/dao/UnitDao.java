@@ -21,6 +21,8 @@ public interface UnitDao {
 
     @Delete
     void delete(UnitEntity unit);
+    @Query("SELECT * FROM units WHERE id = :id LIMIT 1")
+    UnitEntity getById(int id);
 
     @Query("SELECT COUNT(u.id) " +
             "FROM units u JOIN blocks b ON u.block_id = b.id " +
