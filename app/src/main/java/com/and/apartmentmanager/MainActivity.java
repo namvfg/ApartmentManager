@@ -8,6 +8,7 @@ import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.and.apartmentmanager.data.local.AppDatabase;
+import com.and.apartmentmanager.presentation.ui.user.invoice.UserInvoiceListFragment;
 import com.and.apartmentmanager.presentation.ui.admin.ContractDetailActivity;
 
 import android.content.Intent;
@@ -35,17 +36,53 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        // Click listener cho nút mở fragment
-        // MainActivity.java
-        Button btnOpenFragment = findViewById(R.id.btn_open_fragment);
-        btnOpenFragment.setOnClickListener(v -> {
-            // Lệnh chuyển sang màn hình CreateContractActivity
-//            Intent intent = new Intent(MainActivity.this, CreateContractActivity.class);
-//            startActivity(intent);
-            // // Lệnh chuyển sang màn hình ServiceActivity
-            Intent intent = new Intent(MainActivity.this, ContractDetailActivity.class);
-            startActivity(intent);
-        });
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(android.R.id.content, new UserInvoiceListFragment())
+                    .commit();
+        }
 
+        // =========================================================
+        // [P4 - HÓA ĐƠN] KHỞI ĐỘNG ROBOT CHẠY NGẦM BẰNG WORKMANAGER
+        // =========================================================
+        try {
+            // 1. Robot sinh hóa đơn: Chạy lặp lại mỗi 24 tiếng
+            androidx.work.PeriodicWorkRequest generateWork =
+                    new androidx.work.PeriodicWorkRequest.Builder(
+                            com.and.apartmentmanager.worker.GenerateInvoiceWorker.class,
+                            24, java.util.concurrent.TimeUnit.HOURS)
+                            .build();
+
+            // 2. Robot kiểm tra quá hạn: Chạy lặp lại mỗi 24 tiếng
+            androidx.work.PeriodicWorkRequest overdueWork =
+                    new androidx.work.PeriodicWorkRequest.Builder(
+                            com.and.apartmentmanager.worker.OverdueCheckWorker.class,
+                            24, java.util.concurrent.TimeUnit.HOURS)
+                            .build();
+
+            // 3. Xếp lịch vào hệ thống Android (KEEP: Đảm bảo không bị tạo trùng lặp nếu user tắt mở app)
+            androidx.work.WorkManager.getInstance(this).enqueueUniquePeriodicWork(
+                    "GenerateInvoiceJob",
+                    androidx.work.ExistingPeriodicWorkPolicy.KEEP,
+                    generateWork
+            );
+
+            androidx.work.WorkManager.getInstance(this).enqueueUniquePeriodicWork(
+                    "OverdueCheckJob",
+                    androidx.work.ExistingPeriodicWorkPolicy.KEEP,
+                    overdueWork
+            );
+
+            Log.d("WorkManager", "Đã đặt báo thức thành công cho 2 Robot!");
+        } catch (Exception e) {
+            Log.e("WorkManager", "Lỗi khởi động Robot: " + e.getMessage());
+        }
+        // =========================================================
+    }
+    // Bắt buộc phải có hàm này để cập nhật đường link MoMo gửi về
+    @Override
+    protected void onNewIntent(android.content.Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent); // Ghi đè Intent cũ bằng Intent mới chứa kết quả của MoMo
     }
 }

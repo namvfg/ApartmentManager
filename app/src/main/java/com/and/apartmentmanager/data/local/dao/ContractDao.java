@@ -17,6 +17,9 @@ public interface ContractDao {
 
     @Update
     void update(ContractEntity contract);
+
+    @Query("SELECT * FROM contracts")
+    List<ContractEntity> getAllContracts();
     @Query("SELECT * FROM contracts WHERE user_id = :userId LIMIT 1")
     ContractEntity getByUserId(int userId);
     @Query("SELECT * FROM contracts WHERE user_id = :userId AND apartment_id = :apartmentId AND unit_id = :unitId LIMIT 1")

@@ -1,7 +1,9 @@
 package com.and.apartmentmanager.data.local.dao;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
+import androidx.room.Query;
 import androidx.room.Update;
 
 import com.and.apartmentmanager.data.local.entity.InvoiceItemEntity;
@@ -18,4 +20,7 @@ public interface InvoiceItemDao {
 
     @Update
     void update(InvoiceItemEntity item);
+
+    @Query("SELECT * FROM invoice_items WHERE invoice_id = :invoiceId")
+    LiveData<List<InvoiceItemEntity>> getByInvoiceId(int invoiceId);
 }

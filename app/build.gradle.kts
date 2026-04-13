@@ -37,6 +37,7 @@ android {
 }
 dependencies {
 
+    implementation(libs.work.runtime)
     // Lombok
     compileOnly(libs.lombok)
     annotationProcessor(libs.lombok)
@@ -55,4 +56,9 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+
+    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
+    implementation("androidx.work:work-runtime:2.9.0")
+    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
+    implementation("androidx.work:work-runtime:2.9.0")
 }
