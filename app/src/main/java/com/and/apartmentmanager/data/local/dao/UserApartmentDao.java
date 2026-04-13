@@ -55,7 +55,7 @@ public interface UserApartmentDao {
     // Dùng cho SessionManager (Người 1) để các module khác biết workspace nào thuộc về user.
     @Query("SELECT apartment_id FROM user_apartments WHERE user_id = :userId AND status = 'active' LIMIT 1")
     Integer getActiveApartmentIdByUserId(int userId);
-}
+
 
     @Query("SELECT * FROM user_apartments WHERE user_id = :userId")
     List<UserApartmentEntity> getAllByUserId(int userId);
