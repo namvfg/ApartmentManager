@@ -12,11 +12,36 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ApartmentManager">
         <activity
+            android:name=".presentation.ui.user.DeleteConfirmActivity"
+            android:exported="true" />
+        <activity
+            android:name=".presentation.ui.user.DeleteUserActivity"
+            android:exported="true" />
+        <activity
+            android:name=".presentation.ui.user.UserDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".JoinActivity"
+            android:name=".presentation.ui.user.JoinActivity"
+            android:exported="true" />
+        <activity
+            android:name=".presentation.ui.admin.apartment.InviteActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.ui.user.UserActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.ui.admin.apartment.BlockUnitActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="false" />
 
         <activity
             android:name=".presentation.ui.auth.SplashActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.ui.admin.apartment.ApartmentActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

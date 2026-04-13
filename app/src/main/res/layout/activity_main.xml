@@ -1,19 +1,207 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+    android:orientation="vertical"
+    android:background="#EAF5ED"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <LinearLayout
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:background="#1E5F3A"
+        android:layout_width="match_parent"
+        android:layout_height="180dp">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ban quản lý"
+            android:textColor="#B5D3C2"
+            android:textSize="24dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvApartmentName"
+            android:text="Chung cư xanh ABC "
+            android:textColor="#FFFFFF"
+            android:textSize="28dp"
+            app:cardCornerRadius="20dp"
+            android:textStyle="bold"/>
+
+        <!-- STATS -->
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_marginTop="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="20dp"
+            >
+
+            <!-- BOX 1 -->
+            <LinearLayout
+                android:layout_weight="1"
+                android:padding="12dp"
+                android:background="#2F7D55"
+                android:layout_marginEnd="8dp"
+                android:orientation="vertical"
+                android:layout_width="0dp"
+                app:cardCornerRadius="20dp"
+
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tvTotalUnit"
+                    android:text="0"
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp"
+                    android:textStyle="bold"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Tổng phòng"
+                    android:textColor="#D0E8DB"
+                    android:textSize="12sp"/>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_weight="1"
+                android:padding="12dp"
+                android:background="#2F7D55"
+                android:layout_marginEnd="8dp"
+                android:orientation="vertical"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tvTotalUser"
+                    android:text="0"
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Đang có người"
+                    android:textColor="#D0E8DB"
+                    android:textSize="12sp"/>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_weight="1"
+                android:padding="12dp"
+                android:background="#2F7D55"
+                android:orientation="vertical"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tvExpiringContract"
+                    android:text="0"
+                    android:textColor="#FFD54F"
+                    android:textSize="18sp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="HĐ sắp hết"
+                    android:textColor="#D0E8DB"
+                    android:textSize="12sp"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- CONTENT -->
+    <LinearLayout
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Cần xử lý"
+            android:textStyle="bold"
+            android:textSize="20sp"/>
+
+        <!-- CARD 1 -->
+        <LinearLayout
+            android:padding="16dp"
+            android:layout_marginTop="12dp"
+            android:background="#FFF3CD"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="4 hóa đơn chờ xác nhận"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Chu kỳ tháng 4/2026"
+                android:textSize="12sp"/>
+        </LinearLayout>
+
+        <!-- CARD 2 -->
+        <LinearLayout
+            android:padding="16dp"
+            android:layout_marginTop="12dp"
+            android:background="#E6E1F7"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="3 yêu cầu đăng ký DV"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Đang chờ duyệt"
+                android:textSize="12sp"/>
+        </LinearLayout>
+
+        <!-- CARD 3 -->
+        <LinearLayout
+            android:padding="16dp"
+            android:layout_marginTop="12dp"
+            android:background="#F8D7DA"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="2 hóa đơn khiếu nại"
+                android:textStyle="bold"/>
+
+            <TextView
+
+                android:text="Đang chờ xử lý"
+                android:textSize="12sp"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

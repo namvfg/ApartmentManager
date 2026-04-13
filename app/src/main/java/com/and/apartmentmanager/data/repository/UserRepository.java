@@ -53,6 +53,18 @@ public class UserRepository {
         return dao.getByRole(role);
     }
 
+    public LiveData<List<UserEntity>> getByApartment(long apartmentId) {
+        return dao.getByApartment(apartmentId);
+    }
+
+    public LiveData<List<UserEntity>> getByUnit(int unitId) {
+        return dao.getByUnit(unitId);
+    }
+
+    public LiveData<List<UserEntity>> getUserRequestDelete() {
+        return dao.getUserRequestDelete();
+    }
+
     public void insert(UserEntity user) {
         executor.execute(() -> dao.insert(user));
     }
@@ -61,10 +73,33 @@ public class UserRepository {
         executor.execute(() -> dao.update(user));
     }
 
+    public void delete(UserEntity user) {
+        executor.execute(() -> dao.delete(user));
+    }
+
     public void softDelete(int id) {
         executor.execute(() -> dao.softDelete(id, System.currentTimeMillis()));
     }
 
+    public UserEntity getByIdSync(int id) {
+        return dao.getByIdSync(id);
+    }
+
+    public UserEntity getByEmail(String email) {
+        return dao.getByEmail(email);
+    }
+
+    public int count() {
+        return dao.count();
+    }
+
+    public void updateBlocking(UserEntity user) {
+        dao.update(user);
+    }
+
+    public void deleteBlocking(UserEntity user) {
+        dao.delete(user);
+    }
     // -----------------------------
     // Auth/Profile (Người 1)
     // -----------------------------

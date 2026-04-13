@@ -22,13 +22,12 @@ public interface BlockDao {
     @Delete
     void delete(BlockEntity block); // Repository validate trước khi gọi
 
-    @Query("SELECT * FROM blocks WHERE apartment_id = :apartmentId ORDER BY name ASC")
-    LiveData<List<BlockEntity>> getByApartment(long apartmentId);
+    @Query("SELECT * FROM blocks WHERE apartment_id = :apartmentId")
+    LiveData<List<BlockEntity>> getByApartment(int apartmentId);
 
     @Query("SELECT * FROM blocks WHERE id = :id LIMIT 1")
-    BlockEntity getByIdSync(long id);
+    BlockEntity getByIdSync(int id);
 
-    /** Validate: còn unit nào trong block không */
     @Query("SELECT COUNT(*) FROM units WHERE block_id = :blockId")
-    int countUnits(long blockId);
+    int countUnits(int blockId);
 }

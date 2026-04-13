@@ -33,4 +33,5 @@
     <!-- ── Text trên nền tối (header gradient) ── -->
     <color name="text_on_dark">#FFFFFF</color>
     <color name="text_on_dark_sub">#8CFFFFFF</color> <!-- 55% opacity -->
+    <color name="green">#36F44F</color>
 </resources>
