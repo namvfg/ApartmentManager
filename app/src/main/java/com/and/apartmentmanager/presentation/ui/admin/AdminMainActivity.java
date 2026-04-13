@@ -4,59 +4,61 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 
 import com.and.apartmentmanager.R;
+import com.and.apartmentmanager.databinding.ActivityAdminMainBinding;
+import com.and.apartmentmanager.presentation.ui.admin.chat.ChatListFragment;
+import com.and.apartmentmanager.presentation.ui.admin.dashboard.DashboardFragment;
+import com.and.apartmentmanager.presentation.ui.user.notification.NotificationListFragment;
 import com.and.apartmentmanager.helper.SessionManager;
 import com.and.apartmentmanager.presentation.ui.auth.login.LoginActivity;
 import com.and.apartmentmanager.presentation.ui.user.ChangePasswordFragment;
 
-/**
- * Host fragment cho flow Admin (P1: Admin profile).
- */
 public class AdminMainActivity extends AppCompatActivity {
+
+    private ActivityAdminMainBinding binding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_admin_main);
-
-        SessionManager sm = SessionManager.getInstance(getApplicationContext());
-        if (!sm.isLoggedIn()) {
-            startActivity(new Intent(this, LoginActivity.class));
-            finish();
-            return;
-        }
+        binding = ActivityAdminMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         if (savedInstanceState == null) {
-            showFragment(new AdminProfileFragment(), false);
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, new NotificationListFragment())
+                    .commit();
         }
 
-        // Bottom nav: hiện tại chỉ để UI giống thiết kế, các tab khác để placeholder.
-        View navHome = findViewById(R.id.nav_home);
-        View navAdmin = findViewById(R.id.nav_admin);
-        View navUser = findViewById(R.id.nav_user);
-        View navProfile = findViewById(R.id.nav_profile);
+        binding.bottomNav.setOnItemSelectedListener(item -> {
+            Fragment selected;
+            int id = item.getItemId();
 
-        if (navHome != null) navHome.setOnClickListener(v -> showProfile());
-        if (navAdmin != null) navAdmin.setOnClickListener(v -> showProfile());
-        if (navUser != null) navUser.setOnClickListener(v -> showProfile());
-        if (navProfile != null) navProfile.setOnClickListener(v -> showProfile());
-    }
+            if (id == R.id.dashboardFragment) {
+                selected = new DashboardFragment();
+//            } else if (id == R.id.residentFragment) {
+//                selected = new ResidentListFragment();
+//            } else if (id == R.id.serviceFragment) {
+//                selected = new ServiceListFragment();
+//            } else if (id == R.id.invoiceFragment) {
+//                selected = new InvoiceListFragment();
+            } else {
+                return false;
+            }
 
-    public void showProfile() {
-        showFragment(new AdminProfileFragment(), true);
-    }
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, selected)
+                    .commit();
 
-    public void showChangePassword() {
-        showFragment(new ChangePasswordFragment(), true);
-    }
-
-    private void showFragment(Fragment fragment, boolean addToBackStack) {
-        androidx.fragment.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.fragment_container, fragment);
-        if (addToBackStack) ft.addToBackStack(null);
-        ft.commit();
+            return true;
+        });
     }
 }
-

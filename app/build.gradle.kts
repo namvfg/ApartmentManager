@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.android.application)
+    id("com.google.gms.google-services") // thêm dòng này
 }
 
 android {
@@ -35,9 +36,22 @@ android {
         viewBinding = true
     }
 }
+
 dependencies {
 
     implementation(libs.work.runtime)
+    // WorkManager
+    implementation(libs.work.runtime)
+
+    // Firebase BOM — quản lý version tự động
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.database) // Realtime Database
+
+    implementation(libs.flexbox)
+
+    implementation(libs.lifecycle.livedata.ktx)
+    implementation(libs.lifecycle.viewmodel.ktx)
+    implementation(libs.legacy.support.v4)
     // Lombok
     compileOnly(libs.lombok)
     annotationProcessor(libs.lombok)

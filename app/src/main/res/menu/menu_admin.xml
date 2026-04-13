@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/dashboardFragment"
+        android:icon="@drawable/ic_home"
+        android:title="Home" />
+
+    <item
+        android:id="@+id/residentFragment"
+        android:icon="@drawable/ic_people"
+        android:title="Cư dân" />
+
+    <item
+        android:id="@+id/serviceFragment"
+        android:icon="@drawable/ic_star"
+        android:title="Dịch vụ" />
+
+    <item
+        android:id="@+id/invoiceFragment"
+        android:icon="@drawable/ic_invoice"
+        android:title="Hóa đơn" />
+
+</menu>

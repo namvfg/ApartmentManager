@@ -41,5 +41,12 @@ public interface ContractDao {
     /** Đọc trên background thread (dùng kết hợp với số cư dân thực tế trong phòng). */
     @Query("SELECT * FROM contracts WHERE unit_id = :unitId")
     List<ContractEntity> getByUnitSync(int unitId);
+
+
+    @Query("SELECT * FROM contracts " +
+            "WHERE status = 'active' " +
+            "AND end_date <= :deadline " +
+            "AND end_date > :now")
+    List<ContractEntity> getExpiringSoon(long deadline, long now);
 }
 

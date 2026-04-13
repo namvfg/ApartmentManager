@@ -32,15 +32,22 @@ public class NotificationEntity {
 
     private String title;
     private String content;
-    private String type;           // "manual" / "auto"
-    private String target;         // "all" / "user"
+    private String type;
+    private String target;
 
     @ColumnInfo(name = "target_user_id")
-    private Integer targetUserId;  // nullable nếu target = "all"
+    private Integer targetUserId;
 
     @ColumnInfo(name = "created_by")
     private int createdBy;
 
     @ColumnInfo(name = "created_at")
     private long createdAt;
+
+    // ── Thêm mới ──
+    @ColumnInfo(name = "is_read", defaultValue = "0")
+    private boolean isRead;
+
+    @ColumnInfo(name = "read_at")
+    private Long readAt; // null nếu chưa đọc
 }

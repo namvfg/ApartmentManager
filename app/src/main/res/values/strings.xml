@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">ApartmentManager</string>
+    <string name="a01_management_board_title">Ban quản lý</string>
+    <string name="a01_apartment_title">CHUNG CƯ</string>
+    <string name="a01_profile">Thông tin cá nhân</string>
+    <string name="a01_change_password">Đổi mật khẩu</string>
 </resources>
