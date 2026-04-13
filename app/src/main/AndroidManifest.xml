@@ -12,9 +12,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ApartmentManager">
-        <activity
-            android:name=".fragment_invoice_list"
-            android:exported="false" />
         <activity android:name=".presentation.ui.admin.UpdatePriceElectricActivity"/>
         <activity android:name=".presentation.ui.admin.UpdatePriceWaterActivity" />
        <activity android:name=".presentation.ui.admin.ContractDetailActivity" />
@@ -31,7 +28,6 @@
             android:name=".presentation.ui.user.UserDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".JoinActivity"
             android:name=".presentation.ui.user.JoinActivity"
             android:exported="true" />
         <activity
@@ -46,9 +42,7 @@
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:launchMode="singleTask">
-
-            android:exported="false" />
+            android:launchMode="singleTask"/>
 
         <activity
             android:name=".presentation.ui.auth.SplashActivity"
