@@ -14,8 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.and.apartmentmanager.R;
 import com.and.apartmentmanager.presentation.adapter.UserAdapter;
-import com.and.apartmentmanager.data.local.AppDatabase;
-import com.and.apartmentmanager.Adapter.UserAdapter;
 import com.and.apartmentmanager.data.local.entity.UnitEntity;
 import com.and.apartmentmanager.data.local.entity.UserEntity;
 import com.and.apartmentmanager.data.repository.ApartmentRepository;
