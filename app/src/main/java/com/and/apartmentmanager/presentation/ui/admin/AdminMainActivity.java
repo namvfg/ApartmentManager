@@ -1,6 +1,8 @@
 package com.and.apartmentmanager.presentation.ui.admin;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,6 +16,9 @@ import com.and.apartmentmanager.databinding.ActivityAdminMainBinding;
 import com.and.apartmentmanager.presentation.ui.admin.chat.ChatListFragment;
 import com.and.apartmentmanager.presentation.ui.admin.dashboard.DashboardFragment;
 import com.and.apartmentmanager.presentation.ui.user.notification.NotificationListFragment;
+import com.and.apartmentmanager.helper.SessionManager;
+import com.and.apartmentmanager.presentation.ui.auth.login.LoginActivity;
+import com.and.apartmentmanager.presentation.ui.user.ChangePasswordFragment;
 
 public class AdminMainActivity extends AppCompatActivity {
 

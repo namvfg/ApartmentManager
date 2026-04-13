@@ -5,9 +5,7 @@ plugins {
 
 android {
     namespace = "com.and.apartmentmanager"
-    compileSdk {
-        version = release(36)
-    }
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.and.apartmentmanager"
@@ -28,20 +26,20 @@ android {
             )
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
 
-
     buildFeatures {
         viewBinding = true
     }
-
 }
 
 dependencies {
 
+    implementation(libs.work.runtime)
     // WorkManager
     implementation(libs.work.runtime)
 
@@ -72,4 +70,9 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+
+    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
+    implementation("androidx.work:work-runtime:2.9.0")
+    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
+    implementation("androidx.work:work-runtime:2.9.0")
 }

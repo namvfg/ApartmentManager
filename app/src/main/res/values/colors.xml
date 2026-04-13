@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <color name="bg">#FFDCEEE2</color>
 
     <!-- ── Primary green ── -->
     <color name="primary">#2E6F40</color>           <!-- nút chính, accent -->
@@ -18,7 +21,6 @@
     <color name="text_hint">#8BAF95</color>          <!-- placeholder, hint -->
 
     <!-- ── UI elements ── -->
-    <color name="white">#FFFFFF</color>
     <color name="border">#C8E8D0</color>             <!-- viền card, divider -->
     <color name="divider">#E0F2E6</color>            <!-- đường kẻ nhạt -->
     <color name="input_bg">#EEF8F1</color>           <!-- nền input field -->
@@ -31,6 +33,5 @@
     <!-- ── Text trên nền tối (header gradient) ── -->
     <color name="text_on_dark">#FFFFFF</color>
     <color name="text_on_dark_sub">#8CFFFFFF</color> <!-- 55% opacity -->
-
-
+    <color name="green">#36F44F</color>
 </resources>

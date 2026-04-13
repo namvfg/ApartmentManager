@@ -1,0 +1,32 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <EditText
+        android:id="@+id/edtStartFloor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Tầng bắt đầu (1)"
+        android:inputType="number"
+        android:minHeight="48dp" />
+
+    <EditText
+        android:id="@+id/edtEndFloor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Tầng kết thúc (5)"
+        android:inputType="number"
+        android:minHeight="48dp" />
+
+    <EditText
+        android:id="@+id/edtPerFloor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Số phòng mỗi tầng"
+        android:inputType="number"
+        android:minHeight="48dp" />
+
+</LinearLayout>

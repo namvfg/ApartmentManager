@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -11,15 +12,67 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ApartmentManager">
+        <activity android:name=".presentation.ui.admin.UpdatePriceElectricActivity"/>
+        <activity android:name=".presentation.ui.admin.UpdatePriceWaterActivity" />
+       <activity android:name=".presentation.ui.admin.ContractDetailActivity" />
         <activity
-            android:name=".presentation.ui.admin.AdminMainActivity"
+            android:name=".presentation.ui.admin.ServiceActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.ui.user.DeleteConfirmActivity"
+            android:exported="true" />
+        <activity
+            android:name=".presentation.ui.user.DeleteUserActivity"
+            android:exported="true" />
+        <activity
+            android:name=".presentation.ui.user.UserDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.ui.user.JoinActivity"
+            android:exported="true" />
+        <activity
+            android:name=".presentation.ui.admin.apartment.InviteActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.ui.user.UserActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.ui.admin.apartment.BlockUnitActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:launchMode="singleTask"/>
+
+        <activity
+            android:name=".presentation.ui.auth.SplashActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.ui.admin.apartment.ApartmentActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="apartmentmanager" android:host="momosuccess" />
+            </intent-filter>
         </activity>
+
+
+        <activity android:name=".presentation.ui.auth.login.LoginActivity" android:exported="false" />
+        <activity android:name=".presentation.ui.auth.register.RegisterActivity" android:exported="false" />
+        <activity android:name=".presentation.ui.auth.register.OtpVerifyActivity" android:exported="false" />
+        <activity android:name=".presentation.ui.auth.login.ForgotPasswordActivity" android:exported="false" />
+        <activity android:name=".presentation.ui.auth.password.OtpResetPasswordActivity" android:exported="false" />
+        <activity android:name=".presentation.ui.auth.password.NewPasswordActivity" android:exported="false" />
+
+        <activity android:name=".presentation.ui.user.UserMainActivity" android:exported="false" />
+        <activity android:name=".presentation.ui.admin.AdminMainActivity" android:exported="false" />
 
         <meta-data
             android:name="preloaded_fonts"

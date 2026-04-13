@@ -1,0 +1,93 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F5F9F6" android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:background="@drawable/bg_header_gradient_invite"
+        android:padding="20dp">
+
+        <ImageView
+            android:id="@+id/btnBack"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/icon_back"
+             />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="25dp"
+            android:text="Tham gia căn hộ"
+            android:textColor="#FFFFFF"
+            android:textSize="26sp"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="-30dp" android:background="@drawable/bg_content_top_rounded" android:orientation="vertical"
+        android:padding="20dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="Nhập mã mời được gửi từ chủ hộ hoặc quản lý để tham gia vào thành viên của căn hộ."
+            android:textColor="#88A094"
+            android:textSize="15sp"
+            android:lineSpacingExtra="4dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="35dp"
+            android:text="Mã mời của bạn"
+            android:textColor="#1B3C2E"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/edtCode"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/bg_rounded_search"
+            android:hint="Ví dụ: CC49X7"
+            android:inputType="textCapCharacters"
+            android:paddingHorizontal="20dp"
+            android:textColor="#1B3C2E"
+            android:textColorHint="#C8D6CD"
+            android:textSize="18sp"
+            android:letterSpacing="0.1" />
+
+        <android.widget.Button
+            android:id="@+id/btnJoin"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="35dp"
+            android:background="@drawable/bg_button" android:backgroundTint="#386B4B"
+            android:text="Xác nhận tham gia"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF"
+            android:textSize="17sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="25dp"
+            android:text="Bạn chưa có mã? Liên hệ chủ hộ"
+            android:textColor="#386B4B"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
+</LinearLayout>
