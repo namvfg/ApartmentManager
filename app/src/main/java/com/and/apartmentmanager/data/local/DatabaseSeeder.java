@@ -1,5 +1,7 @@
 package com.and.apartmentmanager.data.local;
 
+import android.util.Log;
+
 import com.and.apartmentmanager.data.local.entity.*;
 import com.and.apartmentmanager.util.DateTimeUtil;
 
@@ -48,15 +50,15 @@ public class DatabaseSeeder {
     // id=9 : Ngô Văn Ích     (Green, inactive)
     // ─────────────────────────────────────────────────────────────
     private static void seedUsers(AppDatabase db) {
-        db.userDao().insert(new UserEntity(0, "Nguyễn Văn An",  "admin.sunrise@gmail.com", "admin123", "0901111111", "admin", true,  false, null));
-        db.userDao().insert(new UserEntity(0, "Trần Thị Bảo",   "admin.green@gmail.com",   "admin123", "0902222222", "admin", true,  false, null));
-        db.userDao().insert(new UserEntity(0, "Lê Văn Cường",   "cuong@gmail.com",          "user123",  "0911111111", "user",  true,  false, null));
-        db.userDao().insert(new UserEntity(0, "Phạm Thị Dung",  "dung@gmail.com",           "user123",  "0912222222", "user",  true,  false, null));
-        db.userDao().insert(new UserEntity(0, "Hoàng Văn Em",   "em@gmail.com",             "user123",  "0913333333", "user",  true,  false, null));
-        db.userDao().insert(new UserEntity(0, "Vũ Thị Phương",  "phuong@gmail.com",         "user123",  "0914444444", "user",  false, false, null));
-        db.userDao().insert(new UserEntity(0, "Đặng Văn Giang", "giang@gmail.com",          "user123",  "0921111111", "user",  true,  false, null));
-        db.userDao().insert(new UserEntity(0, "Bùi Thị Hoa",    "hoa@gmail.com",            "user123",  "0922222222", "user",  true,  false, null));
-        db.userDao().insert(new UserEntity(0, "Ngô Văn Ích",    "ich@gmail.com",            "user123",  "0923333333", "user",  false, false, null));
+        db.userDao().insert(new UserEntity(0, "Nguyễn Văn An",  "admin.sunrise@gmail.com", "admin123", "0901111111", "admin", true,  false, null,true));
+        db.userDao().insert(new UserEntity(0, "Trần Thị Bảo",   "admin.green@gmail.com",   "admin123", "0902222222", "admin", true,  false, null,true));
+        db.userDao().insert(new UserEntity(0, "Lê Văn Cường",   "cuong@gmail.com",          "user123",  "0911111111", "user",  true,  false, null,true));
+        db.userDao().insert(new UserEntity(0, "Phạm Thị Dung",  "dung@gmail.com",           "user123",  "0912222222", "user",  true,  false, null,false));
+        db.userDao().insert(new UserEntity(0, "Hoàng Văn Em",   "em@gmail.com",             "user123",  "0913333333", "user",  true,  false, null,false));
+        db.userDao().insert(new UserEntity(0, "Vũ Thị Phương",  "phuong@gmail.com",         "user123",  "0914444444", "user",  false, false, null,false));
+        db.userDao().insert(new UserEntity(0, "Đặng Văn Giang", "giang@gmail.com",          "user123",  "0921111111", "user",  true,  false, null,false));
+        db.userDao().insert(new UserEntity(0, "Bùi Thị Hoa",    "hoa@gmail.com",            "user123",  "0922222222", "user",  true,  false, null,false));
+        db.userDao().insert(new UserEntity(0, "Ngô Văn Ích",    "ich@gmail.com",            "user123",  "0923333333", "user",  false, false, null,false));
     }
 
     // ─────────────────────────────────────────────────────────────
@@ -210,6 +212,7 @@ public class DatabaseSeeder {
     // Green  : id=5(Điện), 6(Nước), 7(Rác), 8(Bảo vệ)
     // ─────────────────────────────────────────────────────────────
     private static void seedServices(AppDatabase db) {
+        Log.d("DB_SEED", "seedServices CALLED");
         // Sunrise City (apartment_id=1)
         db.serviceDao().insert(new ServiceEntity(0, 1, "Điện",   "variable", "Điện tiêu thụ theo chỉ số công tơ"));
         db.serviceDao().insert(new ServiceEntity(0, 1, "Nước",   "variable", "Nước tiêu thụ theo chỉ số đồng hồ"));

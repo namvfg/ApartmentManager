@@ -27,4 +27,16 @@ public class ContractRepository {
     public void update(ContractEntity contract) {
         executor.execute(() -> dao.update(contract));
     }
+
+    public ContractEntity getActiveByUser(int userId) {
+        return dao.getActiveByUser(userId);
+    }
+
+    public LiveData<List<ContractEntity>> getByUnit(int unitId) {
+        return dao.getByUnit(unitId);
+    }
+
+    public List<ContractEntity> getByUnitSync(int unitId) {
+        return dao.getByUnitSync(unitId);
+    }
 }

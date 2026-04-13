@@ -28,6 +28,10 @@ public class ApartmentRepository {
         return apartmentDao.getById(id);
     }
 
+    public ApartmentEntity getByIdSync(int id) {
+        return apartmentDao.getByIdSync(id);
+    }
+
     public LiveData<List<ApartmentEntity>> getByAdmin(int adminId) {
         return apartmentDao.getByAdmin(adminId);
     }
@@ -40,7 +44,15 @@ public class ApartmentRepository {
         executor.execute(() -> apartmentDao.update(apartment));
     }
 
+    public void delete(ApartmentEntity apartment) {
+        executor.execute(() -> apartmentDao.delete(apartment));
+    }
+
     public void deactivate(int id) {
         executor.execute(() -> apartmentDao.deactivate(id));
+    }
+
+    public int countBlocks(long apartmentId) {
+        return apartmentDao.countBlocks(apartmentId);
     }
 }
