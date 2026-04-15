@@ -2,6 +2,7 @@ package com.and.apartmentmanager.presentation.adapter;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -75,6 +76,7 @@ public class UserInvoiceAdapter extends RecyclerView.Adapter<UserInvoiceAdapter.
 
         // 4. Xử lý Trạng thái (Đổi màu viền và màu chữ dựa vào status)
         String status = invoice.getStatus() != null ? invoice.getStatus().toLowerCase() : "";
+        Log.d("Status", status);
         switch (status) {
             case "confirmed": // Chờ thanh toán
                 holder.tvStatusBadge.setText("Chờ TT");

@@ -34,7 +34,7 @@ public class ServiceActivity extends AppCompatActivity {
             Log.d("CHECK_DB", "all size = " + all.size());
             List<ServiceEntity> services = db.serviceDao().getServicesByApartment(1);
 
-            Log.d("SERVICEEE", "size = " + services.size());
+            Log.d("SERVICE", "size = " + services.size());
             runOnUiThread(() -> {
                 for (ServiceEntity s : services) {
 

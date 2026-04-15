@@ -21,6 +21,7 @@ public interface UnitDao {
 
     @Delete
     void delete(UnitEntity unit);
+
     @Query("SELECT * FROM units WHERE id = :id LIMIT 1")
     UnitEntity getById(int id);
 
@@ -32,13 +33,19 @@ public interface UnitDao {
     @Query("SELECT * FROM units WHERE block_id = :blockId")
     LiveData<List<UnitEntity>> getByBlock(long blockId);
 
-    @Query("SELECT * FROM units WHERE id = :id LIMIT 1")
-    UnitEntity getById(int id);
-
     @Query("SELECT b.name || ' · ' || u.name FROM units u " +
             "JOIN blocks b ON u.block_id = b.id " +
             "WHERE u.id = :unitId LIMIT 1")
-    String getFullUnitName(int unitId);
+    String getFullUnitName(long unitId);
 
+    @Query("SELECT COUNT(*) FROM units")
+    int getTotalUnit();
+
+    @Query(
+            "SELECT COUNT(DISTINCT unit_id) " +
+                    "FROM user_apartments " +
+                    "WHERE status = 'active'"
+    )
+    int getOccupiedUnit();
 
 }

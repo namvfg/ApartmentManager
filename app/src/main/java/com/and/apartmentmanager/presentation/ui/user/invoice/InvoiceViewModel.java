@@ -5,7 +5,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import com.and.apartmentmanager.data.local.entity.InvoiceEntity;
-import com.and.apartmentmanager.data.local.entity.UnitBlockDTO;
+import com.and.apartmentmanager.data.local.dto.UnitBlockDTO;
 import com.and.apartmentmanager.data.repository.InvoiceRepository;
 import java.util.List;
 

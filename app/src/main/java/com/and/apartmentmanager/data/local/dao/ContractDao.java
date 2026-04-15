@@ -42,11 +42,22 @@ public interface ContractDao {
     @Query("SELECT * FROM contracts WHERE unit_id = :unitId")
     List<ContractEntity> getByUnitSync(int unitId);
 
-
     @Query("SELECT * FROM contracts " +
             "WHERE status = 'active' " +
             "AND end_date <= :deadline " +
             "AND end_date > :now")
     List<ContractEntity> getExpiringSoon(long deadline, long now);
+
+    @Query("SELECT * FROM contracts WHERE user_id = :userId AND status = 'active' LIMIT 1")
+    ContractEntity getActiveByUserId(long userId);
+
+    @Query("SELECT * FROM contracts WHERE unit_id = :unitId AND status = 'active' LIMIT 1")
+    ContractEntity getActiveByUnitId(long unitId);
+
+    @Query("SELECT COUNT(*) FROM contracts WHERE end_date < :time AND status = 'active'")
+    int getExpiredContracts(long time);
+
+    @Query("SELECT COUNT(*) FROM contracts WHERE end_date BETWEEN :now AND :future AND status = 'active'")
+    int getExpiringContracts(long now, long future);
 }
 

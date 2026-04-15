@@ -45,5 +45,5 @@ public class InviteCodeEntity {
     private boolean isUsed;
 
     @ColumnInfo(name = "used_by")
-    private Integer usedBy;        // nullable
+    private Long usedBy;        // nullable
 }

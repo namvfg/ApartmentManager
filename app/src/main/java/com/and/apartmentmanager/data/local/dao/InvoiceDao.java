@@ -6,6 +6,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import com.and.apartmentmanager.data.local.dto.UnitBlockDTO;
 import com.and.apartmentmanager.data.local.entity.InvoiceEntity;
 
 import java.util.List;
@@ -21,6 +22,9 @@ public interface InvoiceDao {
     @Query("SELECT * FROM invoices WHERE unit_id = :unitId ORDER BY created_at DESC")
     LiveData<List<InvoiceEntity>> getByUnitId(int unitId);
 
+    @Query("SELECT * FROM invoices WHERE unit_id = :unitId ORDER BY created_at DESC LIMIT 1")
+    InvoiceEntity getLatestByUnitId(long unitId);
+
     @Query("SELECT * FROM invoices WHERE id = :invoiceId")
     InvoiceEntity getByIdSync(long invoiceId);
 
@@ -32,7 +36,7 @@ public interface InvoiceDao {
 
     // Truy vấn kết hợp bảng Units và Blocks để lấy tên Tòa theo mã Phòng
     @Query("SELECT u.id AS unit_id, b.name AS block_name FROM Units u INNER JOIN Blocks b ON u.block_id = b.id")
-    androidx.lifecycle.LiveData<java.util.List<com.and.apartmentmanager.data.local.entity.UnitBlockDTO>> getUnitBlockMappings();
+    androidx.lifecycle.LiveData<java.util.List<UnitBlockDTO>> getUnitBlockMappings();
 
     // Lệnh càn quét: Chuyển tất cả hóa đơn "Chờ TT" thành "Quá hạn"
     @androidx.room.Query("UPDATE Invoices SET status = 'overdue' WHERE status = 'confirmed'")
@@ -50,5 +54,11 @@ public interface InvoiceDao {
 
     // Dùng tạm UnitBlockDTO để gom ID và Tên phòng (Lách luật gán name thành block_name)
     @androidx.room.Query("SELECT id AS unit_id, name AS block_name FROM units")
-    androidx.lifecycle.LiveData<java.util.List<com.and.apartmentmanager.data.local.entity.UnitBlockDTO>> getAllUnitNames();
+    androidx.lifecycle.LiveData<java.util.List<UnitBlockDTO>> getAllUnitNames();
+
+    @Query("SELECT COUNT(*) FROM invoices WHERE status = 'draft'")
+    int getDraftInvoices();
+
+
+
 }

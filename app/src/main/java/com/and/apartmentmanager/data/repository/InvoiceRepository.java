@@ -8,9 +8,9 @@ import androidx.lifecycle.LiveData;
 import com.and.apartmentmanager.data.local.AppDatabase;
 import com.and.apartmentmanager.data.local.dao.InvoiceDao;
 import com.and.apartmentmanager.data.local.dao.InvoiceItemDao;
+import com.and.apartmentmanager.data.local.dto.UnitBlockDTO;
 import com.and.apartmentmanager.data.local.entity.InvoiceEntity;
 import com.and.apartmentmanager.data.local.entity.InvoiceItemEntity;
-import com.and.apartmentmanager.data.local.entity.UnitBlockDTO;
 
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -40,6 +40,11 @@ public class InvoiceRepository {
     // Lấy danh sách hóa đơn theo ID căn hộ
     public LiveData<List<InvoiceEntity>> getInvoicesByUnitId(int unitId) {
         return invoiceDao.getByUnitId(unitId);
+    }
+
+    // Blocking — dùng trong background thread
+    public InvoiceEntity  getLatestByUnitIdBlocking(long unitId) {
+        return invoiceDao.getLatestByUnitId(unitId);
     }
 
     // Lấy danh sách khoản thu của một hóa đơn
@@ -78,7 +83,7 @@ public class InvoiceRepository {
         return invoiceDao.getUnitNameById(unitId);
     }
 
-    public androidx.lifecycle.LiveData<java.util.List<com.and.apartmentmanager.data.local.entity.UnitBlockDTO>> getAllUnitNames() {
+    public androidx.lifecycle.LiveData<java.util.List<UnitBlockDTO>> getAllUnitNames() {
         return invoiceDao.getAllUnitNames();
     }
 }

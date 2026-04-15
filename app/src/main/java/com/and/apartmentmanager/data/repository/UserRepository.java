@@ -10,6 +10,7 @@ import com.and.apartmentmanager.data.local.dao.ContractDao;
 import com.and.apartmentmanager.data.local.dao.UserApartmentDao;
 import com.and.apartmentmanager.data.local.dao.UserDao;
 import com.and.apartmentmanager.data.local.entity.UserEntity;
+import com.and.apartmentmanager.presentation.adapter.ApartmentCardAdapter;
 
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -40,7 +41,7 @@ public class UserRepository {
      * Blocking — dùng trong background thread.
      * Dùng cho màn ProfileDetail (Người 1).
      */
-    public UserEntity getByIdBlocking(int id) {
+    public UserEntity getByIdBlocking(long id) {
         return dao.getByIdBlocking(id);
     }
 
@@ -83,10 +84,6 @@ public class UserRepository {
 
     public UserEntity getByIdSync(int id) {
         return dao.getByIdSync(id);
-    }
-
-    public UserEntity getByEmail(String email) {
-        return dao.getByEmail(email);
     }
 
     public int count() {
@@ -136,9 +133,9 @@ public class UserRepository {
      * UC01: Đăng ký (role mặc định = "user").
      */
     public UserEntity registerBlocking(String name,
-                                         String email,
-                                         String phone,
-                                         String password) {
+                                       String email,
+                                       String phone,
+                                       String password) {
         UserEntity existed = dao.getByEmail(email);
         if (existed != null && !existed.isDeleted()) {
             return null; // email đã tồn tại
@@ -218,6 +215,10 @@ public class UserRepository {
         dao.softDelete(userId, System.currentTimeMillis());
         Log.d("UserRepository", "requestDeleteAccountBlocking success, userId=" + userId);
         return true;
+    }
+
+    public List<ApartmentCardAdapter.ApartmentItem> getApartmentsByUserIdBlocking(int userId) {
+        return userApartmentDao.getApartmentsFullByUserId(userId);
     }
 
 }

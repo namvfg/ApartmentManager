@@ -45,7 +45,7 @@ public class UnitRepository {
         return unitDao.countByApartment(apartmentId);
     }
 
-    public String getFullUnitName(int unitId) {
+    public String getFullUnitName(long unitId) {
         return unitDao.getFullUnitName(unitId);
     }
 }

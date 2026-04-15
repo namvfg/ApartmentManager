@@ -6,6 +6,7 @@ import androidx.room.Query;
 import androidx.room.Update;
 
 import com.and.apartmentmanager.data.local.entity.UserApartmentEntity;
+import com.and.apartmentmanager.presentation.adapter.ApartmentCardAdapter;
 
 import java.util.List;
 
@@ -30,7 +31,7 @@ public interface UserApartmentDao {
     String getRoleByUserId(int userId);
 
     @Query("SELECT * FROM user_apartments WHERE user_id = :userId LIMIT 1")
-    UserApartmentEntity findByUserId(int userId);
+    UserApartmentEntity findByUserId(long userId);
 
     @Query("DELETE FROM user_apartments WHERE user_id = :userId AND unit_id = :unitId")
     void deleteUserFromUnit(int userId, int unitId);
@@ -66,4 +67,17 @@ public interface UserApartmentDao {
 
     @Query("SELECT * FROM user_apartments WHERE apartment_id = :apartmentId")
     List<UserApartmentEntity> getByApartmentId(int apartmentId);
+
+    @Query("SELECT ua.apartment_id AS apartmentId, " +
+            "ua.unit_id AS unitId, " +
+            "a.name AS apartmentName, " +
+            "b.name AS blockName, " +
+            "u.name AS unitName, " +
+            "(ua.status = 'active') AS isActive " +
+            "FROM user_apartments ua " +
+            "JOIN apartments a ON a.id = ua.apartment_id " +
+            "JOIN units u ON u.id = ua.unit_id " +
+            "JOIN blocks b ON b.id = u.block_id " +
+            "WHERE ua.user_id = :userId")
+    List<ApartmentCardAdapter.ApartmentItem> getApartmentsFullByUserId(int userId);
 }

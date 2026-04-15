@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F4F7F6">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Header -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:background="#1B4332"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Dịch vụ"
+                android:textSize="28sp"
+                android:textStyle="bold"
+                android:textColor="#FFFFFF"
+                android:layout_marginTop="40dp"/>
+        </LinearLayout>
+
+        <!-- BẮT BUỘC -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:text="BẮT BUỘC"
+            android:textStyle="bold"
+            android:textColor="#7A9E8F"/>
+
+        <LinearLayout
+            android:id="@+id/layoutFixed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:background="@drawable/bg_card_service"
+            android:orientation="vertical"
+            android:padding="12dp"/>
+
+        <!-- BỔ SUNG -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:text="BỔ SUNG"
+            android:textStyle="bold"
+            android:textColor="#7A9E8F"/>
+
+        <LinearLayout
+            android:id="@+id/layoutVariable"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:background="@drawable/bg_card_service"
+            android:orientation="vertical"
+            android:padding="12dp"/>
+
+    </LinearLayout>
+</ScrollView>

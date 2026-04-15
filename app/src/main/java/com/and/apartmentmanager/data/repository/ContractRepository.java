@@ -39,4 +39,26 @@ public class ContractRepository {
     public List<ContractEntity> getByUnitSync(int unitId) {
         return dao.getByUnitSync(unitId);
     }
+
+    public ContractEntity getActiveByUserIdBlocking(long userId) {
+        return dao.getActiveByUserId(userId);
+    }
+
+    // Lấy contract active theo unit
+    public ContractEntity getActiveByUnitIdBlocking(long unitId) {
+        return dao.getActiveByUnitId(unitId);
+    }
+
+    public long getRemainingDays(ContractEntity contract) {
+        if (contract == null) return -1;
+
+        long now = System.currentTimeMillis();
+        long end = contract.getEndDate();
+
+        long diff = end - now;
+
+        if (diff <= 0) return 0;
+
+        return diff / (1000 * 60 * 60 * 24); // ms → days
+    }
 }

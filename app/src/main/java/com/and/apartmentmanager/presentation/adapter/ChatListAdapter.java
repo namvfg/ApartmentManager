@@ -125,15 +125,18 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatVi
     public static class ChatItem {
         public long userId;
         public String userName;
+        public String roomName; // <--- THÊM BIẾN NÀY
         public String lastMessage;
         public String time;
         public int unreadCount;
         public boolean isOnline;
 
-        public ChatItem(long userId, String userName, String lastMessage,
+        // Cập nhật constructor
+        public ChatItem(long userId, String userName, String roomName, String lastMessage,
                         String time, int unreadCount, boolean isOnline) {
             this.userId = userId;
             this.userName = userName;
+            this.roomName = roomName; // <--- GÁN VÀO ĐÂY
             this.lastMessage = lastMessage;
             this.time = time;
             this.unreadCount = unreadCount;

@@ -24,7 +24,7 @@ public class NotificationHelper {
      * @param refId        id tham chiếu (invoiceId, serviceId...)
      */
     public static void sendAuto(Context context, Type type,
-                                int targetUserId, int apartmentId, int refId) {
+                                long targetUserId, long apartmentId, int refId) {
         AppDatabase.DB_EXECUTOR.execute(() -> {
             NotificationEntity notif = new NotificationEntity();
             notif.setApartmentId((int) apartmentId);
