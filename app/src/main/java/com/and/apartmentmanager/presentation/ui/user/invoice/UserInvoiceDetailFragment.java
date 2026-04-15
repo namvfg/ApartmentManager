@@ -85,8 +85,7 @@ public class UserInvoiceDetailFragment extends Fragment {
 
         btnPayNow.setOnClickListener(v -> {
             if (currentInvoice != null) {
-                // Khởi động luồng MoMo App-to-App chuẩn captureWallet
-                requestMoMoPayment(currentInvoice);
+                payWithMoMoSandbox(currentInvoice.getTotalAmount());
             }
         });
     }
@@ -163,79 +162,149 @@ public class UserInvoiceDetailFragment extends Fragment {
         layoutInvoiceItems.addView(row);
     }
 
-    // --- LUỒNG THANH TOÁN MOMO ---
+    // =========================================================
+    // TÍCH HỢP MOMO SANDBOX (PUBLIC KEYS)
+    // =========================================================
+    private final String PARTNER_CODE = "MOMOBKUN20180529";
+    private final String ACCESS_KEY = "klm05TvNBzhg7h7j";
+    private final String SECRET_KEY = "at67qH6mk8w5Y1nAyMoYKMWACiEi2bsa";
+    private void payWithMoMoSandbox(double amount) {
+        Toast.makeText(getContext(), "Đang kết nối cổng thanh toán MoMo...", Toast.LENGTH_SHORT).show();
 
-    private void requestMoMoPayment(InvoiceEntity invoice) {
-        // Thông số Sandbox MoMo
-        String partnerCode = "MOMOBKUN20180810";
-        String accessKey = "klm0568887013313";
-        String secretKey = "at67abHswmBc013";
-        String orderInfo = "Thanh toán hóa đơn phòng " + invoice.getUnitId();
-        String redirectUrl = "apartmentmanager://momosuccess";
-        String ipnUrl = "https://momo.vn";
-        String requestId = String.valueOf(System.currentTimeMillis());
-        String orderId = String.valueOf(invoice.getId()) + "_" + requestId;
-        long amount = (long) invoice.getTotalAmount();
-        String requestType = "captureWallet"; // captureWallet = Văng thẳng vào App MoMo
-        String extraData = "";
+        new Thread(() -> {
+            try {
+                String endpoint = "https://test-payment.momo.vn/v2/gateway/api/create";
+                String orderId = "HD_" + System.currentTimeMillis();
+                String requestId = orderId;
+                String strAmount = String.valueOf((long) amount);
+                String orderInfo = "Thanh toan hoa don " + currentInvoice.getMonth();
 
-        // Tạo chuỗi Raw Hash để ký tên
-        String rawHash = "accessKey=" + accessKey +
-                "&amount=" + amount +
-                "&extraData=" + extraData +
-                "&ipnUrl=" + ipnUrl +
-                "&orderId=" + orderId +
-                "&orderInfo=" + orderInfo +
-                "&partnerCode=" + partnerCode +
-                "&redirectUrl=" + redirectUrl +
-                "&requestId=" + requestId +
-                "&requestType=" + requestType;
+                // Deep link đón User về app
+                String returnUrl = "apartmentmanager://momosuccess";
+                String notifyUrl = "https://google.com";
 
-        try {
-            String signature = hmacSHA256(rawHash, secretKey);
-            // Trong thực tế, bạn sẽ gửi JSON lên Endpoint MoMo để lấy payUrl.
-            // Ở đồ án, ta mô phỏng việc mở App MoMo Tester với URL scheme chuẩn:
-            String momoUrl = "momo://?action=pay&partnerCode=" + partnerCode +
-                    "&orderId=" + orderId + "&amount=" + amount +
-                    "&signature=" + signature + "&requestType=" + requestType;
+                // 1. Dựng chuỗi dữ liệu gốc
+                String rawSignature = "accessKey=" + ACCESS_KEY +
+                        "&amount=" + strAmount +
+                        "&extraData=" +
+                        "&ipnUrl=" + notifyUrl +
+                        "&orderId=" + orderId +
+                        "&orderInfo=" + orderInfo +
+                        "&partnerCode=" + PARTNER_CODE +
+                        "&redirectUrl=" + returnUrl +
+                        "&requestId=" + requestId +
+                        "&requestType=captureWallet";
 
-            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(momoUrl));
-            startActivity(intent);
-            Toast.makeText(getContext(), "Đang mở MoMo App...", Toast.LENGTH_SHORT).show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+                // 2. Ký tên (Gọi hàm ở file mới tạo)
+                String signature = com.and.apartmentmanager.helper.MoMoSecurity.signHmacSHA256(rawSignature, SECRET_KEY);
+
+                // 3. Đóng gói JSON
+                org.json.JSONObject jsonRequest = new org.json.JSONObject();
+                jsonRequest.put("partnerCode", PARTNER_CODE);
+                jsonRequest.put("partnerName", "Chung Cư Sunrise");
+                jsonRequest.put("storeId", "Sunrise_01");
+                jsonRequest.put("requestId", requestId);
+
+                // SỬA Ở ĐÂY: Ép kiểu thành số Long thay vì dùng strAmount (chuỗi)
+                jsonRequest.put("amount", (long) amount);
+
+                jsonRequest.put("orderId", orderId);
+                jsonRequest.put("orderInfo", orderInfo);
+                jsonRequest.put("redirectUrl", returnUrl);
+                jsonRequest.put("ipnUrl", notifyUrl);
+                jsonRequest.put("lang", "vi");
+                jsonRequest.put("extraData", "");
+                jsonRequest.put("requestType", "captureWallet");
+                jsonRequest.put("signature", signature);
+
+                // 4. Bắn HTTP POST lên MoMo
+                java.net.URL url = new java.net.URL(endpoint);
+                java.net.HttpURLConnection conn = (java.net.HttpURLConnection) url.openConnection();
+                conn.setRequestMethod("POST");
+                conn.setRequestProperty("Content-Type", "application/json");
+                conn.setDoOutput(true);
+
+                java.io.OutputStream os = conn.getOutputStream();
+                os.write(jsonRequest.toString().getBytes("UTF-8"));
+                os.close();
+
+                // 5. Đọc kết quả MoMo trả về (Có bắt lỗi 400/500 chuyên nghiệp)
+                int responseCode = conn.getResponseCode();
+                java.io.InputStream is;
+                if (responseCode >= 400) {
+                    is = conn.getErrorStream(); // Nếu MoMo từ chối, đọc luồng báo lỗi
+                } else {
+                    is = conn.getInputStream(); // Nếu thành công, đọc luồng bình thường
+                }
+
+                java.io.BufferedReader br = new java.io.BufferedReader(new java.io.InputStreamReader(is, "UTF-8"));
+                StringBuilder response = new StringBuilder();
+                String line;
+                while ((line = br.readLine()) != null) { response.append(line); }
+                br.close();
+
+                org.json.JSONObject jsonResponse = new org.json.JSONObject(response.toString());
+
+                // Kiểm tra xem MoMo có báo lỗi hệ thống không (resultCode != 0 là có lỗi)
+                if (responseCode >= 400 || jsonResponse.getInt("resultCode") != 0) {
+                    String errorMsg = jsonResponse.optString("message", "Lỗi không xác định");
+                    requireActivity().runOnUiThread(() ->
+                            Toast.makeText(getContext(), "MoMo từ chối: " + errorMsg, Toast.LENGTH_LONG).show()
+                    );
+                    return; // Dừng lại, không mở app MoMo nữa
+                }
+
+                String payUrl = jsonResponse.getString("payUrl");
+
+                // 6. Quay lại Luồng chính (UI Thread) để mở App MoMo
+                requireActivity().runOnUiThread(() -> {
+                    android.content.Intent intent = new android.content.Intent(android.content.Intent.ACTION_VIEW, android.net.Uri.parse(payUrl));
+                    startActivity(intent);
+                });
+
+            } catch (Exception e) {
+                android.util.Log.e("MOMO_ERROR", "Lỗi: " + e.getMessage());
+                requireActivity().runOnUiThread(() ->
+                        Toast.makeText(getContext(), "Lỗi kết nối MoMo: " + e.getMessage(), Toast.LENGTH_LONG).show()
+                );
+            }
+        }).start();
     }
-
-    private String hmacSHA256(String data, String key) throws Exception {
-        Mac sha256_HMAC = Mac.getInstance("HmacSHA256");
-        SecretKeySpec secret_key = new SecretKeySpec(key.getBytes("UTF-8"), "HmacSHA256");
-        sha256_HMAC.init(secret_key);
-        byte[] bytes = sha256_HMAC.doFinal(data.getBytes("UTF-8"));
-        StringBuilder hash = new StringBuilder();
-        for (byte b : bytes) {
-            String hex = Integer.toHexString(0xFF & b);
-            if (hex.length() == 1) hash.append('0');
-            hash.append(hex);
-        }
-        return hash.toString();
-    }
-
     @Override
     public void onResume() {
         super.onResume();
-        Intent intent = requireActivity().getIntent();
+
+        // 1. Chặn cửa, kiểm tra xem có ai mang theo Data (Đường link) về app không?
+        android.content.Intent intent = requireActivity().getIntent();
         if (intent != null && intent.getData() != null) {
             String uriString = intent.getData().toString();
+
+            // 2. Nếu đúng là đi từ cửa MoMo về
             if (uriString.startsWith("apartmentmanager://momosuccess")) {
+
+                // 3. Đọc mã kết quả MoMo trả về (0 = Thành công)
                 String resultCode = intent.getData().getQueryParameter("resultCode");
-                if ("0".equals(resultCode) && currentInvoice != null) {
-                    currentInvoice.setStatus("paid");
-                    invoiceViewModel.updateInvoice(currentInvoice);
-                    Toast.makeText(getContext(), "Thanh toán thành công!", Toast.LENGTH_LONG).show();
-                    loadInvoiceData(currentInvoice);
+
+                if ("0".equals(resultCode)) {
+                    if (currentInvoice != null) {
+                        // 4A. Đổi trạng thái trên Database
+                        currentInvoice.setStatus("paid");
+                        invoiceViewModel.updateInvoice(currentInvoice);
+
+                        Toast.makeText(getContext(), "Thanh toán MoMo thành công!", Toast.LENGTH_LONG).show();
+
+                        // 4B. Đổi trạng thái trên Giao diện (UI) ngay lập tức
+                        tvUserStatus.setText("Đã TT");
+                        tvUserStatus.setTextColor(android.graphics.Color.parseColor("#15803D"));
+                        ((com.google.android.material.card.MaterialCardView)tvUserStatus.getParent()).setCardBackgroundColor(android.graphics.Color.parseColor("#DCFCE7"));
+                        btnPayNow.setVisibility(android.view.View.GONE); // Giấu luôn nút thanh toán
+                    }
+                } else {
+                    Toast.makeText(getContext(), "Khách hàng đã hủy giao dịch hoặc thất bại!", Toast.LENGTH_SHORT).show();
                 }
-                requireActivity().setIntent(new Intent());
+
+                // 5. Xóa URL cũ để tránh việc xoay màn hình bị gọi lại hàm này
+                requireActivity().setIntent(new android.content.Intent());
             }
         }
     }
