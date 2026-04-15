@@ -49,12 +49,7 @@
             android:exported="false" />
         <activity
             android:name=".presentation.ui.user.UserMainActivity"
-            android:exported="false" />
-
-        <!-- ── ADMIN ── -->
-        <activity
-            android:name=".presentation.ui.admin.apartment.ApartmentActivity"
-            android:exported="true">
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -65,6 +60,13 @@
                     android:host="momosuccess"
                     android:scheme="apartmentmanager" />
             </intent-filter>
+        </activity>
+
+        <!-- ── ADMIN ── -->
+        <activity
+            android:name=".presentation.ui.admin.apartment.ApartmentActivity"
+            android:exported="true">
+
         </activity>
         <activity
             android:name=".presentation.ui.admin.CreateContractActivity"

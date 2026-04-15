@@ -30,8 +30,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:text="Hóa đơn T3/2026"
-            android:textColor="#1A1A1A"
+            android:text="Chi tiết hóa đơn"
+            android:textColor="#1F3325"
             android:textSize="18sp"
             android:textStyle="bold" />
     </LinearLayout>
@@ -39,7 +39,6 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:fillViewport="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/layoutTopBar">
 
@@ -47,13 +46,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="20dp">
+            android:paddingBottom="40dp">
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginTop="8dp"
                 app:cardBackgroundColor="#2E6F40"
-                app:cardCornerRadius="16dp"
+                app:cardCornerRadius="24dp"
                 app:cardElevation="0dp">
 
                 <LinearLayout
@@ -61,32 +62,32 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:orientation="vertical"
-                    android:paddingVertical="32dp"
-                    android:paddingHorizontal="24dp">
+                    android:padding="32dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Tổng cần thanh toán"
-                        android:textColor="#A5C6B1"
+                        android:textColor="#FFFFFF"
+                        android:alpha="0.8"
                         android:textSize="14sp" />
 
                     <TextView
                         android:id="@+id/tvUserTotalAmount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:layout_marginBottom="12dp"
-                        android:text="3.250.000đ"
-                        android:textColor="@android:color/white"
+                        android:layout_marginTop="8dp"
+                        android:text="0 đ"
+                        android:textColor="#FFFFFF"
                         android:textSize="36sp"
                         android:textStyle="bold" />
 
                     <com.google.android.material.card.MaterialCardView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
                         app:cardBackgroundColor="#FEF3C7"
-                        app:cardCornerRadius="12dp"
+                        app:cardCornerRadius="8dp"
                         app:cardElevation="0dp">
                         <TextView
                             android:id="@+id/tvUserStatus"
@@ -94,9 +95,9 @@
                             android:layout_height="wrap_content"
                             android:paddingHorizontal="16dp"
                             android:paddingVertical="6dp"
-                            android:text="Chờ TT - Hạn 15/03/2026"
+                            android:text="Chờ TT"
                             android:textColor="#B45309"
-                            android:textSize="12sp"
+                            android:textSize="14sp"
                             android:textStyle="bold" />
                     </com.google.android.material.card.MaterialCardView>
                 </LinearLayout>
@@ -105,7 +106,8 @@
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginTop="24dp"
                 app:cardBackgroundColor="@android:color/white"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="0dp"
@@ -116,49 +118,22 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="20dp">
+                    android:padding="24dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="16dp"
                         android:text="Chi tiết khoản thu"
-                        android:textColor="#1A1A1A"
+                        android:textColor="#1F3325"
                         android:textSize="16sp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:layout_marginBottom="20dp"/>
 
-                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginBottom="12dp">
-                        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Tiền thuê phòng" android:textColor="#6C757D" android:textSize="13sp"/>
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="3.000.000đ" android:textColor="#1A1A1A" android:textSize="14sp" android:textStyle="bold"/>
-                    </LinearLayout>
-                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#F3F4F6" android:layout_marginBottom="12dp"/>
-
-                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginBottom="12dp">
-                        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Điện (120 kWh × 4.000đ)" android:textColor="#6C757D" android:textSize="13sp"/>
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="480.000đ" android:textColor="#1A1A1A" android:textSize="14sp" android:textStyle="bold"/>
-                    </LinearLayout>
-                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#F3F4F6" android:layout_marginBottom="12dp"/>
-
-                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginBottom="12dp">
-                        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Nước (8 m³ × 15.000đ)" android:textColor="#6C757D" android:textSize="13sp"/>
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="120.000đ" android:textColor="#1A1A1A" android:textSize="14sp" android:textStyle="bold"/>
-                    </LinearLayout>
-                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#F3F4F6" android:layout_marginBottom="12dp"/>
-
-                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginBottom="16dp">
-                        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Phí giữ xe" android:textColor="#6C757D" android:textSize="13sp"/>
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="200.000đ" android:textColor="#1A1A1A" android:textSize="14sp" android:textStyle="bold"/>
-                    </LinearLayout>
-
-                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginBottom="12dp">
-                        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Tổng cộng" android:textColor="#1A1A1A" android:textSize="16sp" android:textStyle="bold"/>
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="3.800.000đ" android:textColor="#2E6F40" android:textSize="18sp" android:textStyle="bold"/>
-                    </LinearLayout>
-
-                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
-                        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Giảm trừ" android:textColor="#6C757D" android:textSize="13sp"/>
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="-550.000đ" android:textColor="#EF4444" android:textSize="14sp" android:textStyle="bold"/>
-                    </LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/layoutInvoiceItems"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical" />
 
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -167,6 +142,7 @@
                 android:id="@+id/btnPayNow"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
+                android:layout_marginHorizontal="24dp"
                 android:layout_marginTop="24dp"
                 android:backgroundTint="#2E6F40"
                 android:text="THANH TOÁN NGAY"
@@ -175,8 +151,6 @@
                 android:textStyle="bold"
                 app:cornerRadius="12dp" />
 
-
         </LinearLayout>
     </ScrollView>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

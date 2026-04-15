@@ -1,10 +1,13 @@
 package com.and.apartmentmanager.presentation.ui.admin.invoice;
 
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,6 +18,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.and.apartmentmanager.R;
 import com.and.apartmentmanager.data.local.entity.InvoiceEntity;
+import com.and.apartmentmanager.data.local.entity.InvoiceItemEntity;
 import com.and.apartmentmanager.helper.NotificationHelper; // THÊM IMPORT CỦA P5
 import com.and.apartmentmanager.presentation.ui.user.invoice.InvoiceViewModel;
 
@@ -27,6 +31,8 @@ public class AdminInvoiceConfirmFragment extends Fragment {
     private View btnConfirmSend, btnEditInvoice;
     private ImageView btnBack;
 
+    private LinearLayout layoutInvoiceItemsAdmin;
+
     private InvoiceViewModel invoiceViewModel;
     private InvoiceEntity currentInvoice;
 
@@ -34,19 +40,14 @@ public class AdminInvoiceConfirmFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_admin_invoice_confirm, container, false);
-
         initViews(view);
         setupListeners();
-
         invoiceViewModel = new ViewModelProvider(this).get(InvoiceViewModel.class);
 
         if (getArguments() != null) {
             int invoiceId = getArguments().getInt("invoiceId", -1);
-            if (invoiceId != -1) {
-                loadInvoiceData(invoiceId);
-            }
+            if (invoiceId != -1) loadInvoiceData(invoiceId);
         }
-
         return view;
     }
 
@@ -58,6 +59,7 @@ public class AdminInvoiceConfirmFragment extends Fragment {
         btnConfirmSend = view.findViewById(R.id.btnConfirmSend);
         btnEditInvoice = view.findViewById(R.id.btnEditInvoice);
         btnBack = view.findViewById(R.id.btnBack);
+        layoutInvoiceItemsAdmin = view.findViewById(R.id.layoutInvoiceItemsAdmin);
     }
 
     private void loadInvoiceData(int invoiceId) {
@@ -66,78 +68,85 @@ public class AdminInvoiceConfirmFragment extends Fragment {
                 if (invoice.getId() == invoiceId) {
                     currentInvoice = invoice;
 
-                    // Tự động dịch unitId thành Tên phòng (VD: 2 -> A101) cho Admin
                     invoiceViewModel.getUnitNameById(invoice.getUnitId()).observe(getViewLifecycleOwner(), unitName -> {
-                        if (unitName != null) {
-                            tvRoomName.setText("Phòng " + unitName);
-                        }
+                        if (unitName != null) tvRoomName.setText("Phòng " + unitName);
                     });
 
                     tvMonth.setText("Tháng " + invoice.getMonth());
+                    NumberFormat format = NumberFormat.getInstance(new Locale("vi", "VN"));
+                    tvTotalAmount.setText(format.format(invoice.getTotalAmount()) + " đ");
 
-                    NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
-                    tvTotalAmount.setText(format.format(invoice.getTotalAmount()));
-
-                    // Nếu hóa đơn là 'adjusted' thì cập nhật nhãn
                     if ("adjusted".equals(invoice.getStatus())) {
                         tvStatusBadge.setText("Đã sửa");
-                        tvStatusBadge.setTextColor(android.graphics.Color.parseColor("#4338CA"));
-                        tvStatusBadge.setBackgroundColor(android.graphics.Color.parseColor("#E0E7FF"));
+                        tvStatusBadge.setTextColor(Color.parseColor("#4338CA"));
+                        tvStatusBadge.setBackgroundColor(Color.parseColor("#E0E7FF"));
                     }
                     break;
                 }
             }
         });
+
+        // Tải chi tiết động thay vì fix cứng
+        invoiceViewModel.getInvoiceItems(invoiceId).observe(getViewLifecycleOwner(), items -> {
+            if (items != null) {
+                layoutInvoiceItemsAdmin.removeAllViews();
+                for (InvoiceItemEntity item : items) {
+                    addDynamicItemRow(item.getServiceName(), item.getTotal());
+                }
+            }
+        });
+    }
+
+    private void addDynamicItemRow(String name, double amount) {
+        LinearLayout row = new LinearLayout(getContext());
+        row.setOrientation(LinearLayout.HORIZONTAL);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.setMargins(0, 0, 0, 24);
+        row.setLayoutParams(params);
+
+        TextView tvName = new TextView(getContext());
+        tvName.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f));
+        tvName.setText(name);
+        tvName.setTextColor(Color.parseColor("#6C757D"));
+        tvName.setTextSize(13f);
+
+        TextView tvPrice = new TextView(getContext());
+        NumberFormat vnFormat = NumberFormat.getInstance(new Locale("vi", "VN"));
+        tvPrice.setText(vnFormat.format(amount) + " đ");
+        tvPrice.setTextSize(14f);
+        tvPrice.setTypeface(null, Typeface.BOLD);
+        tvPrice.setTextColor(Color.parseColor("#1A1A1A"));
+
+        row.addView(tvName);
+        row.addView(tvPrice);
+        layoutInvoiceItemsAdmin.addView(row);
     }
 
     private void setupListeners() {
         btnBack.setOnClickListener(v -> getParentFragmentManager().popBackStack());
 
-        // Nút "Xác nhận gửi"
         btnConfirmSend.setOnClickListener(v -> {
             if (currentInvoice != null) {
-                // 1. Cập nhật trạng thái xuống Database
                 currentInvoice.setStatus("confirmed");
                 invoiceViewModel.updateInvoice(currentInvoice);
 
-                // ==============================================================
-                // 2. [TÍCH HỢP P5] Gửi tín hiệu gọi chuông thông báo cho Cư dân
-                // ==============================================================
                 try {
-                    long targetUserId = -1L; // -1 = báo cho tất cả user (hoặc truyền ID chủ phòng)
-                    long apartmentId = 1L;   // ID của chung cư hiện tại (tạm để 1L)
+                    NotificationHelper.sendAuto(requireContext(), NotificationHelper.Type.INVOICE_CONFIRMED, -1L, 1L, currentInvoice.getId());
+                } catch (Exception e) {}
 
-                    NotificationHelper.sendAuto(
-                            requireContext(),
-                            NotificationHelper.Type.INVOICE_CONFIRMED,
-                            targetUserId,
-                            apartmentId,
-                            currentInvoice.getId() // Truyền đúng ID hóa đơn để P5 xử lý
-                    );
-                } catch (Exception e) {
-                    android.util.Log.e("InvoiceIntegration", "Lỗi gửi thông báo: " + e.getMessage());
-                }
-                // ==============================================================
-
-                // 3. Hiển thị thông báo và quay lại màn hình trước
                 Toast.makeText(getContext(), "Đã duyệt và gửi hóa đơn cho cư dân!", Toast.LENGTH_SHORT).show();
                 getParentFragmentManager().popBackStack();
             }
         });
 
-        // Nút "Chỉnh sửa" -> Mở sang màn A-12b
         btnEditInvoice.setOnClickListener(v -> {
             if (currentInvoice != null) {
                 Bundle bundle = new Bundle();
                 bundle.putInt("invoiceId", currentInvoice.getId());
-
                 AdminInvoiceEditFragment editFragment = new AdminInvoiceEditFragment();
                 editFragment.setArguments(bundle);
-
                 requireActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(android.R.id.content, editFragment)
-                        .addToBackStack(null)
-                        .commit();
+                        .replace(android.R.id.content, editFragment).addToBackStack(null).commit();
             }
         });
     }

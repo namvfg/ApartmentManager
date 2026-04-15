@@ -18,6 +18,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.and.apartmentmanager.R;
 import com.and.apartmentmanager.data.local.entity.InvoiceEntity;
+import com.and.apartmentmanager.data.local.entity.InvoiceItemEntity;
 import com.and.apartmentmanager.presentation.ui.user.invoice.InvoiceViewModel;
 
 import java.text.NumberFormat;
@@ -35,7 +36,12 @@ public class AdminInvoiceEditFragment extends Fragment {
 
     private final double PRICE_ELECTRIC = 3500;
     private final double PRICE_WATER = 15000;
+
+    private double currentPriceElectric = 0;
+
+    private double currentPriceWater = 0;
     private double rentAmount = 0; // Tiền phòng cố định
+    private double fixedAmountTotal = 0;
 
     @Nullable
     @Override
@@ -47,9 +53,7 @@ public class AdminInvoiceEditFragment extends Fragment {
         invoiceViewModel = new ViewModelProvider(this).get(InvoiceViewModel.class);
         if (getArguments() != null) {
             int invoiceId = getArguments().getInt("invoiceId", -1);
-            if (invoiceId != -1) {
-                loadInvoiceData(invoiceId);
-            }
+            if (invoiceId != -1) loadInvoiceData(invoiceId);
         }
         return view;
     }
@@ -73,17 +77,37 @@ public class AdminInvoiceEditFragment extends Fragment {
             for (InvoiceEntity invoice : invoices) {
                 if (invoice.getId() == invoiceId) {
                     currentInvoice = invoice;
-                    // Lấy ra giá trị tĩnh của tiền phòng (giả sử trước đó đã cộng dồn, tạm fix cứng 3 triệu hoặc lấy từ DB)
-                    // Vì bản nháp tổng tiền có thể đã tính toán sai, ta cứ lấy lại tiền gốc.
-                    rentAmount = 3000000; // Tạm thiết lập tiền thuê cố định là 3 triệu
-
-                    tvRoomInfo.setText("Phòng " + invoice.getUnitId() + " - " + invoice.getMonth());
-                    tvRentAmountEdit.setText(formatMoney(rentAmount));
-                    tvOldTotalEdit.setText(formatMoney(invoice.getTotalAmount())); // Hiển thị số tiền cũ đã nhập sai
-
-                    calculateTotal(); // Tính toán lại số mới
+                    invoiceViewModel.getUnitNameById(invoice.getUnitId()).observe(getViewLifecycleOwner(), name -> {
+                        if (name != null) tvRoomInfo.setText("Phòng " + name + " - Hóa đơn " + invoice.getMonth());
+                    });
+                    tvOldTotalEdit.setText(formatMoney(invoice.getTotalAmount()));
                     break;
                 }
+            }
+        });
+
+        // Đọc chi tiết khoản thu để bóc tách giá điện, nước, phòng
+        invoiceViewModel.getInvoiceItems(invoiceId).observe(getViewLifecycleOwner(), items -> {
+            if (items != null) {
+                fixedAmountTotal = 0;
+                for (InvoiceItemEntity item : items) {
+                    if (item.getServiceName().toLowerCase().contains("điện")) {
+                        currentPriceElectric = item.getPrice();
+                        // Điền sẵn số điện cũ vào ô nhập
+                        if (item.getConsumption() != null) {
+                            edtElectricEdit.setText(String.valueOf(item.getConsumption().intValue()));
+                        }
+                    } else if (item.getServiceName().toLowerCase().contains("nước")) {
+                        currentPriceWater = item.getPrice();
+                        if (item.getConsumption() != null) {
+                            edtWaterEdit.setText(String.valueOf(item.getConsumption().intValue()));
+                        }
+                    } else {
+                        fixedAmountTotal += item.getTotal();
+                    }
+                }
+                tvRentAmountEdit.setText(formatMoney(fixedAmountTotal));
+                calculateTotal();
             }
         });
     }
@@ -102,7 +126,7 @@ public class AdminInvoiceEditFragment extends Fragment {
         btnSaveEdit.setOnClickListener(v -> {
             if (edtNote.getText().toString().trim().isEmpty()) {
                 Toast.makeText(getContext(), "Vui lòng nhập lý do chỉnh sửa!", Toast.LENGTH_SHORT).show();
-                return; // Chặn lại không cho lưu
+                return;
             }
 
             if (currentInvoice != null) {
@@ -122,9 +146,10 @@ public class AdminInvoiceEditFragment extends Fragment {
             if (!edtWaterEdit.getText().toString().isEmpty()) waterIndex = Double.parseDouble(edtWaterEdit.getText().toString());
         } catch (Exception e) {}
 
-        double electricTotal = electricIndex * PRICE_ELECTRIC;
-        double waterTotal = waterIndex * PRICE_WATER;
-        double grandTotal = rentAmount + electricTotal + waterTotal;
+        // Tính bằng giá thật lấy từ DB
+        double electricTotal = electricIndex * currentPriceElectric;
+        double waterTotal = waterIndex * currentPriceWater;
+        double grandTotal = fixedAmountTotal + electricTotal + waterTotal;
 
         tvElectricSubtotalEdit.setText("Thành tiền: " + formatMoney(electricTotal));
         tvWaterSubtotalEdit.setText("Thành tiền: " + formatMoney(waterTotal));
@@ -134,7 +159,7 @@ public class AdminInvoiceEditFragment extends Fragment {
     }
 
     private String formatMoney(double amount) {
-        NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
-        return format.format(amount);
+        NumberFormat format = NumberFormat.getInstance(new Locale("vi", "VN"));
+        return format.format(amount) + " đ";
     }
 }

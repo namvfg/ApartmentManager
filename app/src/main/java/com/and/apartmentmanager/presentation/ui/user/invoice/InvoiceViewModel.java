@@ -47,4 +47,8 @@ public class InvoiceViewModel extends AndroidViewModel {
     public LiveData<List<UnitBlockDTO>> getAllUnitNames() {
         return repository.getAllUnitNames();
     }
+
+    public LiveData<List<com.and.apartmentmanager.data.local.entity.InvoiceItemEntity>> getInvoiceItems(int invoiceId) {
+        return repository.getInvoiceItems(invoiceId);
+    }
 }

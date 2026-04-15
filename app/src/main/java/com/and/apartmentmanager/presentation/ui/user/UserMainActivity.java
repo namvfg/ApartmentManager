@@ -144,5 +144,11 @@ public class UserMainActivity extends AppCompatActivity {
         setNavItem(R.id.icon_tb, R.id.text_tb, activeColor, true);
     }
 
+    @Override
+    protected void onNewIntent(android.content.Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent); // Ghi đè Intent cũ bằng Intent mới chứa kết quả của MoMo
+    }
+
 }
 

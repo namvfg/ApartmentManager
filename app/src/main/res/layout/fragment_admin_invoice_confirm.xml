@@ -144,81 +144,10 @@
                         android:textStyle="bold" />
 
                     <LinearLayout
+                        android:id="@+id/layoutInvoiceItemsAdmin"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginBottom="12dp">
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Tiền thuê"
-                            android:textColor="#6C757D"
-                            android:textSize="13sp"/>
-                        <TextView
-                            android:id="@+id/tvRentStatic"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="2.000.000đ"
-                            android:textColor="#1A1A1A"
-                            android:textSize="14sp"
-                            android:textStyle="bold"/>
-                    </LinearLayout>
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="#F3F4F6"
-                        android:layout_marginBottom="12dp"/>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginBottom="12dp">
-                        <TextView
-                            android:id="@+id/tvElecLabel"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Điện (150kWh × 3.500đ)"
-                            android:textColor="#6C757D" android:textSize="13sp"/>
-                        <TextView
-                            android:id="@+id/tvElecStatic"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="525.000đ"
-                            android:textColor="#1A1A1A"
-                            android:textSize="14sp"
-                            android:textStyle="bold"/>
-                    </LinearLayout>
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="#F3F4F6"
-                        android:layout_marginBottom="12dp"/>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginBottom="12dp">
-                        <TextView
-                            android:id="@+id/tvWaterLabel"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Nước (20m³ × 15.000đ)"
-                            android:textColor="#6C757D"
-                            android:textSize="13sp"/>
-                        <TextView
-                            android:id="@+id/tvWaterStatic"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="300.000đ"
-                            android:textColor="#1A1A1A"
-                            android:textSize="14sp"
-                            android:textStyle="bold"/>
-                    </LinearLayout>
+                        android:orientation="vertical" />
 
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
