@@ -1,7 +1,20 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     id("com.google.gms.google-services") // thêm dòng này
 }
+
+
+val localProps = Properties().apply {
+    val f = rootProject.file("local.properties")
+    if (f.exists()) f.inputStream().use { load(it) }
+}
+fun String.escapeForBuildConfig(): String =
+    "\"" + replace("\\", "\\\\").replace("\"", "\\\"") + "\""
+
+val smtpOtpUser: String = localProps.getProperty("smtp.otp.user", "")
+val smtpOtpPassword: String = localProps.getProperty("smtp.otp.password", "")
 
 android {
     namespace = "com.and.apartmentmanager"
@@ -15,6 +28,8 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField("String", "SMTP_OTP_USER", smtpOtpUser.escapeForBuildConfig())
+        buildConfigField("String", "SMTP_OTP_PASSWORD", smtpOtpPassword.escapeForBuildConfig())
     }
 
     buildTypes {
@@ -27,6 +42,13 @@ android {
         }
     }
 
+    packaging {
+        resources {
+            pickFirsts += "META-INF/NOTICE.md"
+            pickFirsts += "META-INF/LICENSE.md"
+        }
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
@@ -34,6 +56,7 @@ android {
 
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
 }
 
@@ -70,6 +93,9 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+
+    implementation("com.sun.mail:android-mail:1.6.7")
+    implementation("com.sun.mail:android-activation:1.6.7")
 
     implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
     implementation("androidx.work:work-runtime:2.9.0")

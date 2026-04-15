@@ -14,6 +14,7 @@ import com.and.apartmentmanager.R;
 import com.and.apartmentmanager.data.local.entity.UserEntity;
 import com.and.apartmentmanager.data.repository.UserRepository;
 import com.and.apartmentmanager.helper.AuthOtpManager;
+import com.and.apartmentmanager.helper.OtpEmailSender;
 import com.and.apartmentmanager.presentation.ui.auth.login.LoginActivity;
 
 public class RegisterActivity extends AppCompatActivity {
@@ -73,16 +74,27 @@ public class RegisterActivity extends AppCompatActivity {
         btnRegister.setEnabled(false);
         new Thread(() -> {
             UserEntity created = userRepository.registerBlocking(name, email, phone, password);
+            if (created == null) {
+                runOnUiThread(() -> {
+                    btnRegister.setEnabled(true);
+                    Toast.makeText(this, "Email đã tồn tại", Toast.LENGTH_SHORT).show();
+
+                });
+                return;
+            }
+
+            AuthOtpManager otpManager = AuthOtpManager.getInstance(getApplicationContext());
+            AuthOtpManager.SendResult otpResult = otpManager.sendOtp(email);
+            boolean mailed = OtpEmailSender.sendOtpEmail(
+                    otpResult.email, otpResult.otp, OtpEmailSender.OtpEmailKind.REGISTRATION);
+
             runOnUiThread(() -> {
                 btnRegister.setEnabled(true);
-                if (created == null) {
-                    Toast.makeText(this, "Email đã tồn tại", Toast.LENGTH_SHORT).show();
-                    return;
+                if (!mailed) {
+                    Toast.makeText(this,
+                            "Không gửi được email OTP. Kiểm tra local.properties (smtp.otp). Mã vẫn in Logcat.",
+                            Toast.LENGTH_LONG).show();
                 }
-
-                // OTP giả lập: logcat
-                AuthOtpManager otpManager = AuthOtpManager.getInstance(getApplicationContext());
-                otpManager.sendOtp(email);
 
                 startActivity(new Intent(this, OtpVerifyActivity.class));
                 finish();
