@@ -38,12 +38,14 @@
             android:orientation="vertical">
 
             <ImageView
+                android:id="@+id/icon_home"
                 android:layout_width="22dp"
                 android:layout_height="22dp"
                 android:src="@drawable/ic_auth_house"
                 app:tint="#A8D5B5" />
 
             <TextView
+                android:id="@+id/text_home"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Home"
@@ -62,12 +64,14 @@
             android:orientation="vertical">
 
             <ImageView
+                android:id="@+id/icon_invoice"
                 android:layout_width="22dp"
                 android:layout_height="22dp"
                 android:src="@drawable/ic_nav_invoice_outline"
                 app:tint="#A8D5B5" />
 
             <TextView
+                android:id="@+id/text_invoice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Hóa đơn"
@@ -86,12 +90,14 @@
             android:orientation="vertical">
 
             <ImageView
+                android:id="@+id/icon_service"
                 android:layout_width="22dp"
                 android:layout_height="22dp"
                 android:src="@drawable/ic_nav_services_outline"
                 app:tint="#A8D5B5" />
 
             <TextView
+                android:id="@+id/text_service"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Dịch vụ"
@@ -110,12 +116,14 @@
             android:orientation="vertical">
 
             <ImageView
+                android:id="@+id/icon_tb"
                 android:layout_width="22dp"
                 android:layout_height="22dp"
                 android:src="@drawable/ic_auth_bell_outline"
                 app:tint="#A8D5B5" />
 
             <TextView
+                android:id="@+id/text_tb"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="TB"
@@ -134,27 +142,21 @@
             android:orientation="vertical">
 
             <ImageView
+                android:id="@+id/icon_profile"
                 android:layout_width="22dp"
                 android:layout_height="22dp"
                 android:src="@drawable/ic_auth_user_outline"
-                app:tint="@color/primary" />
+                app:tint="#A8D5B5" />
 
             <TextView
+                android:id="@+id/text_profile"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Profile"
-                android:textColor="@color/primary"
+                android:textColor="#A8D5B5"
                 android:textStyle="bold"
                 android:textSize="10sp"
                 android:layout_marginTop="2dp" />
-
-            <View
-                android:layout_width="6dp"
-                android:layout_height="6dp"
-                android:background="@color/primary"
-                android:layout_marginTop="4dp"
-                android:visibility="visible"
-                android:alpha="0.9" />
         </LinearLayout>
     </LinearLayout>
 

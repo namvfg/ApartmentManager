@@ -47,7 +47,7 @@ public class UserApartmentEntity {
     private int id;
 
     @ColumnInfo(name = "user_id")
-    private int userId;
+    private long userId;
 
     @ColumnInfo(name = "apartment_id")
     private int apartmentId;

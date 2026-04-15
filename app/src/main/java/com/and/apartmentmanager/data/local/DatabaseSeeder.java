@@ -33,6 +33,7 @@ public class DatabaseSeeder {
         seedUtilityReadings(db);
         seedInvoices(db);
         seedNotifications(db);
+        seedUserServices(db);
     }
 
     // ─────────────────────────────────────────────────────────────
@@ -59,6 +60,7 @@ public class DatabaseSeeder {
         db.userDao().insert(new UserEntity(0, "Đặng Văn Giang", "giang@gmail.com",          "user123",  "0921111111", "user",  true,  false, null,false));
         db.userDao().insert(new UserEntity(0, "Bùi Thị Hoa",    "hoa@gmail.com",            "user123",  "0922222222", "user",  true,  false, null,false));
         db.userDao().insert(new UserEntity(0, "Ngô Văn Ích",    "ich@gmail.com",            "user123",  "0923333333", "user",  false, false, null,false));
+        db.userDao().insert(new UserEntity(0, "Anh Phan",    "phan@gmail.com",            "user123",  "0901111133", "user",  true, false, null,false));
     }
 
     // ─────────────────────────────────────────────────────────────
@@ -142,17 +144,17 @@ public class DatabaseSeeder {
         long expired  = System.currentTimeMillis() -  7L * 24 * 60 * 60 * 1000;
 
         // Sunrise City (apartment_id=1, admin_id=1)
-        db.inviteCodeDao().insert(new InviteCodeEntity(0, 1, 1, 1, "INV-A101",     in30days, true,  3));    // đã dùng bởi Cường
-        db.inviteCodeDao().insert(new InviteCodeEntity(0, 1, 2, 1, "INV-A102",     in30days, true,  4));    // đã dùng bởi Dung
-        db.inviteCodeDao().insert(new InviteCodeEntity(0, 1, 3, 1, "INV-A201",     in30days, true,  5));    // đã dùng bởi Em
-        db.inviteCodeDao().insert(new InviteCodeEntity(0, 1, 4, 1, "INV-A202",     in30days, true,  6));    // đã dùng bởi Phương
+        db.inviteCodeDao().insert(new InviteCodeEntity(0, 1, 1, 1, "INV-A101",     in30days, true,  3L));    // đã dùng bởi Cường
+        db.inviteCodeDao().insert(new InviteCodeEntity(0, 1, 2, 1, "INV-A102",     in30days, true,  4L));    // đã dùng bởi Dung
+        db.inviteCodeDao().insert(new InviteCodeEntity(0, 1, 3, 1, "INV-A201",     in30days, true,  5L));    // đã dùng bởi Em
+        db.inviteCodeDao().insert(new InviteCodeEntity(0, 1, 4, 1, "INV-A202",     in30days, true,  6L));    // đã dùng bởi Phương
         db.inviteCodeDao().insert(new InviteCodeEntity(0, 1, 5, 1, "INV-B101-NEW", in30days, false, null)); // chưa dùng, còn hạn
         db.inviteCodeDao().insert(new InviteCodeEntity(0, 1, 6, 1, "INV-B101-EXP", expired,  false, null)); // hết hạn
 
         // Green Park (apartment_id=2, admin_id=2)
-        db.inviteCodeDao().insert(new InviteCodeEntity(0, 2, 7,  2, "INV-C101",     in30days, true,  7));    // đã dùng bởi Giang
-        db.inviteCodeDao().insert(new InviteCodeEntity(0, 2, 8,  2, "INV-C102",     in30days, true,  8));    // đã dùng bởi Hoa
-        db.inviteCodeDao().insert(new InviteCodeEntity(0, 2, 9,  2, "INV-C201",     in30days, true,  9));    // đã dùng bởi Ích
+        db.inviteCodeDao().insert(new InviteCodeEntity(0, 2, 7,  2, "INV-C101",     in30days, true,  7L));    // đã dùng bởi Giang
+        db.inviteCodeDao().insert(new InviteCodeEntity(0, 2, 8,  2, "INV-C102",     in30days, true,  8L));    // đã dùng bởi Hoa
+        db.inviteCodeDao().insert(new InviteCodeEntity(0, 2, 9,  2, "INV-C201",     in30days, true,  9L));    // đã dùng bởi Ích
         db.inviteCodeDao().insert(new InviteCodeEntity(0, 2, 10, 2, "INV-D101-NEW", in30days, false, null)); // chưa dùng
     }
 
@@ -406,5 +408,42 @@ public class DatabaseSeeder {
                 "Hóa đơn quá hạn căn hộ C102",
                 "Hóa đơn tháng " + DateTimeUtil.monthString(-1) + " của căn hộ C102 đã quá hạn thanh toán. Vui lòng liên hệ ban quản lý để được hỗ trợ.",
                 "auto", "user", 8, 2, now, false, null));
+    }
+
+    private static void seedUserServices(AppDatabase db) {
+        long now = System.currentTimeMillis();
+
+        // ==============================
+        // SUNRISE CITY (apartment_id = 1)
+        // ==============================
+
+        // User 3 - A101 (unit_id = 1)
+        db.userServiceDao().insert(new UserServiceEntity(0, 3, 1, 1, now)); // Điện
+        db.userServiceDao().insert(new UserServiceEntity(0, 3, 2, 1, now)); // Nước
+        db.userServiceDao().insert(new UserServiceEntity(0, 3, 3, 1, now)); // Rác
+        db.userServiceDao().insert(new UserServiceEntity(0, 3, 4, 1, now)); // Gửi xe
+
+        // User 4 - A102 (unit_id = 2)
+        db.userServiceDao().insert(new UserServiceEntity(0, 4, 1, 2, now));
+        db.userServiceDao().insert(new UserServiceEntity(0, 4, 2, 2, now));
+        db.userServiceDao().insert(new UserServiceEntity(0, 4, 3, 2, now));
+
+        // User 5 - A201 (unit_id = 3)
+        db.userServiceDao().insert(new UserServiceEntity(0, 5, 1, 3, now));
+        db.userServiceDao().insert(new UserServiceEntity(0, 5, 2, 3, now));
+
+        // ==============================
+        // GREEN PARK (apartment_id = 2)
+        // ==============================
+
+        // User 7 - C101 (unit_id = 7)
+        db.userServiceDao().insert(new UserServiceEntity(0, 7, 5, 7, now)); // Điện
+        db.userServiceDao().insert(new UserServiceEntity(0, 7, 6, 7, now)); // Nước
+        db.userServiceDao().insert(new UserServiceEntity(0, 7, 7, 7, now)); // Rác
+        db.userServiceDao().insert(new UserServiceEntity(0, 7, 8, 7, now)); // Bảo vệ
+
+        // User 8 - C102 (unit_id = 8)
+        db.userServiceDao().insert(new UserServiceEntity(0, 8, 5, 8, now));
+        db.userServiceDao().insert(new UserServiceEntity(0, 8, 6, 8, now));
     }
 }

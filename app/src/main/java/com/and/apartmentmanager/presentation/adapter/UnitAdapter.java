@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.and.apartmentmanager.presentation.ui.admin.apartment.InviteActivity;
 import com.and.apartmentmanager.R;
 import com.and.apartmentmanager.presentation.ui.user.UserActivity;
-import com.and.apartmentmanager.UserActivity;
 import com.and.apartmentmanager.data.local.entity.ContractEntity;
 import com.and.apartmentmanager.data.local.entity.UnitEntity;
 import com.and.apartmentmanager.data.repository.ContractRepository;

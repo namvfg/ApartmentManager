@@ -11,10 +11,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.and.apartmentmanager.Adapter.BlockAdapter;
 import com.and.apartmentmanager.R;
 import com.and.apartmentmanager.presentation.adapter.BlockAdapter;
-import com.and.apartmentmanager.data.local.AppDatabase;
 import com.and.apartmentmanager.data.local.entity.BlockEntity;
 import com.and.apartmentmanager.data.local.entity.UnitEntity;
 import com.and.apartmentmanager.data.repository.BlockRepository;

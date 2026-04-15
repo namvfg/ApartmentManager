@@ -28,30 +28,46 @@ public class CreateContractActivity extends AppCompatActivity {
 
     private AppDatabase db;
 
-    // Chọn file PDF (hiện chưa dùng để lưu)
-    private final ActivityResultLauncher<Intent> pickPdfLauncher = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-            result -> {
-                if (result.getResultCode() == RESULT_OK && result.getData() != null) {
-                    Uri uri = result.getData().getData();
-                    Toast.makeText(this, "Đã chọn file PDF!", Toast.LENGTH_SHORT).show();
-                }
-            }
-    );
+    private int userId;
+    private int unitId;
+    private int apartmentId;
+
+    private final ActivityResultLauncher<Intent> pickPdfLauncher =
+            registerForActivityResult(
+                    new ActivityResultContracts.StartActivityForResult(),
+                    result -> {
+                        if (result.getResultCode() == RESULT_OK && result.getData() != null) {
+                            Uri uri = result.getData().getData();
+                            Toast.makeText(this, "Đã chọn file PDF!", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+            );
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_contract);
 
-        // Khởi tạo DB
+        // ✅ NHẬN DATA TỪ INTENT
+        userId = getIntent().getIntExtra("userId", -1);
+        unitId = getIntent().getIntExtra("unitId", -1);
+        apartmentId = getIntent().getIntExtra("apartmentId", -1);
+
+        // ❗ CHECK TRÁNH CRASH
+        if (userId == -1 || unitId == -1 || apartmentId == -1) {
+            Toast.makeText(this, "Thiếu dữ liệu", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
+
+        // DB
         db = Room.databaseBuilder(
                 getApplicationContext(),
                 AppDatabase.class,
                 "apartment_db"
         ).allowMainThreadQueries().build();
 
-        // Ánh xạ View
+        // View
         EditText edtStartDate = findViewById(R.id.edtStartDate);
         EditText edtEndDate = findViewById(R.id.edtEndDate);
         EditText edtPrice = findViewById(R.id.edtPrice);
@@ -59,7 +75,7 @@ public class CreateContractActivity extends AppCompatActivity {
         ImageButton btnBack = findViewById(R.id.btnBack);
         LinearLayout layoutUpload = findViewById(R.id.layoutUpload);
 
-        // Chọn PDF (chưa dùng)
+        // Upload PDF
         if (layoutUpload != null) {
             layoutUpload.setOnClickListener(v -> {
                 Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
@@ -69,50 +85,61 @@ public class CreateContractActivity extends AppCompatActivity {
             });
         }
 
-        // Nút back
         btnBack.setOnClickListener(v -> finish());
 
-        // Chọn ngày
         edtStartDate.setOnClickListener(v -> showDatePicker(edtStartDate));
         edtEndDate.setOnClickListener(v -> showDatePicker(edtEndDate));
 
-        // 👉 NÚT TẠO HỢP ĐỒNG
+        // ✅ CREATE CONTRACT
         btnCreate.setOnClickListener(v -> {
             try {
-                // Lấy dữ liệu
+                String startStr = edtStartDate.getText().toString();
+                String endStr = edtEndDate.getText().toString();
                 String priceStr = edtPrice.getText().toString().replace(".", "");
+
+                // ❗ VALIDATE
+                if (startStr.isEmpty() || endStr.isEmpty() || priceStr.isEmpty()) {
+                    Toast.makeText(this, "Nhập đầy đủ thông tin", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 double price = Double.parseDouble(priceStr);
 
-                long startDate = convertToMillis(edtStartDate.getText().toString());
-                long endDate = convertToMillis(edtEndDate.getText().toString());
+                long startDate = convertToMillis(startStr);
+                long endDate = convertToMillis(endStr);
 
-                // Tạo object
+                if (endDate <= startDate) {
+                    Toast.makeText(this, "Ngày kết thúc phải sau ngày bắt đầu", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                // ✅ OBJECT ĐÚNG
                 ContractEntity contract = ContractEntity.builder()
-                        .userId(1)
-                        .apartmentId(1)
-                        .unitId(1)
+                        .userId(userId)
+                        .apartmentId(apartmentId)
+                        .unitId(unitId)
                         .startDate(startDate)
                         .endDate(endDate)
                         .billingDay(1)
                         .rentPrice(price)
                         .status("active")
                         .contractUrl("")
-                        .createdBy(1)
+                        .createdBy(userId) // TODO: nếu có adminId thì dùng adminId
                         .createdAt(System.currentTimeMillis())
                         .build();
 
-                // Lưu DB
                 long id = db.contractDao().insert(contract);
 
-                Toast.makeText(this, "Tạo thành công ID = " + id, Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Tạo thành công!", Toast.LENGTH_SHORT).show();
+
+                finish(); // ✅ quay lại màn trước
 
             } catch (Exception e) {
                 e.printStackTrace();
-                Toast.makeText(this, "Lỗi: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Lỗi dữ liệu!", Toast.LENGTH_SHORT).show();
             }
         });
 
-        // Toolbar
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setTitle("Tạo hợp đồng");
@@ -120,24 +147,25 @@ public class CreateContractActivity extends AppCompatActivity {
     }
 
     private void showDatePicker(EditText editText) {
-        final Calendar c = Calendar.getInstance();
-        int year = c.get(Calendar.YEAR);
-        int month = c.get(Calendar.MONTH);
-        int day = c.get(Calendar.DAY_OF_MONTH);
+        Calendar c = Calendar.getInstance();
 
-        DatePickerDialog datePickerDialog = new DatePickerDialog(this,
-                (view, yearSelected, monthOfYear, dayOfMonth) -> {
-                    String date = String.format("%02d/%02d/%d", dayOfMonth, (monthOfYear + 1), yearSelected);
+        DatePickerDialog dialog = new DatePickerDialog(this,
+                (view, year, month, day) -> {
+                    String date = String.format("%02d/%02d/%d", day, month + 1, year);
                     editText.setText(date);
-                }, year, month, day);
-        datePickerDialog.show();
+                },
+                c.get(Calendar.YEAR),
+                c.get(Calendar.MONTH),
+                c.get(Calendar.DAY_OF_MONTH));
+
+        dialog.show();
     }
 
     private long convertToMillis(String dateStr) {
         try {
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
             Date date = sdf.parse(dateStr);
-            return date.getTime();
+            return date != null ? date.getTime() : System.currentTimeMillis();
         } catch (Exception e) {
             return System.currentTimeMillis();
         }

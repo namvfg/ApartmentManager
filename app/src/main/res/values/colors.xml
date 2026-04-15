@@ -34,4 +34,6 @@
     <color name="text_on_dark">#FFFFFF</color>
     <color name="text_on_dark_sub">#8CFFFFFF</color> <!-- 55% opacity -->
     <color name="green">#36F44F</color>
+
+    <color name="unselected">#A8D5B5</color>
 </resources>

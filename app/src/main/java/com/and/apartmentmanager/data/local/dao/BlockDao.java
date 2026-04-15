@@ -33,5 +33,4 @@ public interface BlockDao {
 
     @Query("SELECT * FROM blocks WHERE id = :id LIMIT 1")
     BlockEntity getById(int id);
-    int countUnits(int blockId);
 }

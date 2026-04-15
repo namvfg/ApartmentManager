@@ -34,7 +34,7 @@ public class UserApartmentRepository {
         executor.execute(() -> userApartmentDao.deleteUserFromApartment(userId, apartmentId));
     }
 
-    public UserApartmentEntity findByUserId(int userId) {
+    public UserApartmentEntity findByUserId(long userId) {
         return userApartmentDao.findByUserId(userId);
     }
 

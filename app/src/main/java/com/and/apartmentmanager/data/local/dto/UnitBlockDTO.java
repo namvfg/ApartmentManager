@@ -1,4 +1,4 @@
-package com.and.apartmentmanager.data.local.entity;
+package com.and.apartmentmanager.data.local.dto;
 
 import androidx.room.ColumnInfo;
 

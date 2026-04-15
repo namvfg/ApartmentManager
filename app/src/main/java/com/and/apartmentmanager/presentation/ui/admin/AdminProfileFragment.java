@@ -66,9 +66,7 @@ public class AdminProfileFragment extends Fragment {
             );
         }
         if (rowReport != null) {
-            rowReport.setOnClickListener(v ->
-                    Toast.makeText(requireContext(), "(P1) Báo cáo tổng hợp: sẽ làm ở module khác", Toast.LENGTH_SHORT).show()
-            );
+            rowReport.setOnClickListener(v -> ((AdminMainActivity) requireActivity()).showStatistic());
         }
         if (rowChangePassword != null) {
             rowChangePassword.setOnClickListener(v -> ((AdminMainActivity) requireActivity()).showChangePassword());

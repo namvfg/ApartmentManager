@@ -16,8 +16,19 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private static final int TYPE_RECV = 0;
     private static final int TYPE_SENT = 1;
+    private final boolean isContextAdmin;
 
-    private final List<Message> messages = new ArrayList<>();
+    private List<Message> messages = new ArrayList<>();
+
+    public ChatAdapter(boolean isContextAdmin) {
+        this.isContextAdmin = isContextAdmin;
+    }
+
+    // Thêm hàm này để cập nhật toàn bộ danh sách từ ViewModel
+    public void setMessages(List<Message> newMessages) {
+        this.messages = new ArrayList<>(newMessages);
+        notifyDataSetChanged();
+    }
 
     public void addMessage(Message message) {
         messages.add(message);
@@ -26,7 +37,12 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public int getItemViewType(int position) {
-        return messages.get(position).isSent ? TYPE_SENT : TYPE_RECV;
+        Message msg = messages.get(position);
+        if (isContextAdmin) {
+            return msg.isSentByAdmin ? TYPE_SENT : TYPE_RECV;
+        } else {
+            return msg.isSentByAdmin ? TYPE_RECV : TYPE_SENT;
+        }
     }
 
     @NonNull
@@ -34,13 +50,9 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         if (viewType == TYPE_SENT) {
-            return new SentViewHolder(
-                    ItemMessageSentBinding.inflate(inflater, parent, false)
-            );
+            return new SentViewHolder(ItemMessageSentBinding.inflate(inflater, parent, false));
         } else {
-            return new RecvViewHolder(
-                    ItemMessageRecvBinding.inflate(inflater, parent, false)
-            );
+            return new RecvViewHolder(ItemMessageRecvBinding.inflate(inflater, parent, false));
         }
     }
 
@@ -57,43 +69,37 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public int getItemCount() { return messages.size(); }
 
-    // ── ViewHolders ───────────────────────────────────────────────────────────
+    // ── ViewHolders ──────────────────────────────────────────
 
     static class SentViewHolder extends RecyclerView.ViewHolder {
         private final ItemMessageSentBinding binding;
-        SentViewHolder(ItemMessageSentBinding b) {
-            super(b.getRoot());
-            binding = b;
-        }
-        void bind(Message msg) {
-            binding.textMessage.setText(msg.text);
-            binding.textTime.setText(msg.time + " ✓✓");
-        }
-    }
-
-    static class RecvViewHolder extends RecyclerView.ViewHolder {
-        private final ItemMessageRecvBinding binding;
-        RecvViewHolder(ItemMessageRecvBinding b) {
-            super(b.getRoot());
-            binding = b;
-        }
+        SentViewHolder(ItemMessageSentBinding b) { super(b.getRoot()); binding = b; }
         void bind(Message msg) {
             binding.textMessage.setText(msg.text);
             binding.textTime.setText(msg.time);
         }
     }
 
-    // ── Data model ────────────────────────────────────────────────────────────
+    static class RecvViewHolder extends RecyclerView.ViewHolder {
+        private final ItemMessageRecvBinding binding;
+        RecvViewHolder(ItemMessageRecvBinding b) { super(b.getRoot()); binding = b; }
+        void bind(Message msg) {
+            binding.textMessage.setText(msg.text);
+            binding.textTime.setText(msg.time);
+        }
+    }
+
+    // ── Data model đồng bộ với Firebase Repository ───────────
 
     public static class Message {
         public String text;
         public String time;
-        public boolean isSent; // true = Admin gửi, false = User gửi
+        public boolean isSentByAdmin; // Đổi tên cho khớp với Repository
 
-        public Message(String text, String time, boolean isSent) {
+        public Message(String text, String time, boolean isSentByAdmin) {
             this.text = text;
             this.time = time;
-            this.isSent = isSent;
+            this.isSentByAdmin = isSentByAdmin;
         }
     }
 }

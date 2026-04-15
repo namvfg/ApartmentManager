@@ -3,11 +3,13 @@ package com.and.apartmentmanager.presentation.ui.auth;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.and.apartmentmanager.R;
 import com.and.apartmentmanager.data.local.AppDatabase;
+import com.and.apartmentmanager.data.repository.UserRepository;
 import com.and.apartmentmanager.helper.SessionManager;
 import com.and.apartmentmanager.presentation.ui.admin.AdminMainActivity;
 import com.and.apartmentmanager.presentation.ui.auth.login.LoginActivity;
@@ -20,7 +22,12 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
 
         // Mở DB để trigger seed nếu lần đầu cài đặt.
-        AppDatabase.getInstance(getApplicationContext());
+        UserRepository userRepository = new UserRepository(getApplication());
+        // Khởi tạo DB và chạy seed
+        new Thread(() -> {
+            int count = userRepository.count();
+            Log.d("DB_TEST", "count = " + count);
+        }).start();
 
         Handler handler = new Handler();
         handler.postDelayed(() -> {
@@ -40,4 +47,4 @@ public class SplashActivity extends AppCompatActivity {
             finish();
         }, 900);
     }
-            }
+}

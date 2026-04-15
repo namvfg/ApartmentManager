@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 
 import com.and.apartmentmanager.R;
 import com.and.apartmentmanager.databinding.FragmentChatListBinding;
+import com.and.apartmentmanager.helper.SessionManager;
 import com.and.apartmentmanager.presentation.adapter.ChatListAdapter;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -45,13 +46,18 @@ public class ChatListFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // Setup RecyclerView
-        // Setup RecyclerView
+        // 1. Khởi tạo ViewModel
+        mViewModel = new ViewModelProvider(this).get(ChatListViewModel.class);
+
+        // 2. Setup Adapter
         adapter = new ChatListAdapter(item -> {
+            long adminAptId = SessionManager.getInstance(requireContext()).getApartmentId();
+
             ChatFragment chatFragment = ChatFragment.newInstance(
+                    adminAptId,
                     item.userId,
                     item.userName,
-                    "Phòng A-101" // sau lấy từ DB thật
+                    item.roomName // <--- Dùng roomName của item luôn
             );
             requireActivity().getSupportFragmentManager()
                     .beginTransaction()
@@ -60,32 +66,27 @@ public class ChatListFragment extends Fragment {
                     .commit();
         });
 
-        binding.recyclerChatList.setLayoutManager(
-                new LinearLayoutManager(requireContext())
-        );
+        binding.recyclerChatList.setLayoutManager(new LinearLayoutManager(requireContext()));
         binding.recyclerChatList.setAdapter(adapter);
+        binding.recyclerChatList.addItemDecoration(new DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL));
 
-        // Thêm divider giữa các item
-        binding.recyclerChatList.addItemDecoration(
-                new DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL)
-        );
+        // 3. Quan sát dữ liệu từ ViewModel
+        mViewModel.getChatList().observe(getViewLifecycleOwner(), items -> {
+            adapter.setItems(items);
+            // Hiển thị trạng thái trống nếu cần
+            binding.textEmptyMessage.setVisibility(items.isEmpty() ? View.VISIBLE : View.GONE);
+        });
 
-        // Test data tạm — sau thay bằng Firebase thật
-        List<ChatListAdapter.ChatItem> testData = new ArrayList<>();
-        testData.add(new ChatListAdapter.ChatItem(1, "Nguyễn Văn A", "Cảm ơn bạn nhiều!", "09:34", 2, true));
-        testData.add(new ChatListAdapter.ChatItem(2, "Lê Văn C", "Tôi muốn hỏi về hóa đơn tháng 3...", "Hôm qua", 0, false));
-        testData.add(new ChatListAdapter.ChatItem(3, "Trần Thị B", "Bạn: Dạ, đã được duyệt rồi ạ.", "3 ngày trước", 0, false));
-        adapter.setItems(testData);
+        // 4. Load dữ liệu lần đầu
+        mViewModel.loadChats();
 
-        // Search
+        // 5. Logic Search cực gọn
         binding.searchChat.addTextChangedListener(new android.text.TextWatcher() {
             @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-            @Override public void afterTextChanged(android.text.Editable s) {}
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // TODO: filter danh sách theo tên
+            @Override public void onTextChanged(CharSequence s, int start, int before, int count) {
+                mViewModel.filter(s.toString().trim());
             }
+            @Override public void afterTextChanged(android.text.Editable s) {}
         });
     }
 

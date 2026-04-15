@@ -71,7 +71,7 @@
 
     <!-- Item: Đổi mật khẩu -->
     <LinearLayout
-        android:id="@+id/itemChangePassword"
+        android:id="@+id/itemChat"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -92,7 +92,7 @@
             android:fontFamily="@font/dm_sans"
             android:textSize="11sp"
             android:textColor="@color/text_primary"
-            android:text="@string/a01_change_password" />
+            android:text="@string/a01_chat" />
 
     </LinearLayout>
 

@@ -63,7 +63,7 @@
 
                     <!-- Notification bell -->
                     <FrameLayout
-                        android:id="@+id/btnNotification"
+                        android:id="@+id/btnChatWithAdmin"
                         android:layout_width="34dp"
                         android:layout_height="34dp">
 
@@ -96,6 +96,7 @@
 
                     <!-- Hóa đơn tháng này -->
                     <LinearLayout
+                        android:id="@+id/layoutInvoice"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -143,6 +144,7 @@
 
                     <!-- Hợp đồng -->
                     <LinearLayout
+                        android:id="@+id/layoutContract"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -283,14 +285,17 @@
                     <Button
                         android:id="@+id/btnPayNow"
                         android:layout_width="match_parent"
-                        android:layout_height="38dp"
+                        android:layout_height="40dp"
                         android:layout_marginTop="10dp"
-                        android:background="@drawable/bg_header_gradient"
+                        android:background="@drawable/bg_button_primary"
                         android:fontFamily="@font/bricolage_grotesque"
                         android:textSize="13sp"
+                        android:textStyle="bold"
+                        android:textAllCaps="false"
                         android:textColor="@color/white"
                         android:text="Thanh toán ngay"
-                        android:stateListAnimator="@null" />
+                        android:elevation="0dp"
+                        android:stateListAnimator="@null"/>
 
                 </LinearLayout>
 

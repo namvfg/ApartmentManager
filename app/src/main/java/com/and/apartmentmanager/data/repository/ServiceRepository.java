@@ -4,8 +4,10 @@ import android.app.Application;
 
 import com.and.apartmentmanager.data.local.AppDatabase;
 import com.and.apartmentmanager.data.local.dao.ServiceDao;
+import com.and.apartmentmanager.data.local.dto.ServiceDTO;
 import com.and.apartmentmanager.data.local.entity.ServiceEntity;
 
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -21,4 +23,9 @@ public class ServiceRepository {
     private void insert(ServiceEntity service) {
         executor.execute(() -> serviceDao.insert(service));
     }
+
+    public List<ServiceDTO> getServicesByUnitIdBlocking(int unitId) {
+        return serviceDao.getServicesByUnitId(unitId);
+    }
+
 }

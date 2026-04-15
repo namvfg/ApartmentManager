@@ -3,6 +3,7 @@ package com.and.apartmentmanager.presentation.ui.user;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -14,15 +15,17 @@ import com.and.apartmentmanager.data.local.entity.InviteCodeEntity;
 import com.and.apartmentmanager.data.local.entity.UserApartmentEntity;
 import com.and.apartmentmanager.data.repository.InviteCodeRepository;
 import com.and.apartmentmanager.data.repository.UserApartmentRepository;
+import com.and.apartmentmanager.helper.SessionManager;
 
 import java.util.concurrent.Executors;
 
 public class JoinActivity extends AppCompatActivity {
     EditText edtCode;
     Button btnJoin;
+    ImageView btnBack;
     InviteCodeRepository inviteCodeRepository;
     UserApartmentRepository userApartmentRepository;
-    int userId;
+    long userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,13 +33,17 @@ public class JoinActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_join);
 
+        btnBack = findViewById(R.id.btnBack);
+        btnBack.setOnClickListener(v -> finish());
+
         inviteCodeRepository = new InviteCodeRepository(getApplication());
         userApartmentRepository = new UserApartmentRepository(getApplication());
 
         edtCode = findViewById(R.id.edtCode);
         btnJoin = findViewById(R.id.btnJoin);
 
-        userId = 3;
+        SessionManager sm = SessionManager.getInstance(getApplication());
+        userId = sm.getUserId();
 
         btnJoin.setOnClickListener(v -> joinByCode());
     }

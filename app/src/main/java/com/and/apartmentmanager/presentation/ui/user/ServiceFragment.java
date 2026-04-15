@@ -1,44 +1,60 @@
-package com.and.apartmentmanager.presentation.ui.admin;
+package com.and.apartmentmanager.presentation.ui.user;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
 import android.util.Log;
 
 import com.and.apartmentmanager.R;
 import com.and.apartmentmanager.data.local.AppDatabase;
 import com.and.apartmentmanager.data.local.entity.ServiceEntity;
+import com.and.apartmentmanager.presentation.ui.admin.UpdatePriceElectricActivity;
+import com.and.apartmentmanager.presentation.ui.admin.UpdatePriceWaterActivity;
 
 import java.util.List;
 
-public class ServiceActivity extends AppCompatActivity {
+public class ServiceFragment extends Fragment {
 
-    LinearLayout layoutFixed, layoutVariable;
+    private LinearLayout layoutFixed, layoutVariable;
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_service, container, false);
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_service);
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
-        layoutFixed = findViewById(R.id.layoutFixed);
-        layoutVariable = findViewById(R.id.layoutVariable);
+        layoutFixed = view.findViewById(R.id.layoutFixed);
+        layoutVariable = view.findViewById(R.id.layoutVariable);
 
-        AppDatabase db = AppDatabase.getInstance(this);
+        AppDatabase db = AppDatabase.getInstance(requireContext());
 
         new Thread(() -> {
             List<ServiceEntity> all = db.serviceDao().getAll();
             Log.d("CHECK_DB", "all size = " + all.size());
-            List<ServiceEntity> services = db.serviceDao().getServicesByApartment(1);
 
+            List<ServiceEntity> services = db.serviceDao().getServicesByApartment(1);
             Log.d("SERVICE", "size = " + services.size());
-            runOnUiThread(() -> {
+
+            requireActivity().runOnUiThread(() -> {
+
                 for (ServiceEntity s : services) {
 
-                    View item = getLayoutInflater().inflate(R.layout.item_service, null);
+                    View item = getLayoutInflater().inflate(R.layout.item_service, layoutFixed, false);
 
                     TextView tvName = item.findViewById(R.id.tvName);
                     TextView tvDesc = item.findViewById(R.id.tvDesc);
@@ -48,40 +64,39 @@ public class ServiceActivity extends AppCompatActivity {
                     tvDesc.setText(s.getDescription());
 
                     String name = s.getName().toLowerCase();
-
                     String pricing;
 
-                    //  Điện + Nước
+                    // ===== LOGIC PHÂN LOẠI =====
                     if (name.contains("điện") || name.contains("nước")) {
                         pricing = "Biến đổi";
-                        layoutFixed.addView(item);
-                    }
-                    //  Rác + Gửi xe
-                    else {
+                        layoutVariable.addView(item); // ⚠️ sửa đúng chỗ
+                    } else {
                         pricing = "Cố định";
-                        layoutVariable.addView(item);
+                        layoutFixed.addView(item);
                     }
 
                     tvTag.setText(pricing);
 
+                    // ===== CLICK =====
                     item.setOnClickListener(v -> {
 
                         String nameLower = s.getName().toLowerCase().trim();
 
                         if (nameLower.contains("điện")) {
-                            Intent intent = new Intent(ServiceActivity.this, UpdatePriceElectricActivity.class);
+                            Intent intent = new Intent(getContext(), UpdatePriceElectricActivity.class);
                             intent.putExtra("service_name", s.getName());
                             startActivity(intent);
                         }
 
                         else if (nameLower.contains("nước")) {
-                            Intent intent = new Intent(ServiceActivity.this, UpdatePriceWaterActivity.class);
+                            Intent intent = new Intent(getContext(), UpdatePriceWaterActivity.class);
                             intent.putExtra("service_name", s.getName());
                             startActivity(intent);
                         }
                     });
                 }
             });
+
         }).start();
     }
 }

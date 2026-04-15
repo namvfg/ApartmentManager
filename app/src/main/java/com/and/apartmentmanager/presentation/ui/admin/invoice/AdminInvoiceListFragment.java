@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.and.apartmentmanager.R;
+import com.and.apartmentmanager.data.local.dto.UnitBlockDTO;
 import com.and.apartmentmanager.presentation.adapter.AdminInvoiceAdapter;
 import com.and.apartmentmanager.data.local.entity.InvoiceEntity;
 import com.and.apartmentmanager.presentation.ui.user.invoice.InvoiceViewModel;
@@ -108,7 +109,7 @@ public class AdminInvoiceListFragment extends Fragment {
         invoiceViewModel.getAllUnitNames().observe(getViewLifecycleOwner(), list -> {
             if (list != null) {
                 unitNameMap.clear();
-                for (com.and.apartmentmanager.data.local.entity.UnitBlockDTO dto : list) {
+                for (UnitBlockDTO dto : list) {
                     // Mặc dù biến tên là blockName nhưng do câu Query ở Dao, nó đang chứa Tên Phòng
                     unitNameMap.put(dto.unitId, dto.blockName);
                 }

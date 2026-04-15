@@ -4,13 +4,18 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -23,47 +28,48 @@ import com.and.apartmentmanager.helper.SessionManager;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ApartmentActivity extends AppCompatActivity {
-     RecyclerView recyclerView;
-     ApartmentAdapter adapter;
-     ApartmentRepository apartmentRepository;
-    Button btnAdd;
-    EditText edtSearch;
-    List<ApartmentEntity> originalList = new ArrayList<>();
+public class ApartmentFragment extends Fragment {
 
+    private RecyclerView recyclerView;
+    private ApartmentAdapter adapter;
+    private ApartmentRepository apartmentRepository;
+    private Button btnAdd;
+    private EditText edtSearch;
+
+    private List<ApartmentEntity> originalList = new ArrayList<>();
+
+    public ApartmentFragment() {}
+
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_apartment);
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
 
-        recyclerView = findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        View view = inflater.inflate(R.layout.fragment_apartment, container, false);
 
-        apartmentRepository = new ApartmentRepository(getApplication());
-        adapter = new ApartmentAdapter(getApplication());
+        recyclerView = view.findViewById(R.id.recyclerView);
+        edtSearch = view.findViewById(R.id.edtSearch);
+        btnAdd = view.findViewById(R.id.btnAdd);
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+
+        // TODO: dùng requireContext() thay vì getApplication()
+        apartmentRepository = new ApartmentRepository(requireActivity().getApplication());
+        adapter = new ApartmentAdapter(requireActivity().getApplication());
         recyclerView.setAdapter(adapter);
 
-        edtSearch= findViewById(R.id.edtSearch);
-        btnAdd = findViewById(R.id.btnAdd);
-
         btnAdd.setOnClickListener(v -> showAddDialog());
-        SessionManager sm = SessionManager.getInstance(this);
-        int adminId = (int) sm.getUserId();
-        SessionManager.getInstance(this)
-                .saveSession(1, "admin", 1);
 
-        apartmentRepository.getByAdmin(adminId).observe(this, list -> {
-            originalList.clear();
-            originalList.addAll(list);
-            adapter.setData(list);
-        });
+        loadData();
+
         adapter.setOnItemClickListener(apartment -> {
             if (!apartment.isActive()) {
-                Toast.makeText(this, "Chung cư chưa active", Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireContext(), "Chung cư chưa active", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            Intent intent = new Intent(this, BlockUnitActivity.class);
+            Intent intent = new Intent(requireContext(), BlockUnitActivity.class);
             intent.putExtra("apartmentId", apartment.getId());
             startActivity(intent);
         });
@@ -75,34 +81,41 @@ public class ApartmentActivity extends AppCompatActivity {
                 List<ApartmentEntity> filtered = new ArrayList<>();
 
                 for (ApartmentEntity a : originalList) {
-                    if (a.getName() != null && a.getName().toLowerCase().contains(keyword)) {
+                    if (a.getName() != null &&
+                            a.getName().toLowerCase().contains(keyword)) {
                         filtered.add(a);
                     }
                 }
                 adapter.setData(filtered);
             }
+
             @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
             @Override public void onTextChanged(CharSequence s, int start, int before, int count) {}
         });
 
+        return view;
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        SessionManager sm = SessionManager.getInstance(this);
+    // TODO: tách load data ra cho sạch
+    private void loadData() {
+        SessionManager sm = SessionManager.getInstance(requireContext());
         int adminId = (int) sm.getUserId();
 
-        apartmentRepository.getByAdmin(adminId).observe(this, list -> {
+        apartmentRepository.getByAdmin(adminId).observe(getViewLifecycleOwner(), list -> {
             originalList.clear();
             originalList.addAll(list);
             adapter.setData(list);
         });
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadData();
+    }
+
     private void showAddDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
 
         View view = getLayoutInflater().inflate(R.layout.add_apartment, null);
         EditText edtName = view.findViewById(R.id.edtName);
@@ -115,7 +128,7 @@ public class ApartmentActivity extends AppCompatActivity {
                     String name = edtName.getText().toString();
                     String address = edtAddress.getText().toString();
 
-                    SessionManager sm = SessionManager.getInstance(this);
+                    SessionManager sm = SessionManager.getInstance(requireContext());
 
                     ApartmentEntity apartment = new ApartmentEntity(
                             0,
@@ -124,11 +137,10 @@ public class ApartmentActivity extends AppCompatActivity {
                             true,
                             (int) sm.getUserId()
                     );
-                    apartmentRepository.insert(apartment);
 
+                    apartmentRepository.insert(apartment);
                 })
                 .setNegativeButton("Hủy", null)
                 .show();
     }
-
 }

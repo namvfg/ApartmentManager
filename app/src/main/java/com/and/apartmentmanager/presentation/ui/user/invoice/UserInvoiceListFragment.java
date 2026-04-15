@@ -66,9 +66,6 @@ public class UserInvoiceListFragment extends Fragment {
         // Lấy userId thực tế của người đang đăng nhập (Không cần unitId nữa)
         int currentUserId = (int) com.and.apartmentmanager.helper.SessionManager.getInstance(requireContext()).getUserId();
 
-        // Dùng tạm userId = 2 nếu chạy test 1 mình chưa qua đăng nhập
-        if (currentUserId == -1) currentUserId = 4;
-
         // 3. Gọi hàm JOIN mới viết để lấy hóa đơn
         invoiceViewModel.getInvoicesByUserId(currentUserId).observe(getViewLifecycleOwner(), invoices -> {
             if (invoices != null) {

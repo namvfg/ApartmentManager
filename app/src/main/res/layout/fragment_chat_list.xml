@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/background">
 
-    <!-- Header -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -16,7 +16,6 @@
         android:paddingEnd="14dp"
         android:background="@color/white">
 
-        <!-- Title row -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -45,10 +44,8 @@
                 android:textColor="@color/primary_dark"
                 android:background="@drawable/bg_avatar_circle"
                 android:text="NM" />
-
         </LinearLayout>
 
-        <!-- Search bar -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="38dp"
@@ -62,8 +59,7 @@
                 android:layout_width="16dp"
                 android:layout_height="16dp"
                 android:src="@drawable/ic_search"
-                app:tint="@color/text_hint"
-                xmlns:app="http://schemas.android.com/apk/res-auto"/>
+                app:tint="@color/text_hint" />
 
             <EditText
                 android:id="@+id/searchChat"
@@ -80,16 +76,29 @@
                 android:inputType="text"
                 android:imeOptions="actionSearch"
                 android:singleLine="true" />
-
         </LinearLayout>
-
     </LinearLayout>
 
-    <!-- Chat list -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerChatList"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_weight="1">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerChatList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <TextView
+            android:id="@+id/textEmptyMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="@font/dm_sans"
+            android:text="Không tìm thấy cuộc hội thoại nào"
+            android:textColor="@color/text_hint"
+            android:textSize="14sp"
+            android:visibility="gone" />
+    </FrameLayout>
 
 </LinearLayout>

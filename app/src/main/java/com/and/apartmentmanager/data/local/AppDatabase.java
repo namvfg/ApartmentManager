@@ -21,6 +21,7 @@ import com.and.apartmentmanager.data.local.dao.ServicePriceHistoryDao;
 import com.and.apartmentmanager.data.local.dao.UnitDao;
 import com.and.apartmentmanager.data.local.dao.UserApartmentDao;
 import com.and.apartmentmanager.data.local.dao.UserDao;
+import com.and.apartmentmanager.data.local.dao.UserServiceDao;
 import com.and.apartmentmanager.data.local.dao.UtilityReadingDao;
 import com.and.apartmentmanager.data.local.entity.ApartmentEntity;
 import com.and.apartmentmanager.data.local.entity.BlockEntity;
@@ -34,6 +35,7 @@ import com.and.apartmentmanager.data.local.entity.ServicePriceHistoryEntity;
 import com.and.apartmentmanager.data.local.entity.UnitEntity;
 import com.and.apartmentmanager.data.local.entity.UserApartmentEntity;
 import com.and.apartmentmanager.data.local.entity.UserEntity;
+import com.and.apartmentmanager.data.local.entity.UserServiceEntity;
 import com.and.apartmentmanager.data.local.entity.UtilityReadingEntity;
 
 import java.util.concurrent.Executors;
@@ -53,6 +55,7 @@ import java.util.concurrent.Executors;
                 InvoiceEntity.class,
                 InvoiceItemEntity.class,
                 NotificationEntity.class,
+                UserServiceEntity.class
         },
         version = 2,
         exportSchema = false
@@ -79,6 +82,7 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract ContractDao contractDao();
 
     public abstract ServiceDao serviceDao();
+    public abstract UserServiceDao userServiceDao();
 
     public abstract ServicePriceHistoryDao servicePriceHistoryDao();
 
